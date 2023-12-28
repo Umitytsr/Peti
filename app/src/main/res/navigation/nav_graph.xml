@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loadingScreenFragment">
+    <fragment
+        android:id="@+id/loadingScreenFragment"
+        android:name="com.umitytsr.peti.view.loading_screen.LoadingScreenFragment"
+        android:label="fragment_loading_screen"
+        tools:layout="@layout/fragment_loading_screen" >
+        <action
+            android:id="@+id/action_loadingScreenFragment_to_signInScreenFragment"
+            app:destination="@id/signInScreenFragment" />
+        <action
+            android:id="@+id/action_loadingScreenFragment_to_signUpScreenFragment"
+            app:destination="@id/signUpScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInScreenFragment"
+        android:name="com.umitytsr.peti.view.sign_in_screen.SignInScreenFragment"
+        android:label="fragment_sign_in_screen"
+        tools:layout="@layout/fragment_sign_in_screen" >
+        <action
+            android:id="@+id/action_signInScreenFragment_to_signUpScreenFragment"
+            app:destination="@id/signUpScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpScreenFragment"
+        android:name="com.umitytsr.peti.view.sign_up_screen.SignUpScreenFragment"
+        android:label="fragment_sign_up_screen"
+        tools:layout="@layout/fragment_sign_up_screen" >
+        <action
+            android:id="@+id/action_signUpScreenFragment_to_signInScreenFragment"
+            app:destination="@id/signInScreenFragment" />
+    </fragment>
+</navigation>
