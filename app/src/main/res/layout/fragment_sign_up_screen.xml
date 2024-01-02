@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/backgrounColor"
-    tools:context=".view.sign_up_screen.SignUpScreenFragment">
+    tools:context=".view.authentication.sign_up_screen.SignUpScreenFragment">
 
     <TextView
         android:id="@+id/signUpText"
@@ -33,27 +33,6 @@
         app:layout_constraintTop_toBottomOf="@id/signUpText" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/nameTextField"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="16dp"
-        android:hint="Full Name"
-        app:boxStrokeColor="@color/white"
-        app:boxStrokeWidthFocused="1dp"
-        app:hintTextColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signUpImage">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/eMailTextField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,10 +44,9 @@
         app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nameTextField">
+        app:layout_constraintTop_toBottomOf="@id/signUpImage">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/eMailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white" />
@@ -90,7 +68,28 @@
         app:layout_constraintTop_toBottomOf="@id/eMailTextField">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:textColor="@color/white" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/confirmPasswordTextField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="8dp"
+        android:hint="Confirm Password"
+        app:boxStrokeColor="@color/white"
+        app:boxStrokeWidthFocused="1dp"
+        app:endIconMode="password_toggle"
+        app:hintTextColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordTextField">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -107,7 +106,7 @@
         android:textColor="@color/solukTextYazisi"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordTextField" />
+        app:layout_constraintTop_toBottomOf="@id/confirmPasswordTextField" />
 
     <Button
         android:id="@+id/signInTextButton"
@@ -133,6 +132,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordTextField" />
+        app:layout_constraintTop_toBottomOf="@id/confirmPasswordTextField" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

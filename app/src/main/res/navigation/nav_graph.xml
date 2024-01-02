@@ -6,7 +6,7 @@
     app:startDestination="@id/loadingScreenFragment">
     <fragment
         android:id="@+id/loadingScreenFragment"
-        android:name="com.umitytsr.peti.view.loading_screen.LoadingScreenFragment"
+        android:name="com.umitytsr.peti.view.authentication.loading_screen.LoadingScreenFragment"
         android:label="fragment_loading_screen"
         tools:layout="@layout/fragment_loading_screen" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/signInScreenFragment"
-        android:name="com.umitytsr.peti.view.sign_in_screen.SignInScreenFragment"
+        android:name="com.umitytsr.peti.view.authentication.sign_in_screen.SignInScreenFragment"
         android:label="fragment_sign_in_screen"
         tools:layout="@layout/fragment_sign_in_screen" >
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpScreenFragment"
-        android:name="com.umitytsr.peti.view.sign_up_screen.SignUpScreenFragment"
+        android:name="com.umitytsr.peti.view.authentication.sign_up_screen.SignUpScreenFragment"
         android:label="fragment_sign_up_screen"
         tools:layout="@layout/fragment_sign_up_screen" >
         <action
