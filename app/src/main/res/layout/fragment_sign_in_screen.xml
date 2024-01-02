@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgrounColor"
-    tools:context=".view.sign_in_screen.SignInScreenFragment">
+    tools:context=".view.authentication.sign_in_screen.SignInScreenFragment">
 
     <TextView
         android:id="@+id/signInText"
@@ -47,7 +47,6 @@
         app:layout_constraintTop_toBottomOf="@id/signInImage">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/eMailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white" />
@@ -69,7 +68,6 @@
         app:layout_constraintTop_toBottomOf="@id/eMailTextField">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"

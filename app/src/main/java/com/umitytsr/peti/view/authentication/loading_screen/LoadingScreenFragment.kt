@@ -1,4 +1,4 @@
-package com.umitytsr.peti.view.loading_screen
+package com.umitytsr.peti.view.authentication.loading_screen
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.umitytsr.peti.databinding.FragmentLoadingScreenBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class LoadingScreenFragment : Fragment() {
+@AndroidEntryPoint
+class LoadingScreenFragment(): Fragment() {
     private lateinit var binding: FragmentLoadingScreenBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -18,8 +20,8 @@ class LoadingScreenFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         with(binding){
             signInButton.setOnClickListener {
                 findNavController().navigate(

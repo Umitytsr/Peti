@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgrounColor"
-    tools:context=".view.loading_screen.LoadingScreenFragment">
+    tools:context=".view.authentication.loading_screen.LoadingScreenFragment">
 
     <ImageView
         android:id="@+id/loadingImage"

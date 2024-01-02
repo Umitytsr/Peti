@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "597023915977",
+    "project_id": "peti-f7f14",
+    "storage_bucket": "peti-f7f14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597023915977:android:0adf9f5fd481053f7d7218",
+        "android_client_info": {
+          "package_name": "com.umitytsr.peti"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXUgzeWFKk8xyhoMMUmaoUeXdwTDkPOIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
