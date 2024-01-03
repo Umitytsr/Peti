@@ -6,4 +6,15 @@
     </style>
 
     <style name="Theme.Peti" parent="Base.Theme.Peti" />
+
+    <style name="circleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="editTextStyle">
+        <item name="boxStrokeColor">@color/black</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="hintTextColor">@color/solukTextYazisi</item>
+    </style>
 </resources>

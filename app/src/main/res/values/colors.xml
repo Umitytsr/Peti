@@ -3,5 +3,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="solukTextYazisi">#FFB4B4B4</color>
-    <color name="backgrounColor">#FF14181D</color>
+    <color name="backgroundColor">#FF14181D</color>
 </resources>
