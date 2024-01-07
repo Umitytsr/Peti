@@ -1,19 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginHorizontal="5dp"
     tools:context=".view.home.homeScreen.HomeFragment">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Home Fragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/filterTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Filter"
+            android:layout_marginTop="10dp"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/filterButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/round_button_background"
+            android:src="@drawable/filter_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filterTextView" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:background="@color/solukTextYazisi"
+            app:layout_constraintBottom_toBottomOf="@id/filterButton"
+            app:layout_constraintStart_toEndOf="@id/filterButton"
+            app:layout_constraintTop_toTopOf="@id/filterButton" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/selectedPetChipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/line"
+            app:layout_constraintTop_toTopOf="@id/line"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                style="@style/CustomChipStyle"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@color/backgroundColor"
+                android:text="Dog"
+                android:textAlignment="center" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/CustomChipStyle"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Cat"
+                android:textAlignment="center" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/CustomChipStyle"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Other"
+                android:textAlignment="center" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filterButton" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
