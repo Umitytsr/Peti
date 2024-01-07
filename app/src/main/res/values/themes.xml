@@ -17,4 +17,11 @@
         <item name="boxStrokeWidthFocused">1dp</item>
         <item name="hintTextColor">@color/solukTextYazisi</item>
     </style>
+
+    <style name="CustomChipStyle" parent="Widget.Material3.Chip.Suggestion">
+        <item name="chipBackgroundColor">@color/chip_background_color</item>
+        <item name="android:textColor">@color/chip_text_color</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipStrokeColor">@color/backgroundColor</item>
+    </style>
 </resources>

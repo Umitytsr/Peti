@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/petCardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/petImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxHeight="450dp"
+            android:background="@drawable/ic_launcher_foreground"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/breedLinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/line1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/petImage">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:gravity="center"
+                android:text="Breed"
+                android:textColor="@color/backgroundColor"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/breedTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:text="Lorem Ipsum" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="7dp"
+            android:layout_marginStart="4dp"
+            android:background="@color/solukTextYazisi"
+            app:layout_constraintBottom_toBottomOf="@id/breedLinearLayout"
+            app:layout_constraintEnd_toStartOf="@id/sexLinearLayout"
+            app:layout_constraintStart_toEndOf="@id/breedLinearLayout"
+            app:layout_constraintTop_toTopOf="@id/breedLinearLayout" />
+
+        <LinearLayout
+            android:id="@+id/sexLinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/line2"
+            app:layout_constraintStart_toEndOf="@id/line1"
+            app:layout_constraintTop_toBottomOf="@id/petImage">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:gravity="center"
+                android:text="Sex"
+                android:textColor="@color/backgroundColor"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/sexTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:text="Lorem Ipsum" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="7dp"
+            android:layout_marginStart="4dp"
+            android:background="@color/solukTextYazisi"
+            app:layout_constraintBottom_toBottomOf="@id/sexLinearLayout"
+            app:layout_constraintEnd_toStartOf="@id/goalLinearLayout"
+            app:layout_constraintStart_toEndOf="@id/sexLinearLayout"
+            app:layout_constraintTop_toTopOf="@id/sexLinearLayout" />
+
+        <LinearLayout
+            android:id="@+id/goalLinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/line2"
+            app:layout_constraintTop_toBottomOf="@id/petImage">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:gravity="center"
+                android:text="Goal"
+                android:textColor="@color/backgroundColor"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/goalTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:text="Lorem Ipsum" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
