@@ -33,18 +33,39 @@
         app:layout_constraintTop_toBottomOf="@id/signUpText" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/eMailTextField"
+        android:id="@+id/fullNameTextField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="16dp"
-        android:hint="Email"
+        android:hint="Full Name"
         app:boxStrokeColor="@color/white"
         app:boxStrokeWidthFocused="1dp"
         app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/signUpImage">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/eMailTextField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="8dp"
+        android:hint="Email"
+        app:boxStrokeColor="@color/white"
+        app:boxStrokeWidthFocused="1dp"
+        app:hintTextColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fullNameTextField">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -125,13 +146,13 @@
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint="@color/white"
         android:text="Continue"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/confirmPasswordTextField" />
+        app:layout_constraintTop_toBottomOf="@id/accountText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

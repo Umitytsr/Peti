@@ -35,10 +35,11 @@ class SignUpScreenFragment : Fragment() {
                 )
             }
             continueButton.setOnClickListener {
+                val userFullName = fullNameTextField.editText?.text.toString()
                 val email = eMailTextField.editText?.text.toString()
                 val password = passwordTextField.editText?.text.toString()
                 val confirmPassword = confirmPasswordTextField.editText?.text.toString()
-                viewModel.signUp(email, password, confirmPassword)
+                viewModel.signUp(userFullName,email, password, confirmPassword)
             }
         }
     }

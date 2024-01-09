@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/homeNestedScrollView"
     android:layout_marginHorizontal="5dp"
     tools:context=".view.home.homeScreen.HomeFragment">
 
@@ -15,8 +16,8 @@
             android:id="@+id/filterTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:text="Filter"
-            android:layout_marginTop="10dp"
             android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,8 +48,8 @@
             android:id="@+id/selectedPetChipGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             app:layout_constraintBottom_toBottomOf="@id/line"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/line"
             app:layout_constraintTop_toTopOf="@id/line"
             app:singleSelection="true">

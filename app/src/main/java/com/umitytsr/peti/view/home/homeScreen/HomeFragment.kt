@@ -52,7 +52,6 @@ class HomeFragment : Fragment() {
                 }else{
                     getData()
                 }
-
             }
         }
     }
