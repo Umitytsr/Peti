@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.umitytsr.peti.data.model.PetModel
+import com.umitytsr.peti.data.model.UserModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -25,18 +26,99 @@ class PetiRepository @Inject constructor(
     private val firestore: FirebaseFirestore
 ) {
 
+    fun createUser(userFullName: String) {
+        val userPostMap = hashMapOf<String, Any>()
+        userPostMap["userEmail"] = "${auth.currentUser!!.email}"
+        userPostMap["userFullName"] = userFullName
+        userPostMap["userPhoneNumber"] = ""
+        userPostMap["userImage"] = ""
+
+        firestore.collection("users").add(userPostMap).addOnCompleteListener {
+            if (!it.isSuccessful) {
+                Toast.makeText(context, it.exception?.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    suspend fun fetchUser(): Flow<UserModel> = callbackFlow {
+        val subscription = firestore.collection("users")
+            .whereEqualTo("userEmail", "${auth.currentUser!!.email}")
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    close(error) // Hata durumunda Flow'ı kapat
+                    return@addSnapshotListener
+                }
+                if (value != null && !value.isEmpty) {
+                    var userModel: UserModel? = null
+                    for (document in value.documents) {
+                        val userEmail = document.get("userEmail") as String
+                        val userFullName = document.get("userFullName") as String
+                        val userPhoneNumber = document.get("userPhoneNumber") as String
+                        val userImage = document.get("userImage") as String
+
+                        userModel = UserModel(userEmail, userFullName, userPhoneNumber, userImage)
+                        break // Tek bir eleman aldık, döngüyü kırabiliriz
+                    }
+                    try {
+                        // userModel null değilse emit et, null ise null olarak emit et
+                        trySend(userModel!!).isSuccess
+                    } catch (e: Exception) {
+                        // Flow kapatılırken hata alındı
+                        close(e)
+                    }
+                }
+            }
+        awaitClose { subscription.remove() }
+    }
+
+    suspend fun updateUser(userFirstName:String,userPhoneNumber: String, selectedPicture: Uri?):Flow<Boolean> = flow{
+        var downloadUrl = ""
+        try {
+            if (selectedPicture != null) {
+                val reference = storage.reference
+                val userImageReference = reference.child("userImage").child("${auth.currentUser!!.email}.jpg")
+                val task = userImageReference.putFile(selectedPicture!!)
+                task.await()
+                downloadUrl = userImageReference.downloadUrl.await().toString()
+            }
+
+            val userPostMap = hashMapOf<String, Any>()
+            userPostMap["userFullName"] = userFirstName
+            userPostMap["userPhoneNumber"] = userPhoneNumber
+            userPostMap["userImage"] = downloadUrl
+
+            firestore.collection("users")
+                .whereEqualTo("userEmail","${auth.currentUser!!.email}")
+                .get()
+                .addOnCompleteListener {
+                    if (it.isSuccessful){
+                        val document = it.result
+                        if (document != null && !document.isEmpty){
+                            val documentId = document.documents[0].id
+                            firestore.collection("users").document(documentId).update(userPostMap)
+
+                        }
+                    }
+                }
+
+        }catch (e:Exception){
+            emit(false)
+            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
+        }
+    }
+
     suspend fun addPet(
         selectedPicture: Uri?, petDescription: String, petName: String, petType: String,
         petSex: String, petGoal: String, petAge: String, petVaccination: String, petBreed: String
     ): Flow<Boolean> = flow {
         val uuid = UUID.randomUUID()
         val reference = storage.reference
-        val imageReferance = reference.child("petImages").child("$uuid.jpg")
+        val imageReference = reference.child("petImage").child("$uuid.jpg")
         try {
-            val task = imageReferance.putFile(selectedPicture!!)
+            val task = imageReference.putFile(selectedPicture!!)
             task.await()
 
-            val downloadUrl = imageReferance.downloadUrl.await().toString()
+            val downloadUrl = imageReference.downloadUrl.await().toString()
 
             val petPostMap = hashMapOf<String, Any>()
             petPostMap["owner"] = auth.currentUser!!.email!!
@@ -66,7 +148,7 @@ class PetiRepository @Inject constructor(
 
     suspend fun fetchAllPets(): Flow<List<PetModel>> = callbackFlow {
         val subscription = firestore.collection("pets")
-            .orderBy("date",Query.Direction.DESCENDING)
+            .orderBy("date", Query.Direction.DESCENDING)
             .addSnapshotListener { value, error ->
                 if (error != null) {
                     close(error) // Hata durumunda Flow'ı kapat
