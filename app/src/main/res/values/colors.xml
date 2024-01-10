@@ -4,7 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="solukTextYazisi">#FFB4B4B4</color>
     <color name="backgroundColor">#FF14181D</color>
-    <color name="red">#FD0000</color>
-    <color name="thirdColor">#A6573E</color>
+    <color name="red">#E21221</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="buttonBackgrounColor">#FCE7E9</color>
 </resources>

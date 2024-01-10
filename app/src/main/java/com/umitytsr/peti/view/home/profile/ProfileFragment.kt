@@ -8,11 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.umitytsr.peti.data.model.PetModel
 import com.umitytsr.peti.databinding.FragmentProfileBinding
+import com.umitytsr.peti.util.applyTheme
+import com.umitytsr.peti.view.authentication.mainActivity.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -21,6 +20,7 @@ import kotlinx.coroutines.launch
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private val viewModel: ProfileViewModel by viewModels()
+    private val mainViewModel : MainActivityViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,19 +31,23 @@ class ProfileFragment : Fragment() {
     }
 
     private fun getData(){
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.petListResult.collectLatest {
-                initRecyclerView(it)
-            }
-        }
-
         viewLifecycleOwner.lifecycleScope.launch{
-            viewModel.userResult.collectLatest {user ->
-                with(binding){
-                    userNameTextView.text = user.userFullName
-                    if (user.userImage != ""){
-                        Glide.with(requireContext()).load(user.userImage).into(profileImage)
+            launch {
+                viewModel.userResult.collectLatest {user ->
+                    with(binding){
+                        userNameTextView.text = user.userFullName
+                        if (user.userImage != ""){
+                            Glide.with(requireContext()).load(user.userImage).into(profileImage)
+                        }
+                        userEmailTextView.text = user.userEmail
                     }
+                }
+            }
+
+            launch {
+                mainViewModel.isCheckedResult.collectLatest {
+                    binding.darkModeSwitch.isChecked = it
+                    applyTheme(it)
                 }
             }
         }
@@ -52,20 +56,19 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding){
-            settingsButton.setOnClickListener {
+            darkModeSwitch.setOnCheckedChangeListener { compoundButton, isChecked ->
+                mainViewModel.setDarkModeEnabled(isChecked)
+            }
+
+            editProfileCardView.setOnClickListener {
                 findNavController().navigate(
-                    ProfileFragmentDirections.actionProfileFragmentToSettingsFragment()
+                    ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment()
                 )
             }
-        }
-    }
 
-    private fun initRecyclerView(petList: List<PetModel>) {
-        val _adapter = ProfileAdapter(petList)
-        val _layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        binding.profileRecyclerView.apply {
-            adapter = _adapter
-            layoutManager = _layoutManager
+            logoutButton.setOnClickListener {
+                viewModel.signOut(requireActivity())
+            }
         }
     }
 }

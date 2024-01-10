@@ -17,7 +17,7 @@
         android:theme="@style/Theme.Peti"
         tools:targetApi="31">
         <activity
-            android:name=".view.authentication.MainActivity"
+            android:name=".view.authentication.mainActivity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

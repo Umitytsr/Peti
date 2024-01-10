@@ -1,4 +1,4 @@
-package com.umitytsr.peti.view.home.settings
+package com.umitytsr.peti.view.home.editProfile
 
 import android.Manifest
 import android.app.Activity
@@ -20,22 +20,22 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.umitytsr.peti.databinding.FragmentSettingsBinding
+import com.umitytsr.peti.databinding.FragmentEditProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SettingsFragment : Fragment() {
-    private lateinit var binding: FragmentSettingsBinding
+class EditProfileFragment : Fragment() {
+    private lateinit var binding : FragmentEditProfileBinding
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
-    private val viewModel : SettingsViewModel by viewModels()
     var selectedPicture: Uri? = null
+    private val viewModel : EditProfileViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSettingsBinding.inflate(inflater,container,false)
+        binding = FragmentEditProfileBinding.inflate(inflater,container,false)
         registerLauncher()
         return binding.root
     }
@@ -46,10 +46,11 @@ class SettingsFragment : Fragment() {
         with(binding){
             arrowBackButton.setOnClickListener {
                 findNavController().navigate(
-                    SettingsFragmentDirections.actionSettingsFragmentToProfileFragment()
+                    EditProfileFragmentDirections.actionEditProfileFragmentToProfileFragment()
                 )
             }
-            profileImage.setOnClickListener {
+
+            userProfileImage.setOnClickListener {
                 if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
                     if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -66,7 +67,7 @@ class SettingsFragment : Fragment() {
                 }
             }
 
-            saveButton.setOnClickListener { 
+            saveButton.setOnClickListener {
                 val userFirstName = userFullNameEditText.editText?.text.toString()
                 val userPhoneNumber = userPhoneNumberEditText.editText?.text.toString()
                 viewModel.updateUserInfo(userFirstName, userPhoneNumber,selectedPicture)
@@ -74,7 +75,7 @@ class SettingsFragment : Fragment() {
                     viewModel.navigateResult.collect{navigate ->
                         if (navigate){
                             findNavController().navigate(
-                                SettingsFragmentDirections.actionSettingsFragmentToProfileFragment()
+                                EditProfileFragmentDirections.actionEditProfileFragmentToProfileFragment()
                             )
                             viewModel.onNavigateDone()
                         }
@@ -89,7 +90,7 @@ class SettingsFragment : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 selectedPicture = result.data?.data
                 selectedPicture?.let {
-                    binding.profileImage.setImageURI(it)
+                    binding.userProfileImage.setImageURI(it)
                 }
             }
         }

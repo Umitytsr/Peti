@@ -12,6 +12,7 @@
     app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/backgroundColor"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -20,8 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:maxHeight="450dp"
             android:background="@drawable/ic_launcher_foreground"
+            android:maxHeight="450dp"
             android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,16 +39,17 @@
             app:layout_constraintTop_toBottomOf="@id/petImage">
 
             <TextView
+                style="@style/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5dp"
                 android:gravity="center"
                 android:text="Breed"
-                android:textColor="@color/backgroundColor"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/breedTextView"
+                style="@style/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
@@ -78,16 +80,17 @@
             app:layout_constraintTop_toBottomOf="@id/petImage">
 
             <TextView
+                style="@style/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5dp"
                 android:gravity="center"
                 android:text="Sex"
-                android:textColor="@color/backgroundColor"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/sexTextView"
+                style="@style/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
@@ -118,16 +121,17 @@
             app:layout_constraintTop_toBottomOf="@id/petImage">
 
             <TextView
+                style="@style/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5dp"
                 android:gravity="center"
                 android:text="Goal"
-                android:textColor="@color/backgroundColor"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/goalTextView"
+                style="@style/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
