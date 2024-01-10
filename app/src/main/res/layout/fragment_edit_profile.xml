@@ -19,19 +19,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/editTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Text"
+        style="@style/textColor"
+        android:textSize="24sp"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toEndOf="@id/arrowBackButton"
+        app:layout_constraintTop_toTopOf="@id/arrowBackButton"
+        app:layout_constraintBottom_toBottomOf="@id/arrowBackButton"
+        />
+
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/userProfileImage"
         android:layout_width="130dp"
         android:layout_height="130dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/circleImageView"
-        app:srcCompat="@drawable/person_icon"
+        app:srcCompat="@drawable/select_picture"
         app:strokeWidth="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextView"
         />
 
     <TextView

@@ -69,6 +69,12 @@ class ProfileFragment : Fragment() {
             logoutButton.setOnClickListener {
                 viewModel.signOut(requireActivity())
             }
+
+            languangeCardView.setOnClickListener {
+                findNavController().navigate(
+                    ProfileFragmentDirections.actionProfileFragmentToLanguageFragment()
+                )
+            }
         }
     }
 }

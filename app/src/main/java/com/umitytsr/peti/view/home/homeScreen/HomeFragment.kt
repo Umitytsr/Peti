@@ -25,43 +25,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater,container,false)
-        getData()
         return binding.root
-    }
-
-    private fun getData(){
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.petListResult.collectLatest {
-                initRecyclerView(it)
-            }
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        with(binding){
-            selectedPetChipGroup.setOnCheckedChangeListener { group, checkedId ->
-                val selectedChip = group.findViewById<Chip>(checkedId)
-                val selectedChipText = selectedChip?.text.toString()
-
-                if (selectedChip != null){
-                    val filteredList = viewModel.petListResult.value.filter {petType ->
-                        petType.petType == selectedChipText
-                    }
-                    initRecyclerView(filteredList)
-                }else{
-                    getData()
-                }
-            }
-        }
-    }
-
-    private fun initRecyclerView(petList: List<PetModel>) {
-        val _adapter = HomeAdapter(petList)
-        val _layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        binding.recyclerView.apply {
-            adapter = _adapter
-            layoutManager = _layoutManager
-        }
     }
 }

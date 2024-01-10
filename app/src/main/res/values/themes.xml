@@ -71,9 +71,14 @@
 
     <style name="editTextStyle" parent="Widget.Material3.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/black</item>
+        <item name="thumbStrokeColor">@color/black</item>
         <item name="endIconTint">@color/black</item>
         <item name="hintTextColor">@color/black</item>
         <item name="helperTextTextColor">@color/black</item>
+    </style>
+
+    <style name="Widget.App.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
+        <item name="buttonTint">@color/radio_button_tint</item>
     </style>
 
 </resources>
