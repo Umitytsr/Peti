@@ -9,7 +9,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.umitytsr.peti.databinding.ActivityMainBinding
+import com.umitytsr.peti.util.LanguageManager
 import com.umitytsr.peti.util.applyTheme
+import com.umitytsr.peti.util.setAppLocale
 import com.umitytsr.peti.view.home.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -38,6 +40,13 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch{
             viewModel.isCheckedResult.collectLatest {
                 applyTheme(it)
+            }
+        }
+
+        lifecycleScope.launch{
+            viewModel.isLanguageString.collectLatest {
+                LanguageManager.setSelectedLanguage(this@MainActivity, it)
+                setAppLocale(this@MainActivity, it)
             }
         }
     }

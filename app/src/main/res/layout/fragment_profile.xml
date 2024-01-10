@@ -20,12 +20,11 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profileImage"
-        style="@style/imageBackgroundColorPink"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_marginTop="60dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/person_icon"
+        android:src="@drawable/select_picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

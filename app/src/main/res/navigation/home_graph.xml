@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_languageFragment"
+            app:destination="@id/languageFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -42,6 +45,17 @@
             android:id="@+id/action_editProfileFragment_to_profileFragment"
             app:destination="@id/profileFragment"
             app:popUpTo="@id/editProfileFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/languageFragment"
+        android:name="com.umitytsr.peti.view.home.language.LanguageFragment"
+        android:label="fragment_language"
+        tools:layout="@layout/fragment_language" >
+        <action
+            android:id="@+id/action_languageFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/languageFragment"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>

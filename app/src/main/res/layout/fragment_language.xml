@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/backgroundColor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.home.language.LanguageFragment">
+
+    <ImageButton
+        android:id="@+id/arrowBackButton"
+        style="@style/iconColor"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/transparent"
+        android:src="@drawable/arrow_back_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/languageTextView"
+        style="@style/textColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Language"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/arrowBackButton"
+        app:layout_constraintStart_toEndOf="@id/arrowBackButton"
+        app:layout_constraintTop_toTopOf="@id/arrowBackButton" />
+
+    <RadioGroup
+        android:id="@+id/languageRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/languageTextView">
+
+        <RadioButton
+            android:id="@+id/englishRadioButton"
+            style="@style/Widget.App.RadioButton"
+            android:checked="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/english" />
+
+        <RadioButton
+            android:id="@+id/turkishRadioButton"
+            style="@style/Widget.App.RadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/turkish" />
+
+        <RadioButton
+            android:id="@+id/frenchRadioButton"
+            style="@style/Widget.App.RadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/french" />
+
+        <RadioButton
+            android:id="@+id/spanishRadioButton"
+            style="@style/Widget.App.RadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/spanish" />
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
