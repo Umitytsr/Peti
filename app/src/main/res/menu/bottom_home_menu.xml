@@ -21,7 +21,7 @@
 
     <item
         android:id="@+id/profileFragment"
-        android:icon="@drawable/profile_icon"
+        android:icon="@drawable/bottom_nav_profile_icon"
         android:title=""
         />
 

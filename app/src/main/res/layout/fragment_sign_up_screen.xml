@@ -2,20 +2,21 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/backgroundColor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
     tools:context=".view.authentication.sign_up_screen.SignUpScreenFragment">
 
     <TextView
         android:id="@+id/signUpText"
+        style="@style/textColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="30dp"
-        android:text="Sign Up"
-        android:textColor="@color/white"
-        android:textSize="25sp"
+        android:gravity="center"
+        android:text="Create Your Account"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,17 +40,15 @@
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="16dp"
         android:hint="Full Name"
-        app:boxStrokeColor="@color/white"
         app:boxStrokeWidthFocused="1dp"
-        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/signUpImage">
 
         <com.google.android.material.textfield.TextInputEditText
+            style="@style/textColor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white" />
+            android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -60,17 +59,15 @@
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="8dp"
         android:hint="Email"
-        app:boxStrokeColor="@color/white"
         app:boxStrokeWidthFocused="1dp"
-        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fullNameTextField">
 
         <com.google.android.material.textfield.TextInputEditText
+            style="@style/textColor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white" />
+            android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -80,19 +77,17 @@
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="8dp"
         android:hint="Password"
-        app:boxStrokeColor="@color/white"
         app:boxStrokeWidthFocused="1dp"
         app:endIconMode="password_toggle"
-        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/eMailTextField">
 
         <com.google.android.material.textfield.TextInputEditText
+            style="@style/textColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:textColor="@color/white" />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -102,29 +97,27 @@
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="8dp"
         android:hint="Confirm Password"
-        app:boxStrokeColor="@color/white"
         app:boxStrokeWidthFocused="1dp"
         app:endIconMode="password_toggle"
-        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passwordTextField">
 
         <com.google.android.material.textfield.TextInputEditText
+            style="@style/textColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:textColor="@color/white" />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/accountText"
+        style="@style/textColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="8dp"
         android:text="Already have an account?"
-        android:textColor="@color/solukTextYazisi"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/confirmPasswordTextField" />
@@ -135,21 +128,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign In"
-        android:textColor="@color/white"
+        android:textColor="@color/red"
         app:layout_constraintBottom_toBottomOf="@id/accountText"
         app:layout_constraintStart_toEndOf="@id/accountText"
         app:layout_constraintTop_toTopOf="@id/accountText" />
 
     <Button
         android:id="@+id/continueButton"
-        style="@style/Widget.Material3.Button"
+        style="@style/buttonColor"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="10dp"
-        android:backgroundTint="@color/white"
         android:text="Continue"
-        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

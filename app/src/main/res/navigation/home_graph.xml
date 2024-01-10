@@ -30,20 +30,18 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/action_profileFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment"
-            app:popUpTo="@id/profileFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
     </fragment>
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.umitytsr.peti.view.home.settings.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" >
+        android:id="@+id/editProfileFragment"
+        android:name="com.umitytsr.peti.view.home.editProfile.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
         <action
-            android:id="@+id/action_settingsFragment_to_profileFragment"
+            android:id="@+id/action_editProfileFragment_to_profileFragment"
             app:destination="@id/profileFragment"
-            app:popUpTo="@id/settingsFragment"
+            app:popUpTo="@id/editProfileFragment"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>

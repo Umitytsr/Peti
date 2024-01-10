@@ -1,6 +1,8 @@
 package com.umitytsr.peti.data.repository
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import com.google.firebase.Timestamp
@@ -10,6 +12,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.umitytsr.peti.data.model.PetModel
 import com.umitytsr.peti.data.model.UserModel
+import com.umitytsr.peti.view.authentication.mainActivity.MainActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -25,6 +28,14 @@ class PetiRepository @Inject constructor(
     private val storage: FirebaseStorage,
     private val firestore: FirebaseFirestore
 ) {
+
+    fun signOut(requireActivity: Activity){
+        auth.signOut()
+        val intent = Intent(context, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        context.startActivity(intent)
+        requireActivity.finish()
+    }
 
     fun createUser(userFullName: String) {
         val userPostMap = hashMapOf<String, Any>()
@@ -73,6 +84,7 @@ class PetiRepository @Inject constructor(
 
     suspend fun updateUser(userFirstName:String,userPhoneNumber: String, selectedPicture: Uri?):Flow<Boolean> = flow{
         var downloadUrl = ""
+        val userPostMap = hashMapOf<String, Any>()
         try {
             if (selectedPicture != null) {
                 val reference = storage.reference
@@ -80,26 +92,22 @@ class PetiRepository @Inject constructor(
                 val task = userImageReference.putFile(selectedPicture!!)
                 task.await()
                 downloadUrl = userImageReference.downloadUrl.await().toString()
+                userPostMap["userImage"] = downloadUrl
             }
-
-            val userPostMap = hashMapOf<String, Any>()
             userPostMap["userFullName"] = userFirstName
             userPostMap["userPhoneNumber"] = userPhoneNumber
-            userPostMap["userImage"] = downloadUrl
 
-            firestore.collection("users")
-                .whereEqualTo("userEmail","${auth.currentUser!!.email}")
+
+            val document = firestore.collection("users")
+                .whereEqualTo("userEmail", "${auth.currentUser!!.email}")
                 .get()
-                .addOnCompleteListener {
-                    if (it.isSuccessful){
-                        val document = it.result
-                        if (document != null && !document.isEmpty){
-                            val documentId = document.documents[0].id
-                            firestore.collection("users").document(documentId).update(userPostMap)
+                .await()
 
-                        }
-                    }
-                }
+            if (document != null && !document.isEmpty) {
+                val documentId = document.documents[0].id
+                firestore.collection("users").document(documentId).update(userPostMap).await()
+                emit(true)
+            }
 
         }catch (e:Exception){
             emit(false)

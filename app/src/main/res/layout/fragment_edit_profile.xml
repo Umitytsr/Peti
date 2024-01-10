@@ -2,12 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/backgroundColor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.home.settings.SettingsFragment">
+    tools:context=".view.home.editProfile.EditProfileFragment">
 
     <ImageButton
         android:id="@+id/arrowBackButton"
+        style="@style/iconColor"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
@@ -17,28 +19,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/profileImage"
+        android:id="@+id/userProfileImage"
         android:layout_width="130dp"
         android:layout_height="130dp"
-        android:layout_marginTop="30dp"
-        android:background="@color/thirdColor"
+        android:layout_marginTop="40dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/person_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/circleImageView"
-        app:strokeColor="@color/thirdColor"
-        app:strokeWidth="2dp" />
+        app:srcCompat="@drawable/person_icon"
+        app:strokeWidth="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <TextView
-        android:id="@+id/firstNameTextView"
+        android:id="@+id/userFullNameTextView"
+        style="@style/textColor"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:text="Full Name"
-        android:textColor="@color/backgroundColor"
         app:layout_constraintBottom_toBottomOf="@id/userFullNameEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/userFullNameEditText" />
@@ -47,56 +49,29 @@
         android:id="@+id/userFullNameEditText"
         style="@style/editTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:hint="Optional"
+        app:layout_constraintTop_toBottomOf="@id/userProfileImage"
+        app:layout_constraintStart_toEndOf="@id/userFullNameTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/firstNameTextView"
-        app:layout_constraintTop_toBottomOf="@id/profileImage">
+        >
 
         <com.google.android.material.textfield.TextInputEditText
+            style="@style/textColor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/lastNameTextView"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="E-Mail"
-        android:textColor="@color/backgroundColor"
-        app:layout_constraintBottom_toBottomOf="@id/userLastNameEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/userLastNameEditText" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/userLastNameEditText"
-        style="@style/editTextStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:clickable="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/lastNameTextView"
-        app:layout_constraintTop_toBottomOf="@id/userFullNameEditText">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="14sp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/phoneNumberTextView"
+        android:id="@+id/userPhoneNumberTextView"
+        style="@style/textColor"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:text="Phone Number"
-        android:textColor="@color/backgroundColor"
         app:layout_constraintBottom_toBottomOf="@id/userPhoneNumberEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/userPhoneNumberEditText" />
@@ -106,16 +81,16 @@
         style="@style/editTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:hint="Optional"
+        android:hint="05xx xxx xx xx"
+        app:helperText="Optional"
+        app:layout_constraintStart_toEndOf="@id/userPhoneNumberTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/phoneNumberTextView"
-        app:layout_constraintTop_toBottomOf="@id/userLastNameEditText"
-
+        app:layout_constraintTop_toBottomOf="@id/userFullNameEditText"
         >
 
         <com.google.android.material.textfield.TextInputEditText
+            style="@style/textColor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="14sp" />
@@ -123,16 +98,13 @@
 
     <Button
         android:id="@+id/saveButton"
+        style="@style/buttonColor"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:backgroundTint="@color/backgroundColor"
+        android:layout_marginTop="30dp"
         android:text="Save"
-        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-
+        app:layout_constraintTop_toBottomOf="@id/userPhoneNumberEditText"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

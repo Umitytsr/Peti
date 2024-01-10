@@ -1,27 +1,79 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Peti" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:statusBarColor">@color/backgroundColor</item>
-        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="materialSwitchStyle">@style/CustomSwitchStyle</item>
+        <item name="textInputStyle">@style/editTextStyle</item>
     </style>
 
     <style name="Theme.Peti" parent="Base.Theme.Peti" />
+
+    <style name="iconColor">
+        <item name="tint">@color/black</item>
+    </style>
+
+    <style name="appNavigationBackgroundColor" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="backgroundTint">@color/white</item>
+    </style>
+
+    <style name="backgroundColor">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="backgroundColorPink" parent="">
+        <item name="android:backgroundTint">@color/buttonBackgrounColor</item>
+    </style>
+
+    <style name="imageBackgroundColorPink">
+        <item name="backgroundTint">@color/buttonBackgrounColor</item>
+        <item name="background">@color/white</item>
+    </style>
+
+    <style name="buttonColor" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/red</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="secondaryButtonColor" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/red</item>
+        <item name="strokeColor">@color/red</item>
+    </style>
+
+    <style name="imageButtonColor" >
+        <item name="background">@drawable/round_button_background</item>
+    </style>
+
+    <style name="textColor">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="textColorGrey" >
+        <item name="android:textColor">@color/solukTextYazisi</item>
+    </style>
+
+    <style name="CustomSwitchStyle" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="trackTint">@color/chip_background_color</item>
+    </style>
 
     <style name="circleImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="editTextStyle">
-        <item name="boxStrokeColor">@color/black</item>
-        <item name="boxStrokeWidthFocused">1dp</item>
-        <item name="hintTextColor">@color/solukTextYazisi</item>
-    </style>
-
     <style name="CustomChipStyle" parent="Widget.Material3.Chip.Suggestion">
         <item name="chipBackgroundColor">@color/chip_background_color</item>
         <item name="android:textColor">@color/chip_text_color</item>
         <item name="chipStrokeWidth">1dp</item>
-        <item name="chipStrokeColor">@color/backgroundColor</item>
+        <item name="chipStrokeColor">@color/red</item>
     </style>
+
+    <style name="editTextStyle" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/black</item>
+        <item name="endIconTint">@color/black</item>
+        <item name="hintTextColor">@color/black</item>
+        <item name="helperTextTextColor">@color/black</item>
+    </style>
+
 </resources>
