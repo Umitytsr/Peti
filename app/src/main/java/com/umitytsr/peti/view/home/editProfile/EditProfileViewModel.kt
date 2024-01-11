@@ -5,6 +5,7 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umitytsr.peti.R
 import com.umitytsr.peti.data.repository.PetiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -27,7 +28,7 @@ class EditProfileViewModel @Inject constructor(private val petiRepository: PetiR
                 }
             }
         }else{
-            Toast.makeText(context, "Please enter your name", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.please_enter_your_name), Toast.LENGTH_SHORT).show()
         }
 
     }

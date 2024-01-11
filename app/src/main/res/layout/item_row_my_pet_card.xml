@@ -27,15 +27,25 @@
     <TextView
         android:id="@+id/petNameTextView"
         style="@style/textColor"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:maxLines="1"
-        android:text="Lorem Ipsum"
+        android:text="@string/lorem_ipsum"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/petImageCardView"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/petImageCardView"
         app:layout_constraintTop_toTopOf="@id/petImageCardView" />
+
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        style="@style/iconColor"
+        android:backgroundTint="@color/transparent"
+        android:src="@drawable/delete_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

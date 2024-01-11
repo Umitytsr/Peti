@@ -4,7 +4,6 @@
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="materialSwitchStyle">@style/CustomSwitchStyle</item>
-        <item name="textInputStyle">@style/editTextStyle</item>
     </style>
 
     <style name="Theme.Peti" parent="Base.Theme.Peti" />
@@ -15,6 +14,7 @@
 
     <style name="appNavigationBackgroundColor" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="backgroundTint">@color/white</item>
+        <item name="itemIconTint">@color/bottom_nav_icon_color</item>
     </style>
 
     <style name="backgroundColor">
@@ -23,11 +23,6 @@
 
     <style name="backgroundColorPink" parent="">
         <item name="android:backgroundTint">@color/buttonBackgrounColor</item>
-    </style>
-
-    <style name="imageBackgroundColorPink">
-        <item name="backgroundTint">@color/buttonBackgrounColor</item>
-        <item name="background">@color/white</item>
     </style>
 
     <style name="buttonColor" parent="Widget.Material3.Button">
@@ -67,14 +62,6 @@
         <item name="android:textColor">@color/chip_text_color</item>
         <item name="chipStrokeWidth">1dp</item>
         <item name="chipStrokeColor">@color/red</item>
-    </style>
-
-    <style name="editTextStyle" parent="Widget.Material3.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">@color/black</item>
-        <item name="thumbStrokeColor">@color/black</item>
-        <item name="endIconTint">@color/black</item>
-        <item name="hintTextColor">@color/black</item>
-        <item name="helperTextTextColor">@color/black</item>
     </style>
 
     <style name="Widget.App.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">

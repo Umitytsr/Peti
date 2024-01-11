@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_profileFragment_to_languageFragment"
             app:destination="@id/languageFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_myPetsFragment"
+            app:destination="@id/myPetsFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -56,6 +59,17 @@
             android:id="@+id/action_languageFragment_to_profileFragment"
             app:destination="@id/profileFragment"
             app:popUpTo="@id/languageFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/myPetsFragment"
+        android:name="com.umitytsr.peti.view.home.myPets.MyPetsFragment"
+        android:label="fragment_my_pets"
+        tools:layout="@layout/fragment_my_pets" >
+        <action
+            android:id="@+id/action_myPetsFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/myPetsFragment"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>

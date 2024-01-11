@@ -5,7 +5,15 @@
     style="@style/backgroundColor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="5dp"
     tools:context=".view.home.homeScreen.HomeFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homeFragmetRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -56,6 +56,13 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding){
+
+            myPetCardView.setOnClickListener {
+                findNavController().navigate(
+                    ProfileFragmentDirections.actionProfileFragmentToMyPetsFragment()
+                )
+            }
+
             darkModeSwitch.setOnCheckedChangeListener { compoundButton, isChecked ->
                 mainViewModel.setDarkModeEnabled(isChecked)
             }
