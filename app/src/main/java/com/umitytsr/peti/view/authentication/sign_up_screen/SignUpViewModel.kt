@@ -5,6 +5,7 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.umitytsr.peti.R
 import com.umitytsr.peti.data.repository.PetiRepository
 import com.umitytsr.peti.view.home.HomeActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +21,7 @@ class SignUpViewModel @Inject constructor(
 
     fun signUp(userFullName: String ,email: String, password: String, confirmPassword: String) {
         if (password != confirmPassword) {
-            Toast.makeText(context, "The Password Does Not Match", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.the_password_does_not_match), Toast.LENGTH_SHORT).show()
             return
         } else {
             if (email.isNotEmpty() && password.isNotEmpty() && userFullName.isNotEmpty()) {
@@ -36,7 +37,7 @@ class SignUpViewModel @Inject constructor(
                     }
                 }
             }else{
-                Toast.makeText(context, "Please Fill in All Fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.please_fill_in_all_fields), Toast.LENGTH_SHORT).show()
             }
         }
     }

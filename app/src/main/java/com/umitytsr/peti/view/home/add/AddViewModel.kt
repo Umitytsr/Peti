@@ -5,6 +5,7 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umitytsr.peti.R
 import com.umitytsr.peti.data.repository.PetiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -38,7 +39,7 @@ class AddViewModel @Inject constructor(
                 }
             }
         }else{
-            Toast.makeText(context, "Please Fill in All Fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.please_fill_in_all_fields), Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -29,6 +29,21 @@ class PetiRepository @Inject constructor(
     private val firestore: FirebaseFirestore
 ) {
 
+    fun deletePet(petImage : String) {
+        firestore.collection("pets")
+            .whereEqualTo("petImage", petImage)
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    return@addSnapshotListener
+                }
+                if (value != null && !value.isEmpty) {
+                    for (document in value.documents) {
+                        firestore.collection("pets").document(document.id).delete()
+                    }
+                }
+            }
+    }
+    
     fun signOut(requireActivity: Activity){
         auth.signOut()
         val intent = Intent(context, MainActivity::class.java)
@@ -89,7 +104,7 @@ class PetiRepository @Inject constructor(
             if (selectedPicture != null) {
                 val reference = storage.reference
                 val userImageReference = reference.child("userImage").child("${auth.currentUser!!.email}.jpg")
-                val task = userImageReference.putFile(selectedPicture!!)
+                val task = userImageReference.putFile(selectedPicture)
                 task.await()
                 downloadUrl = userImageReference.downloadUrl.await().toString()
                 userPostMap["userImage"] = downloadUrl
@@ -178,8 +193,8 @@ class PetiRepository @Inject constructor(
                         val petBreed = document.get("petBreed") as String
 
                         val pet = PetModel(
-                            petOwner, petImage, petDescription, petName, petType,
-                            petSex, petGoal, petAge, petVaccination, petBreed
+                            petOwner, petImage, petDescription, petName, petType, petSex,
+                            petGoal, petAge, petVaccination, petBreed
                         )
                         petList.add(pet)
                     }

@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5dp"
                 android:gravity="center"
-                android:text="Breed"
+                android:text="@string/breed"
                 android:textStyle="bold" />
 
             <TextView
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
-                android:text="Lorem Ipsum" />
+                android:text="@string/lorem_ipsum" />
         </LinearLayout>
 
         <View
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5dp"
                 android:gravity="center"
-                android:text="Sex"
+                android:text="@string/sex"
                 android:textStyle="bold" />
 
             <TextView
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
-                android:text="Lorem Ipsum" />
+                android:text="@string/lorem_ipsum" />
         </LinearLayout>
 
         <View
@@ -126,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5dp"
                 android:gravity="center"
-                android:text="Goal"
+                android:text="@string/goal"
                 android:textStyle="bold" />
 
             <TextView
@@ -136,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
-                android:text="Lorem Ipsum" />
+                android:text="@string/lorem_ipsum" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
