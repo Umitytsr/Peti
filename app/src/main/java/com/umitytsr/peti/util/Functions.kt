@@ -3,6 +3,8 @@ package com.umitytsr.peti.util
 import android.content.Context
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.firebase.Timestamp
+import java.text.SimpleDateFormat
 import java.util.Locale
 
 fun applyTheme(isDarkModeEnabled: Boolean) {
@@ -28,4 +30,18 @@ fun setAppLocale(context: Context, languageCode: String) {
 
     @Suppress("DEPRECATION")
     resources.updateConfiguration(configuration, resources.displayMetrics)
+}
+
+fun formatTimestampToDayMonthYear(timestamp: Timestamp): String {
+    val date = timestamp.toDate() // Timestamp'ı Date'e çevir
+    val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()) // Formatlayıcı
+    return formatter.format(date)
+}
+
+fun getDefaultLanguage(): String {
+    val localeLanguage = Locale.getDefault().language
+    return when(localeLanguage){
+        "en", "fr", "es", "tr" -> localeLanguage
+        else -> "tr"
+    }
 }

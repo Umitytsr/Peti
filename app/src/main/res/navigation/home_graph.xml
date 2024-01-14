@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.umitytsr.peti.view.home.homeScreen.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.umitytsr.peti.view.home.chat.ChatFragment"
@@ -71,5 +75,30 @@
             app:destination="@id/profileFragment"
             app:popUpTo="@id/myPetsFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_myPetsFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.umitytsr.peti.view.home.petInfo.InfoFragment"
+        android:label="fragment_info"
+        tools:layout="@layout/fragment_info" >
+        <argument
+            android:name="petModel"
+            app:argType="com.umitytsr.peti.data.model.PetModel" />
+        <action
+            android:id="@+id/action_infoFragment_to_myPetsFragment"
+            app:destination="@id/myPetsFragment"
+            app:popUpTo="@id/infoFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_infoFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/infoFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="previousFragment"
+            app:argType="string" />
     </fragment>
 </navigation>

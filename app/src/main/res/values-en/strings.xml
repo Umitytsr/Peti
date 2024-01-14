@@ -51,4 +51,11 @@
     <string name="description">Description</string>
     <string name="share">Share</string>
     <string name="my_pets">My Pets</string>
+    <string name="it_seems_that_you_haven_t_n_add_any_pets">It seems that you haven\'t \n add any pets</string>
+    <string name="your_list_is_empty">Your List is Empty</string>
+    <string name="the_post_has_not_been_shared_yet">The post has not been shared yet</string>
+    <string name="it_looks_like_no_pets_have_nbeen_added_at_all">It looks like no pets have\nbeen added at all</string>
+    <string name="send_a_message">Send A Message</string>
+    <string name="call">Call</string>
+
 </resources>

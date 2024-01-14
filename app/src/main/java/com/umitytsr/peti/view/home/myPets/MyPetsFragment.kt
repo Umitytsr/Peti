@@ -17,10 +17,10 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MyPetsFragment : Fragment() {
+class MyPetsFragment : Fragment(), MyPetsAdapter.PetItemClickListener {
     private lateinit var binding : FragmentMyPetsBinding
     private val viewModel : MyPetsViewModel by viewModels()
-     override fun onCreateView(
+    override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
@@ -32,7 +32,22 @@ class MyPetsFragment : Fragment() {
     private fun getMyPetList(){
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.petListResult.collectLatest {
-                initRecyclerView(it)
+                if (it.isNotEmpty()){
+                    with(binding){
+                        emtyListImageView.visibility = View.INVISIBLE
+                        emptyListTextView.visibility = View.INVISIBLE
+                        youHaventTextView.visibility = View.INVISIBLE
+                        myPetsRecyclerView.visibility = View.VISIBLE
+                    }
+                    initRecyclerView(it)
+                }else{
+                    with(binding){
+                        emtyListImageView.visibility = View.VISIBLE
+                        emptyListTextView.visibility= View.VISIBLE
+                        youHaventTextView.visibility = View.VISIBLE
+                        myPetsRecyclerView.visibility = View.INVISIBLE
+                    }
+                }
             }
         }
     }
@@ -48,11 +63,23 @@ class MyPetsFragment : Fragment() {
 
 
     private fun initRecyclerView(petList: List<PetModel>) {
-        val _adapter = MyPetsAdapter(petList,viewModel)
+        val _adapter = MyPetsAdapter(petList, this@MyPetsFragment)
         val _layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         binding.myPetsRecyclerView.apply {
             adapter = _adapter
             layoutManager = _layoutManager
         }
+    }
+
+    override fun petItemDeleted(petImage: String) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.deletePet(petImage)
+        }
+    }
+
+    override fun petItemClickedListener(pet: PetModel) {
+        findNavController().navigate(
+            MyPetsFragmentDirections.actionMyPetsFragmentToInfoFragment(pet,"myPetsFragment")
+        )
     }
 }
