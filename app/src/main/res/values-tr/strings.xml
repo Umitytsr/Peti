@@ -51,5 +51,10 @@
     <string name="description">Açıklama</string>
     <string name="share">Paylaş</string>
     <string name="my_pets">Benim Evcil Hayvanlarım</string>
-
+    <string name="it_seems_that_you_haven_t_n_add_any_pets">Görünüşe göre henüz hiçbir\nevcil hayvan eklememişsiniz</string>
+    <string name="your_list_is_empty">Listeniz Boş</string>
+    <string name="the_post_has_not_been_shared_yet">Gönderi henüz paylaşılmadı</string>
+    <string name="it_looks_like_no_pets_have_nbeen_added_at_all">Hiçbir evcil hayvanın\neklendiği görünmüyor</string>
+    <string name="send_a_message">Mesaj Gönder</string>
+    <string name="call">Ara</string>
 </resources>

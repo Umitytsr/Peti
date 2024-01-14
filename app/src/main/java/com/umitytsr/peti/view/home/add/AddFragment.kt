@@ -73,7 +73,7 @@ class AddFragment : Fragment() {
         val petSex = arrayOf("Male", "Famale")
         val petGoal = arrayOf("Ownership", "Matching")
         val petAge = arrayOf("0-1", "1-2", "2-3", "3-4", "4-5", "5-6", "6-7", "7-8", "8+")
-        val petVaccination = arrayOf("Yes", "No")
+        val petVaccination = arrayOf("Vaccinated", "Unvaccinated")
         with(binding) {
             (typeDropdownMenu.editText as? MaterialAutoCompleteTextView)?.setSimpleItems(petType)
             (sexDropdownMenu.editText as? MaterialAutoCompleteTextView)?.setSimpleItems(petSex)

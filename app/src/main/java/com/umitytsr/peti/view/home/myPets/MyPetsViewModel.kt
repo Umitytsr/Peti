@@ -34,7 +34,7 @@ class MyPetsViewModel @Inject constructor(private val petiRepository: PetiReposi
         }
     }
 
-    fun deletePet(petImage : String){
+    suspend fun deletePet(petImage: String) {
         viewModelScope.launch {
             petiRepository.deletePet(petImage)
         }

@@ -3,6 +3,7 @@ package com.umitytsr.peti.view.authentication.mainActivity
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umitytsr.peti.util.getDefaultLanguage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +15,7 @@ class MainActivityViewModel @Inject constructor(private val sharedPreferences: S
     private val _isCheckedResult = MutableStateFlow(false)
     val isCheckedResult = _isCheckedResult.asStateFlow()
 
-    private val _isLanguageString = MutableStateFlow("en")
+    private val _isLanguageString = MutableStateFlow(getDefaultLanguage())
     val isLanguageString = _isLanguageString.asStateFlow()
 
     private val _isLanguageId = MutableStateFlow(1)
@@ -48,7 +49,7 @@ class MainActivityViewModel @Inject constructor(private val sharedPreferences: S
     }
 
     private fun setLanguagePreference(){
-        val isLanguageDefault = sharedPreferences.getString("languageString","en")
+        val isLanguageDefault = sharedPreferences.getString("languageString", getDefaultLanguage())
         viewModelScope.launch {
             if (isLanguageDefault != null) {
                 _isLanguageString.emit(isLanguageDefault)

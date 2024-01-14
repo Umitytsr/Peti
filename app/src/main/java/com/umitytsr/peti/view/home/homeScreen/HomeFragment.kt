@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umitytsr.peti.data.model.PetModel
@@ -16,7 +17,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), HomeAdapter.PetItemClickListener {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel : HomeViewModel by viewModels()
     override fun onCreateView(
@@ -31,17 +32,38 @@ class HomeFragment : Fragment() {
     private fun getData(){
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.petListResult.collectLatest {
-                initRecyclerView(it)
+                if (it.isNotEmpty()){
+                    with(binding){
+                        emtyListImageView.visibility = View.GONE
+                        emptyListTextView.visibility = View.GONE
+                        youHaventTextView.visibility = View.GONE
+                        homeFragmentRecyclerView.visibility = View.VISIBLE
+                    }
+                    initRecyclerView(it)
+                }else{
+                    with(binding){
+                        emtyListImageView.visibility = View.VISIBLE
+                        emptyListTextView.visibility= View.VISIBLE
+                        youHaventTextView.visibility = View.VISIBLE
+                        homeFragmentRecyclerView.visibility = View.GONE
+                    }
+                }
             }
         }
     }
 
     private fun initRecyclerView(petList: List<PetModel>) {
-        val _adapter = HomeAdapter(petList)
+        val _adapter = HomeAdapter(petList,this@HomeFragment)
         val _layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        binding.homeFragmetRecyclerView.apply {
+        binding.homeFragmentRecyclerView.apply {
             adapter = _adapter
             layoutManager = _layoutManager
         }
+    }
+
+    override fun petItemClickedListener(pet: PetModel) {
+        findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToInfoFragment(pet,"homeFragment")
+        )
     }
 }

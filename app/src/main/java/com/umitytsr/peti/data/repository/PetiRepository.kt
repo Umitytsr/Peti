@@ -29,19 +29,17 @@ class PetiRepository @Inject constructor(
     private val firestore: FirebaseFirestore
 ) {
 
-    fun deletePet(petImage : String) {
-        firestore.collection("pets")
+    suspend fun deletePet(petImage: String) {
+        val querySnapshot = firestore.collection("pets")
             .whereEqualTo("petImage", petImage)
-            .addSnapshotListener { value, error ->
-                if (error != null) {
-                    return@addSnapshotListener
-                }
-                if (value != null && !value.isEmpty) {
-                    for (document in value.documents) {
-                        firestore.collection("pets").document(document.id).delete()
-                    }
-                }
+            .get()
+            .await()
+
+        if (!querySnapshot.isEmpty) {
+            for (document in querySnapshot.documents) {
+                firestore.collection("pets").document(document.id).delete().await()
             }
+        }
     }
     
     fun signOut(requireActivity: Activity){
@@ -66,9 +64,10 @@ class PetiRepository @Inject constructor(
         }
     }
 
-    suspend fun fetchUser(): Flow<UserModel> = callbackFlow {
+    suspend fun fetchUser(petOwnerEmail: String?): Flow<UserModel> = callbackFlow {
+        val userEmail = petOwnerEmail ?: auth.currentUser?.email!!
         val subscription = firestore.collection("users")
-            .whereEqualTo("userEmail", "${auth.currentUser!!.email}")
+            .whereEqualTo("userEmail", userEmail)
             .addSnapshotListener { value, error ->
                 if (error != null) {
                     close(error) // Hata durumunda Flow'ı kapat
@@ -83,7 +82,7 @@ class PetiRepository @Inject constructor(
                         val userImage = document.get("userImage") as String
 
                         userModel = UserModel(userEmail, userFullName, userPhoneNumber, userImage)
-                        break // Tek bir eleman aldık, döngüyü kırabiliriz
+                        break
                     }
                     try {
                         // userModel null değilse emit et, null ise null olarak emit et
@@ -137,77 +136,49 @@ class PetiRepository @Inject constructor(
         val uuid = UUID.randomUUID()
         val reference = storage.reference
         val imageReference = reference.child("petImage").child("$uuid.jpg")
+
         try {
-            val task = imageReference.putFile(selectedPicture!!)
-            task.await()
+            selectedPicture?.let {
+                imageReference.putFile(it).await()
+                val downloadUrl = imageReference.downloadUrl.await().toString()
 
-            val downloadUrl = imageReference.downloadUrl.await().toString()
+                val petPostMap = hashMapOf<String, Any>()
+                petPostMap["petOwner"] = auth.currentUser!!.email!!
+                petPostMap["petImage"] = downloadUrl
+                petPostMap["petDescription"] = petDescription
+                petPostMap["petName"] = petName
+                petPostMap["petType"] = petType
+                petPostMap["petSex"] = petSex
+                petPostMap["petGoal"] = petGoal
+                petPostMap["petAge"] = petAge
+                petPostMap["petVaccination"] = petVaccination
+                petPostMap["petBreed"] = petBreed
+                petPostMap["date"] = Timestamp.now()
 
-            val petPostMap = hashMapOf<String, Any>()
-            petPostMap["owner"] = auth.currentUser!!.email!!
-            petPostMap["petImage"] = downloadUrl
-            petPostMap["petDescription"] = petDescription
-            petPostMap["petName"] = petName
-            petPostMap["petType"] = petType
-            petPostMap["petSex"] = petSex
-            petPostMap["petGoal"] = petGoal
-            petPostMap["petAge"] = petAge
-            petPostMap["petVaccination"] = petVaccination
-            petPostMap["petBreed"] = petBreed
-            petPostMap["date"] = Timestamp.now()
-
-            val result = firestore.collection("pets").add(petPostMap).await()
-            if (result != null) {
+                firestore.collection("pets").add(petPostMap).await()
                 emit(true)
-            } else {
-                emit(false)
-                Toast.makeText(context, result.toString(), Toast.LENGTH_SHORT).show()
-            }
+            } ?: emit(false)
         } catch (e: Exception) {
             emit(false)
-            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 
     suspend fun fetchAllPets(): Flow<List<PetModel>> = callbackFlow {
-        val subscription = firestore.collection("pets")
+        val listenerRegistration = firestore.collection("pets")
             .orderBy("date", Query.Direction.DESCENDING)
-            .addSnapshotListener { value, error ->
+            .addSnapshotListener { snapshot, error ->
                 if (error != null) {
-                    close(error) // Hata durumunda Flow'ı kapat
+                    close(error)
                     return@addSnapshotListener
                 }
-                if (value != null && !value.isEmpty) {
-                    val petList = mutableListOf<PetModel>()
-                    petList.clear()
-                    for (document in value.documents) {
-                        val petOwner = document.get("owner") as String
-                        val petImage = document.get("petImage") as String
-                        val petDescription = document.get("petDescription") as String
-                        val petName = document.get("petName") as String
-                        val petType = document.get("petType") as String
-                        val petSex = document.get("petSex") as String
-                        val petGoal = document.get("petGoal") as String
-                        val petAge = document.get("petAge") as String
-                        val petVaccination = document.get("petVaccination") as String
-                        val petBreed = document.get("petBreed") as String
-
-                        val pet = PetModel(
-                            petOwner, petImage, petDescription, petName, petType, petSex,
-                            petGoal, petAge, petVaccination, petBreed
-                        )
-                        petList.add(pet)
-                    }
-
-                    try {
-                        // Verileri emit et
-                        trySend(petList).isSuccess
-                    } catch (e: Exception) {
-                        // Flow kapatılırken hata alındı
-                        close(e)
-                    }
-                }
+                var petList = mutableListOf<PetModel>()
+                petList.clear()
+                petList = (snapshot?.documents?.mapNotNull { doc ->
+                    doc.toObject(PetModel::class.java)
+                } ?: emptyList()).toMutableList()
+                trySend(petList).isSuccess
             }
-        awaitClose { subscription.remove() }
+
+        awaitClose { listenerRegistration.remove() }
     }
 }

@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.umitytsr.peti.data.model.PetModel
 import com.umitytsr.peti.databinding.ItemRowMyPetCardBinding
 
-class MyPetsAdapter(private val myPetList: List<PetModel>,private val viewModel: MyPetsViewModel) :
+class MyPetsAdapter(private val myPetList: List<PetModel>, private val petItemClickListener: PetItemClickListener) :
     RecyclerView.Adapter<MyPetsAdapter.MyPetsViewHolder>() {
 
     inner class MyPetsViewHolder(private val binding: ItemRowMyPetCardBinding) :
@@ -20,7 +20,10 @@ class MyPetsAdapter(private val myPetList: List<PetModel>,private val viewModel:
                     .into(petImage)
 
                 deleteButton.setOnClickListener {
-                    viewModel.deletePet(petModel.petImage)
+                    petItemClickListener.petItemDeleted(petModel.petImage)
+                }
+                petCardView.setOnClickListener {
+                    petItemClickListener.petItemClickedListener(petModel)
                 }
             }
         }
@@ -39,5 +42,10 @@ class MyPetsAdapter(private val myPetList: List<PetModel>,private val viewModel:
 
     override fun onBindViewHolder(holder: MyPetsViewHolder, position: Int) {
         holder.bind(myPetList[position])
+    }
+
+    interface PetItemClickListener{
+        fun petItemDeleted(petImage: String)
+        fun petItemClickedListener(pet : PetModel)
     }
 }

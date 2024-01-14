@@ -51,5 +51,11 @@
     <string name="description">Description</string>
     <string name="share">Partager</string>
     <string name="my_pets">Mes Animaux</string>
+    <string name="it_seems_that_you_haven_t_n_add_any_pets">Il semble que vous n\'avez pas \n ajouté d\'animaux</string>
+    <string name="your_list_is_empty">Votre liste est vide</string>
+    <string name="the_post_has_not_been_shared_yet">Le post n\'a pas encore été partagé</string>
+    <string name="it_looks_like_no_pets_have_nbeen_added_at_all">On dirait qu\'aucun animal n\'a \néte ajouté du tout</string>
+    <string name="send_a_message">Envoyer un message</string>
+    <string name="call">Appeler</string>
 
 </resources>
