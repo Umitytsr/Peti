@@ -17,6 +17,8 @@ import com.umitytsr.peti.R
 import com.umitytsr.peti.databinding.FragmentEditPetBinding
 import com.umitytsr.peti.util.Enums
 import com.umitytsr.peti.util.GalleryUtility
+import com.umitytsr.peti.util.getIdForEnumString
+import com.umitytsr.peti.util.getStringForEnumById
 import com.umitytsr.peti.util.setSimpleItem
 import com.umitytsr.peti.view.home.petInfo.InfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,15 +49,14 @@ class EditPetFragment : Fragment() {
             Glide.with(requireContext()).load(args.petModel.petImage).into(petImage)
             petNameEditText.editText?.setText(args.petModel.petName)
             typeDropdownMenu.helperText =
-                Enums.getPetTypeId(args.petModel.petType).getString(requireContext())
+                getStringForEnumById<Enums.PetType>(args.petModel.petType,requireContext())
             sexDropdownMenu.helperText =
-                Enums.getPetSexById(args.petModel.petSex).getString(requireContext())
+                getStringForEnumById<Enums.PetSex>(args.petModel.petSex,requireContext())
             goalDropdownMenu.helperText =
-                Enums.getPetGoalById(args.petModel.petGoal).getString(requireContext())
+                getStringForEnumById<Enums.PetGoal>(args.petModel.petGoal,requireContext())
             ageDropdownMenu.helperText = args.petModel.petAge
             vaccinationDropdownMenu.helperText =
-                Enums.getPetVaccinationById(args.petModel.petVaccination)
-                    .getString(requireContext())
+                getStringForEnumById<Enums.PetVaccination>(args.petModel.petVaccination,requireContext())
             breedEditText.editText?.setText(args.petModel.petBreed)
             petDescriptionEditText.editText?.setText(args.petModel.petDescription)
         }
@@ -88,18 +89,18 @@ class EditPetFragment : Fragment() {
                 val newPetName = petNameEditText.editText?.text.toString()
 
                 val petTypeString = typeDropdownMenu.editText?.text.toString()
-                val petType = Enums.getPetTypeIdByString(petTypeString,requireContext())
+                val petType = getIdForEnumString<Enums.PetType>(petTypeString,requireContext())
 
                 val petSexString = sexDropdownMenu.editText?.text.toString()
-                val petSex = Enums.getPetSexIdByString(petSexString,requireContext())
+                val petSex = getIdForEnumString<Enums.PetSex>(petSexString,requireContext())
 
                 val petGoalString = goalDropdownMenu.editText?.text.toString()
-                val petGoal = Enums.getPetGoalIdByString(petGoalString,requireContext())
+                val petGoal = getIdForEnumString<Enums.PetGoal>(petGoalString,requireContext())
 
                 val petAge = ageDropdownMenu.editText?.text.toString()
 
                 val petVaccinationString = vaccinationDropdownMenu.editText?.text.toString()
-                val petVaccination = Enums.getPetVaccinationIdByString(petVaccinationString,requireContext())
+                val petVaccination = getIdForEnumString<Enums.PetVaccination>(petVaccinationString,requireContext())
 
                 val petBreed = breedEditText.editText?.text.toString()
                 val petDescription = petDescriptionEditText.editText?.text.toString()

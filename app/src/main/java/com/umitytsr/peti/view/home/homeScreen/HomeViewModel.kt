@@ -7,6 +7,8 @@ import com.umitytsr.peti.data.model.FilteredPetModel
 import com.umitytsr.peti.data.model.PetModel
 import com.umitytsr.peti.data.repository.PetiRepository
 import com.umitytsr.peti.util.Enums
+import com.umitytsr.peti.util.getIdForEnumString
+import com.umitytsr.peti.util.getStringForEnumById
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -52,21 +54,21 @@ class HomeViewModel @Inject constructor(private val petiRepository: PetiReposito
 
             if (selectedPetTypeText.isNotEmpty()) {
                 filteredPet = filteredPet.filter {
-                    val petTypeString = Enums.getPetTypeId(it.petType).getString(context)
+                    val petTypeString = getStringForEnumById<Enums.PetType>(it.petType,context)
                     petTypeString == selectedPetTypeText
                 }
             }
 
             if (selectedPetSexText.isNotEmpty()) {
                 filteredPet = filteredPet.filter {
-                    val petSexString = Enums.getPetSexById(it.petSex).getString(context)
+                    val petSexString = getStringForEnumById<Enums.PetSex>(it.petSex,context)
                     petSexString == selectedPetSexText
                 }
             }
 
             if (selectedPetGoalText.isNotEmpty()) {
                 filteredPet = filteredPet.filter {
-                    val petGoalString = Enums.getPetGoalById(it.petGoal).getString(context)
+                    val petGoalString = getStringForEnumById<Enums.PetGoal>(it.petGoal,context)
                     petGoalString == selectedPetGoalText
                 }
             }
@@ -81,7 +83,7 @@ class HomeViewModel @Inject constructor(private val petiRepository: PetiReposito
             if (selectedPetVaccinationText.isNotEmpty()) {
                 filteredPet = filteredPet.filter {
                     val petVacString =
-                        Enums.getPetVaccinationById(it.petVaccination).getString(context)
+                        getStringForEnumById<Enums.PetVaccination>(it.petVaccination,context)
                     petVacString == selectedPetVaccinationText
                 }
             }
@@ -90,10 +92,10 @@ class HomeViewModel @Inject constructor(private val petiRepository: PetiReposito
         }
 
         viewModelScope.launch {
-            val petTypeId = Enums.getPetTypeIdByString(selectedPetTypeText,context)
-            val petSexId = Enums.getPetSexIdByString(selectedPetSexText,context)
-            val petGoalId = Enums.getPetGoalIdByString(selectedPetGoalText,context)
-            val petVacId = Enums.getPetVaccinationIdByString(selectedPetVaccinationText,context)
+            val petTypeId = getIdForEnumString<Enums.PetType>(selectedPetTypeText,context)
+            val petSexId = getIdForEnumString<Enums.PetSex>(selectedPetSexText,context)
+            val petGoalId = getIdForEnumString<Enums.PetGoal>(selectedPetGoalText,context)
+            val petVacId = getIdForEnumString<Enums.PetVaccination>(selectedPetVaccinationText,context)
             _filteredPet.emit(FilteredPetModel(petTypeId,petSexId,petGoalId,selectedPetAgeText,petVacId))
         }
     }

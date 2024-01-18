@@ -12,6 +12,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.umitytsr.peti.databinding.FragmentFilterBottomSheetBinding
 import com.umitytsr.peti.util.Enums
+import com.umitytsr.peti.util.getStringForEnumById
 import com.umitytsr.peti.view.home.homeScreen.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -38,22 +39,22 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             homeViewModel.filteredPet.collectLatest {
                 it.selectedPetType?.let {
-                    val selectedChipString = Enums.getPetTypeId(it).getString(requireContext())
+                    val selectedChipString = getStringForEnumById<Enums.PetType>(it, requireContext())
                     setSelectedChipByText(binding.petTypeChipGroup,selectedChipString)
                 }
                 it.selectedPetSex?.let {
-                    val selectedChipString = Enums.getPetSexById(it).getString(requireContext())
+                    val selectedChipString = getStringForEnumById<Enums.PetSex>(it, requireContext())
                     setSelectedChipByText(binding.petSexChipGroup,selectedChipString)
                 }
                 it.selectedPetGoal?.let {
-                    val selectedChipString = Enums.getPetGoalById(it).getString(requireContext())
+                    val selectedChipString = getStringForEnumById<Enums.PetGoal>(it, requireContext())
                     setSelectedChipByText(binding.petGoalChipGroup,selectedChipString)
                 }
                 it.selectedPetAge?.let {
                     setSelectedChipByText(binding.petAgeChipGroup,it)
                 }
                 it.selectedPetVac?.let {
-                    val selectedChipString = Enums.getPetVaccinationById(it).getString(requireContext())
+                    val selectedChipString = getStringForEnumById<Enums.PetVaccination>(it, requireContext())
                     setSelectedChipByText(binding.petVacChipGroup,selectedChipString)
                 }
             }
