@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.umitytsr.peti.databinding.FragmentInfoBinding
 import com.umitytsr.peti.util.Enums
 import com.umitytsr.peti.util.formatTimestampToDayMonthYear
+import com.umitytsr.peti.util.getStringForEnumById
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -77,10 +78,10 @@ class InfoFragment : Fragment() {
                         Glide.with(requireContext()).load(it.petImage).into(petImage)
                         petNameTextView.text = it.petName
                         petBreedTextView.text = it.petBreed
-                        petSexTextView.text = Enums.getPetSexById(it.petSex).getString(requireContext())
+                        petSexTextView.text = getStringForEnumById<Enums.PetSex>(it.petSex,requireContext())
                         petAgeTextView.text = it.petAge
-                        petGoalTextView.text = Enums.getPetGoalById(it.petGoal).getString(requireContext())
-                        petVacTextView.text = Enums.getPetVaccinationById(it.petVaccination).getString(requireContext())
+                        petGoalTextView.text = getStringForEnumById<Enums.PetGoal>(it.petGoal,requireContext())
+                        petVacTextView.text = getStringForEnumById<Enums.PetVaccination>(it.petVaccination,requireContext())
                         petDescriptionTextView.text = it.petDescription
                         dateTextView.text = formatTimestampToDayMonthYear(it.date!!)
                     }

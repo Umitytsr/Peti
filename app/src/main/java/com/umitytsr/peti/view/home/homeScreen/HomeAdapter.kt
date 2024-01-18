@@ -9,6 +9,7 @@ import com.umitytsr.peti.R
 import com.umitytsr.peti.data.model.PetModel
 import com.umitytsr.peti.databinding.ItemRowPetCardBinding
 import com.umitytsr.peti.util.Enums
+import com.umitytsr.peti.util.getStringForEnumById
 
 class HomeAdapter(private var petList: List<PetModel>
 , private val petItemClickListener: PetItemClickListener) :
@@ -27,8 +28,8 @@ class HomeAdapter(private var petList: List<PetModel>
                     petItemClickListener.petItemClickedListener(petModel)
                 }
                 val context = itemView.context
-                petSexTextView.text = Enums.getPetSexById(petModel.petSex).getString(context)
-                petGoalTextView.text = Enums.getPetGoalById(petModel.petGoal).getString(context)
+                petSexTextView.text = getStringForEnumById<Enums.PetSex>(petModel.petSex, context)
+                petGoalTextView.text = getStringForEnumById<Enums.PetGoal>(petModel.petGoal, context)
 
                 if (petModel.petGoal.toInt() == 1) {
                     petGoalCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.green))
