@@ -56,4 +56,17 @@
     <string name="it_looks_like_no_pets_have_nbeen_added_at_all">It looks like no pets have\nbeen added at all</string>
     <string name="send_a_message">Send A Message</string>
     <string name="call">Call</string>
+    <string name="edit">Edit</string>
+    <string name="pet_owner">Pet Owner</string>
+    <string name="dog">Dog</string>
+    <string name="cat">Cat</string>
+    <string name="other">Other</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="ownership">Ownership</string>
+    <string name="matching">Matching</string>
+    <string name="vaccinated">Vaccinated</string>
+    <string name="unvaccinated">Unvaccinated</string>
+    <string name="filter">Filter</string>
+    <string name="delete_all_filters">Delete All Filters</string>
 </resources>

@@ -57,5 +57,17 @@
     <string name="it_looks_like_no_pets_have_nbeen_added_at_all">On dirait qu\'aucun animal n\'a \néte ajouté du tout</string>
     <string name="send_a_message">Envoyer un message</string>
     <string name="call">Appeler</string>
-
+    <string name="edit">Modifier</string>
+    <string name="pet_owner">Propriétaire de l\'animal</string>
+    <string name="dog">Chien</string>
+    <string name="cat">Chat</string>
+    <string name="other">Autre</string>
+    <string name="male">Mâle</string>
+    <string name="female">Femelle</string>
+    <string name="ownership">Propriété</string>
+    <string name="matching">Appariement</string>
+    <string name="vaccinated">Vacciné</string>
+    <string name="unvaccinated">Non vacciné</string>
+    <string name="filter">Filtrer</string>
+    <string name="delete_all_filters">Supprimer tous les filtres</string>
 </resources>

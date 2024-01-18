@@ -8,8 +8,10 @@ import com.bumptech.glide.Glide
 import com.umitytsr.peti.R
 import com.umitytsr.peti.data.model.PetModel
 import com.umitytsr.peti.databinding.ItemRowPetCardBinding
+import com.umitytsr.peti.util.Enums
 
-class HomeAdapter(private var petList: List<PetModel>, private val petItemClickListener: PetItemClickListener) :
+class HomeAdapter(private var petList: List<PetModel>
+, private val petItemClickListener: PetItemClickListener) :
     RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
     inner class HomeViewHolder(private val binding: ItemRowPetCardBinding) :
@@ -24,16 +26,14 @@ class HomeAdapter(private var petList: List<PetModel>, private val petItemClickL
                 petCardView.setOnClickListener {
                     petItemClickListener.petItemClickedListener(petModel)
                 }
-
-                petSexTextView.text = petModel.petSex
-
-                petGoalTextView.text = petModel.petGoal
-
                 val context = itemView.context
-                if (petModel.petGoal == "Ownership") {
-                    petGoalCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.red))
-                } else {
+                petSexTextView.text = Enums.getPetSexById(petModel.petSex).getString(context)
+                petGoalTextView.text = Enums.getPetGoalById(petModel.petGoal).getString(context)
+
+                if (petModel.petGoal.toInt() == 1) {
                     petGoalCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.green))
+                } else {
+                    petGoalCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.red))
                 }
             }
         }

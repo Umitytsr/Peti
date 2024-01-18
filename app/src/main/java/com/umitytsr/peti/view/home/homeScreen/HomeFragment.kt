@@ -5,21 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umitytsr.peti.data.model.PetModel
 import com.umitytsr.peti.databinding.FragmentHomeBinding
+import com.umitytsr.peti.view.home.homeScreen.bottomSheet.FilterBottomSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), HomeAdapter.PetItemClickListener {
     private lateinit var binding: FragmentHomeBinding
-    private val viewModel : HomeViewModel by viewModels()
+    private val viewModel : HomeViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,23 +31,44 @@ class HomeFragment : Fragment(), HomeAdapter.PetItemClickListener {
 
     private fun getData(){
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.petListResult.collectLatest {
+            viewModel.petListResult.collect {
+                initUi(it)
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.filterFAB.setOnClickListener {
+            val filterBottomSheet = FilterBottomSheetFragment()
+            filterBottomSheet.show(parentFragmentManager, FilterBottomSheetFragment.TAG)
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.petListResult.collect {
                 if (it.isNotEmpty()){
-                    with(binding){
-                        emtyListImageView.visibility = View.GONE
-                        emptyListTextView.visibility = View.GONE
-                        youHaventTextView.visibility = View.GONE
-                        homeFragmentRecyclerView.visibility = View.VISIBLE
-                    }
-                    initRecyclerView(it)
+                    initUi(it)
                 }else{
-                    with(binding){
-                        emtyListImageView.visibility = View.VISIBLE
-                        emptyListTextView.visibility= View.VISIBLE
-                        youHaventTextView.visibility = View.VISIBLE
-                        homeFragmentRecyclerView.visibility = View.GONE
-                    }
+                    getData()
                 }
+            }
+        }
+    }
+
+    private fun initUi(petList: List<PetModel>){
+        if (petList.isNotEmpty()){
+            with(binding){
+                emtyListImageView.visibility = View.GONE
+                emptyListTextView.visibility = View.GONE
+                youHaventTextView.visibility = View.GONE
+                homeFragmentRecyclerView.visibility = View.VISIBLE
+            }
+            initRecyclerView(petList)
+        }else{
+            with(binding){
+                emtyListImageView.visibility = View.VISIBLE
+                emptyListTextView.visibility= View.VISIBLE
+                youHaventTextView.visibility = View.VISIBLE
+                homeFragmentRecyclerView.visibility = View.GONE
             }
         }
     }

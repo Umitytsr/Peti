@@ -71,9 +71,9 @@ class MyPetsFragment : Fragment(), MyPetsAdapter.PetItemClickListener {
         }
     }
 
-    override fun petItemDeleted(petImage: String) {
+    override fun petItemDeleted(petImage: String,petName: String) {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.deletePet(petImage)
+            viewModel.deletePet(petImage,petName)
         }
     }
 

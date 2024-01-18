@@ -57,5 +57,17 @@
     <string name="it_looks_like_no_pets_have_nbeen_added_at_all">Parece que no se han \nañadido mascotas en absoluto</string>
     <string name="send_a_message">Enviar un mensaje</string>
     <string name="call">Llamar</string>
-
+    <string name="edit">Editar</string>
+    <string name="pet_owner">Dueño de la mascota</string>
+    <string name="dog">Perro</string>
+    <string name="cat">Gato</string>
+    <string name="other">Otro</string>
+    <string name="male">Macho</string>
+    <string name="female">Hembra</string>
+    <string name="ownership">Propiedad</string>
+    <string name="matching">Emparejamiento</string>
+    <string name="vaccinated">Vacunado</string>
+    <string name="unvaccinated">No vacunado</string>
+    <string name="filter">Filtrar</string>
+    <string name="delete_all_filters">Eliminar todos los filtros</string>
 </resources>

@@ -5,13 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.umitytsr.peti.R
 import com.umitytsr.peti.databinding.FragmentLanguageBinding
-import com.umitytsr.peti.util.LanguageManager
-import com.umitytsr.peti.util.setAppLocale
 import com.umitytsr.peti.view.authentication.mainActivity.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -20,7 +18,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class LanguageFragment : Fragment() {
     private lateinit var binding: FragmentLanguageBinding
-    private val mainViewModel : MainActivityViewModel by viewModels()
+    private val mainViewModel : MainActivityViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
