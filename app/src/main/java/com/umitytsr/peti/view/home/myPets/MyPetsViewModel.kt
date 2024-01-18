@@ -27,16 +27,16 @@ class MyPetsViewModel @Inject constructor(private val petiRepository: PetiReposi
             petiRepository.fetchAllPets().collect { petList ->
                 val currentUser = auth.currentUser!!.email
                 val filteredPet = petList.filter { petModel ->
-                    petModel.petOwner == currentUser
+                    petModel.petOwnerEmail == currentUser
                 }
                 _petListResult.emit(filteredPet)
             }
         }
     }
 
-    suspend fun deletePet(petImage: String) {
+    suspend fun deletePet(petImage: String,petName: String) {
         viewModelScope.launch {
-            petiRepository.deletePet(petImage)
+            petiRepository.deletePet(petImage,petName)
         }
     }
 }

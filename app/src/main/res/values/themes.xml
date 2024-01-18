@@ -68,4 +68,9 @@
         <item name="buttonTint">@color/radio_button_tint</item>
     </style>
 
+    <style name="CustomFloatingActionButton" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="backgroundTint">@color/black</item> <!-- Arka plan rengi -->
+        <item name="tint">@color/white</item> <!-- İkon rengi -->
+    </style>
+
 </resources>

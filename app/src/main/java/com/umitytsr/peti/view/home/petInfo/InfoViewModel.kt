@@ -2,7 +2,9 @@ package com.umitytsr.peti.view.home.petInfo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+import com.umitytsr.peti.data.model.PetModel
 import com.umitytsr.peti.data.model.UserModel
 import com.umitytsr.peti.data.repository.PetiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +26,10 @@ class InfoViewModel @Inject constructor(
     private val _petOwnerEqualsResult = MutableStateFlow<Boolean>(false)
     val petOwnerEqualsResult : StateFlow<Boolean> = _petOwnerEqualsResult.asStateFlow()
 
+    private val _petResult = MutableStateFlow<PetModel>(PetModel("" ,"",
+        "",0,0,0,"",0,
+        "","", Timestamp.now()))
+    val petResult : StateFlow<PetModel> = _petResult.asStateFlow()
 
     suspend fun getUserData(petOwnerEmail : String){
         viewModelScope.launch {
@@ -37,6 +43,14 @@ class InfoViewModel @Inject constructor(
         viewModelScope.launch {
             if (petOwner == auth.currentUser?.email){
                 _petOwnerEqualsResult.emit(true)
+            }
+        }
+    }
+
+    suspend fun getPetData(petOwnerEmail: String, petName: String) {
+        viewModelScope.launch {
+            petiRepository.fetchPet(petOwnerEmail,petName).collect{pet ->
+                _petResult.emit(pet)
             }
         }
     }

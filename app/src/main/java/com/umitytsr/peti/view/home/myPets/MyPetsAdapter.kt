@@ -20,7 +20,7 @@ class MyPetsAdapter(private val myPetList: List<PetModel>, private val petItemCl
                     .into(petImage)
 
                 deleteButton.setOnClickListener {
-                    petItemClickListener.petItemDeleted(petModel.petImage)
+                    petItemClickListener.petItemDeleted(petModel.petImage,petModel.petName)
                 }
                 petCardView.setOnClickListener {
                     petItemClickListener.petItemClickedListener(petModel)
@@ -45,7 +45,7 @@ class MyPetsAdapter(private val myPetList: List<PetModel>, private val petItemCl
     }
 
     interface PetItemClickListener{
-        fun petItemDeleted(petImage: String)
+        fun petItemDeleted(petImage: String,petName: String)
         fun petItemClickedListener(pet : PetModel)
     }
 }

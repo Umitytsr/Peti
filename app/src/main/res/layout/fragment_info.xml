@@ -91,34 +91,7 @@
                 app:layout_constraintTop_toBottomOf="@id/petImage" />
 
             <TextView
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/description"
-                android:textColor="@color/red"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/arrowBackButton" />
-
-            <TextView
-                android:id="@+id/petDescriptionTextView"
-                style="@style/textColor"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="5dp"
-                android:text="lorrsalfnjskafnkjnkjnfksajnfkjnafkjnkajsnf"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/description" />
-
-            <TextView
-                android:id="@+id/petBreedTextView"
+                android:id="@+id/petOwnerNameTextView"
                 style="@style/textColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -128,7 +101,38 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/petDescriptionTextView" />
+                app:layout_constraintTop_toBottomOf="@id/petNameTextView" />
+
+            <TextView
+                style="@style/textColor"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:text="@string/pet_owner"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/petOwnerNameTextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/petOwnerNameTextView" />
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginHorizontal="18dp"
+                android:background="@color/solukTextYazisi"
+                app:layout_constraintTop_toBottomOf="@id/petOwnerNameTextView" />
+
+            <TextView
+                android:id="@+id/petBreedTextView"
+                style="@style/textColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="@string/lorem_ipsum"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line1" />
 
             <TextView
                 style="@style/textColor"
@@ -142,7 +146,7 @@
                 app:layout_constraintTop_toTopOf="@id/petBreedTextView" />
 
             <View
-                android:id="@+id/line1"
+                android:id="@+id/line2"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginHorizontal="18dp"
@@ -159,7 +163,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/line1" />
+                app:layout_constraintTop_toBottomOf="@id/line2" />
 
             <TextView
                 style="@style/textColor"
@@ -173,7 +177,7 @@
                 app:layout_constraintTop_toTopOf="@id/petSexTextView" />
 
             <View
-                android:id="@+id/line2"
+                android:id="@+id/line3"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginHorizontal="18dp"
@@ -190,7 +194,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/line2" />
+                app:layout_constraintTop_toBottomOf="@id/line3" />
 
             <TextView
                 style="@style/textColor"
@@ -204,7 +208,7 @@
                 app:layout_constraintTop_toTopOf="@id/petAgeTextView" />
 
             <View
-                android:id="@+id/line3"
+                android:id="@+id/line4"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginHorizontal="18dp"
@@ -221,7 +225,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/line3" />
+                app:layout_constraintTop_toBottomOf="@id/line4" />
 
             <TextView
                 style="@style/textColor"
@@ -235,7 +239,7 @@
                 app:layout_constraintTop_toTopOf="@id/petGoalTextView" />
 
             <View
-                android:id="@+id/line4"
+                android:id="@+id/line5"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginHorizontal="18dp"
@@ -252,7 +256,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/line4" />
+                app:layout_constraintTop_toBottomOf="@id/line5" />
 
             <TextView
                 style="@style/textColor"
@@ -265,6 +269,32 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/petVacTextView" />
 
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/description"
+                android:textColor="@color/red"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/petVacTextView" />
+
+            <TextView
+                android:id="@+id/petDescriptionTextView"
+                style="@style/textColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="5dp"
+                android:text="lorrsalfnjskafnkjnkjnfksajnfkjnafkjnkajsnf"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/description" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

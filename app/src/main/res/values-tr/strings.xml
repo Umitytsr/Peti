@@ -57,4 +57,17 @@
     <string name="it_looks_like_no_pets_have_nbeen_added_at_all">Hiçbir evcil hayvanın\neklendiği görünmüyor</string>
     <string name="send_a_message">Mesaj Gönder</string>
     <string name="call">Ara</string>
+    <string name="edit">Düzenle</string>
+    <string name="pet_owner">Evcil Hayvan Sahibi</string>
+    <string name="dog">Köpek</string>
+    <string name="cat">Kedi</string>
+    <string name="other">Diğer</string>
+    <string name="male">Erkek</string>
+    <string name="female">Dişi</string>
+    <string name="ownership">Sahiplenme</string>
+    <string name="matching">Çiftleştirme</string>
+    <string name="vaccinated">Aşılanmış</string>
+    <string name="unvaccinated">Aşılanmamış</string>
+    <string name="filter">Filtrele</string>
+    <string name="delete_all_filters">Tüm Filtreleri Sil</string>
 </resources>

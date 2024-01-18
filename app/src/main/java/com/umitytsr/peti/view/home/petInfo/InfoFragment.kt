@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.umitytsr.peti.databinding.FragmentInfoBinding
+import com.umitytsr.peti.util.Enums
 import com.umitytsr.peti.util.formatTimestampToDayMonthYear
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -37,8 +38,17 @@ class InfoFragment : Fragment() {
     private fun petDetailerData(){
         viewLifecycleOwner.lifecycleScope.launch {
             launch {
-                viewModel.getUserData(args.petModel.petOwner)
+                viewModel.getUserData(args.petModel.petOwnerEmail)
             }
+
+            launch {
+                viewModel.getPetData(args.petModel.petOwnerEmail,args.petModel.petName)
+            }
+
+            launch {
+                viewModel.petOwnerEquals(args.petModel.petOwnerEmail)
+            }
+
             launch {
                 viewModel.userResult.collectLatest {
                     if (it.userPhoneNumber.isNotEmpty()){
@@ -47,11 +57,10 @@ class InfoFragment : Fragment() {
                     }else{
                         binding.callButton.visibility = View.GONE
                     }
+                    binding.petOwnerNameTextView.text = it.userFullName
                 }
             }
-            launch {
-                viewModel.petOwnerEquals(args.petModel.petOwner)
-            }
+
             launch {
                 viewModel.petOwnerEqualsResult.collectLatest {
                     if (it){
@@ -61,19 +70,25 @@ class InfoFragment : Fragment() {
                     }
                 }
             }
+
+            launch {
+                viewModel.petResult.collectLatest {
+                    with(binding){
+                        Glide.with(requireContext()).load(it.petImage).into(petImage)
+                        petNameTextView.text = it.petName
+                        petBreedTextView.text = it.petBreed
+                        petSexTextView.text = Enums.getPetSexById(it.petSex).getString(requireContext())
+                        petAgeTextView.text = it.petAge
+                        petGoalTextView.text = Enums.getPetGoalById(it.petGoal).getString(requireContext())
+                        petVacTextView.text = Enums.getPetVaccinationById(it.petVaccination).getString(requireContext())
+                        petDescriptionTextView.text = it.petDescription
+                        dateTextView.text = formatTimestampToDayMonthYear(it.date!!)
+                    }
+                }
+            }
         }
 
-        with(binding){
-            Glide.with(requireContext()).load(args.petModel.petImage).into(petImage)
-            petNameTextView.text = args.petModel.petName
-            petAgeTextView.text = args.petModel.petAge
-            petBreedTextView.text = args.petModel.petBreed
-            petSexTextView.text = args.petModel.petSex
-            petVacTextView.text = args.petModel.petVaccination
-            petGoalTextView.text = args.petModel.petGoal
-            petDescriptionTextView.text = args.petModel.petDescription
-            dateTextView.text = formatTimestampToDayMonthYear(args.petModel.date!!)
-        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -97,6 +112,12 @@ class InfoFragment : Fragment() {
                         )
                     }
                 }
+            }
+            
+            editPetButton.setOnClickListener {
+                findNavController().navigate(
+                    InfoFragmentDirections.actionInfoFragmentToEditPetFragment(args.petModel,args.previousFragment)
+                )
             }
         }
     }
