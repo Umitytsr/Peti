@@ -19,9 +19,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Peti"
             android:textColor="@color/red"
-            android:layout_gravity="center"
             android:textSize="30sp" />
     </androidx.appcompat.widget.Toolbar>
 
@@ -30,19 +30,19 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/red"
-        app:layout_constraintTop_toBottomOf="@+id/topAppBar"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/topAppBar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/homeFragmentRecyclerView"
+        style="@style/backgroundColor"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        style="@style/backgroundColor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,41 +58,44 @@
             android:id="@+id/emtyListImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/emty_list_image" />
+            android:src="@drawable/emty_list_image"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/emptyListTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="30dp"
             android:gravity="center"
             android:text="@string/the_post_has_not_been_shared_yet"
             android:textColor="@color/red"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/youHaventTextView"
             style="@style/textColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginHorizontal="60dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="@string/it_looks_like_no_pets_have_nbeen_added_at_all"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/filterFAB"
+        style="@style/CustomFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        style="@style/CustomFloatingActionButton"
         android:src="@drawable/filter_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -70,4 +70,8 @@
     <string name="unvaccinated">Non vacciné</string>
     <string name="filter">Filtrer</string>
     <string name="delete_all_filters">Supprimer tous les filtres</string>
+    <string name="today">Aujourd\'hui</string>
+    <string name="yesterday">Hier</string>
+    <string name="your_pet_s_name_cannot_be_changed_later">Le nom de votre animal ne pourra pas être modifié ultérieurement</string>
+
 </resources>

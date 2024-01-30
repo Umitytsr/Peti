@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -47,18 +48,19 @@ class EditPetFragment : Fragment() {
     private fun getPetData() {
         with(binding) {
             Glide.with(requireContext()).load(args.petModel.petImage).into(petImage)
-            petNameEditText.editText?.setText(args.petModel.petName)
-            typeDropdownMenu.helperText =
-                getStringForEnumById<Enums.PetType>(args.petModel.petType,requireContext())
-            sexDropdownMenu.helperText =
-                getStringForEnumById<Enums.PetSex>(args.petModel.petSex,requireContext())
-            goalDropdownMenu.helperText =
-                getStringForEnumById<Enums.PetGoal>(args.petModel.petGoal,requireContext())
-            ageDropdownMenu.helperText = args.petModel.petAge
-            vaccinationDropdownMenu.helperText =
-                getStringForEnumById<Enums.PetVaccination>(args.petModel.petVaccination,requireContext())
+            val petTypeString = getStringForEnumById<Enums.PetType>(args.petModel.petType!!, requireContext())
+            val petSexString = getStringForEnumById<Enums.PetSex>(args.petModel.petSex!!, requireContext())
+            val petGoalString = getStringForEnumById<Enums.PetGoal>(args.petModel.petGoal!!, requireContext())
+            val petVaccinationString = getStringForEnumById<Enums.PetVaccination>(args.petModel.petVaccination!!, requireContext())
+            val petAgeString = args.petModel.petAge
             breedEditText.editText?.setText(args.petModel.petBreed)
             petDescriptionEditText.editText?.setText(args.petModel.petDescription)
+
+            (typeDropdownMenu.editText as? AutoCompleteTextView)?.setText(petTypeString, false)
+            (sexDropdownMenu.editText as? AutoCompleteTextView)?.setText(petSexString, false)
+            (goalDropdownMenu.editText as? AutoCompleteTextView)?.setText(petGoalString, false)
+            (vaccinationDropdownMenu.editText as? AutoCompleteTextView)?.setText(petVaccinationString, false)
+            (ageDropdownMenu.editText as? AutoCompleteTextView)?.setText(petAgeString, false)
         }
     }
 
@@ -84,9 +86,7 @@ class EditPetFragment : Fragment() {
 
             editButton.setOnClickListener {
                 val oldPetPicture = args.petModel.petImage
-
-                val oldPetName = args.petModel.petName
-                val newPetName = petNameEditText.editText?.text.toString()
+                val petName = args.petModel.petName
 
                 val petTypeString = typeDropdownMenu.editText?.text.toString()
                 val petType = getIdForEnumString<Enums.PetType>(petTypeString,requireContext())
@@ -106,12 +106,13 @@ class EditPetFragment : Fragment() {
                 val petDescription = petDescriptionEditText.editText?.text.toString()
                 val date = args.petModel.date
 
-                if (newPetName.isNotEmpty() && petTypeString.isNotEmpty() && petSexString.isNotEmpty() &&
-                    petGoalString.isNotEmpty() && petAge.isNotEmpty() && petVaccinationString.isNotEmpty() &&
-                    petBreed.isNotEmpty() && petDescription.isNotEmpty()
+                if (petTypeString.isNotEmpty() && petSexString.isNotEmpty() &&
+                    petGoalString.isNotEmpty() && petAge.isNotEmpty() &&
+                    petVaccinationString.isNotEmpty() && petBreed.isNotEmpty() &&
+                    petDescription.isNotEmpty()
                 ) {
                     viewModel.updatePet(
-                        oldPetPicture, newPetPicture, oldPetName, newPetName, petType,
+                        oldPetPicture!!, newPetPicture, petName!!, petType,
                         petSex, petGoal, petAge, petVaccination, petBreed, petDescription, date
                     )
                 } else {
@@ -124,7 +125,7 @@ class EditPetFragment : Fragment() {
 
                 lifecycleScope.launch {
                     launch {
-                        infoFragmentViewModel.getPetData(args.petModel.petOwnerEmail, newPetName)
+                        infoFragmentViewModel.getPetData(args.petModel.petOwnerEmail!!, petName!!)
                     }
 
                     launch {

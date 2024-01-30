@@ -54,21 +54,21 @@ class HomeViewModel @Inject constructor(private val petiRepository: PetiReposito
 
             if (selectedPetTypeText.isNotEmpty()) {
                 filteredPet = filteredPet.filter {
-                    val petTypeString = getStringForEnumById<Enums.PetType>(it.petType,context)
+                    val petTypeString = getStringForEnumById<Enums.PetType>(it.petType!!,context)
                     petTypeString == selectedPetTypeText
                 }
             }
 
             if (selectedPetSexText.isNotEmpty()) {
                 filteredPet = filteredPet.filter {
-                    val petSexString = getStringForEnumById<Enums.PetSex>(it.petSex,context)
+                    val petSexString = getStringForEnumById<Enums.PetSex>(it.petSex!!,context)
                     petSexString == selectedPetSexText
                 }
             }
 
             if (selectedPetGoalText.isNotEmpty()) {
                 filteredPet = filteredPet.filter {
-                    val petGoalString = getStringForEnumById<Enums.PetGoal>(it.petGoal,context)
+                    val petGoalString = getStringForEnumById<Enums.PetGoal>(it.petGoal!!,context)
                     petGoalString == selectedPetGoalText
                 }
             }
@@ -83,7 +83,7 @@ class HomeViewModel @Inject constructor(private val petiRepository: PetiReposito
             if (selectedPetVaccinationText.isNotEmpty()) {
                 filteredPet = filteredPet.filter {
                     val petVacString =
-                        getStringForEnumById<Enums.PetVaccination>(it.petVaccination,context)
+                        getStringForEnumById<Enums.PetVaccination>(it.petVaccination!!,context)
                     petVacString == selectedPetVaccinationText
                 }
             }

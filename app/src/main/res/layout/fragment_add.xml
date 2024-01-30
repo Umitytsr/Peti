@@ -32,6 +32,7 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
             android:hint="@string/pet_name"
+            app:helperText="@string/your_pet_s_name_cannot_be_changed_later"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/selectImage">
@@ -171,8 +172,9 @@
         <Button
             android:id="@+id/shareButton"
             style="@style/buttonColor"
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="55dp"
             android:layout_marginTop="15dp"
             android:text="@string/share"
             app:layout_constraintEnd_toEndOf="parent"

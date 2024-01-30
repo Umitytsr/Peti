@@ -6,15 +6,15 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PetModel(
-    var petOwnerEmail: String = "",
-    var petImage: String = "",
-    var petName: String = "",
-    var petType: Long = 0,
-    var petSex: Long = 0,
-    var petGoal: Long = 0,
-    var petAge: String = "",
-    var petVaccination: Long = 0,
-    var petBreed: String = "",
-    var petDescription: String = "",
+    var petOwnerEmail: String? = null,
+    var petImage: String? = null,
+    var petName: String? = null,
+    var petType: Long? = null,
+    var petSex: Long? = null,
+    var petGoal: Long? = null,
+    var petAge: String? = null,
+    var petVaccination: Long? = null,
+    var petBreed: String? = null,
+    var petDescription: String? = null,
     var date: Timestamp? = null
 ): Parcelable

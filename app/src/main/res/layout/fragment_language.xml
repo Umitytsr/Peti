@@ -44,9 +44,9 @@
         <RadioButton
             android:id="@+id/englishRadioButton"
             style="@style/Widget.App.RadioButton"
-            android:checked="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:checked="true"
             android:text="@string/english" />
 
         <RadioButton

@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/dateMessageWithSenderTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="7dp"
+        android:textSize="14sp"
+        style="@style/textColor"
+        />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -15,7 +27,7 @@
         android:backgroundTint="@color/send_message"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/dateMessageWithSenderTextView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -23,7 +35,7 @@
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/sendMessage"
+                android:id="@+id/sendWithDateMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
@@ -31,19 +43,19 @@
                 android:text="@string/lorem_ipsum"
                 android:textColor="@color/white"
                 android:textSize="15sp"
-                app:layout_constraintEnd_toStartOf="@id/timeSendMessageTextView"
+                app:layout_constraintEnd_toStartOf="@id/timeSendMessageWithDateTextView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/timeSendMessageTextView"
+                android:id="@+id/timeSendMessageWithDateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="3dp"
                 android:textColor="@color/white"
                 android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sendMessage"
+                app:layout_constraintTop_toBottomOf="@id/sendWithDateMessage"
                 tools:ignore="SmallSp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
