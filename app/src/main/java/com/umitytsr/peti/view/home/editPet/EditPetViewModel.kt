@@ -22,14 +22,14 @@ class EditPetViewModel @Inject constructor(
     val navigateResult: StateFlow<Boolean> = _navigateResult.asStateFlow()
 
     fun updatePet(
-        oldPetPicture: String, newPetPicture: Uri?, oldPetName: String, newPetName: String,
-        petType: Long, petSex: Long, petGoal: Long, petAge: String, petVaccination: Long,
-        petBreed: String, petDescription: String, date: Timestamp?
+        oldPetPicture: String, newPetPicture: Uri?, petName: String, petType: Long, petSex: Long,
+        petGoal: Long, petAge: String, petVaccination: Long, petBreed: String,
+        petDescription: String, date: Timestamp?
     ) {
         viewModelScope.launch {
             petiRepository.updatePet(
-                oldPetPicture, newPetPicture, oldPetName, newPetName, petType,
-                petSex, petGoal, petAge, petVaccination, petBreed, petDescription, date
+                oldPetPicture, newPetPicture, petName, petType, petSex, petGoal, petAge,
+                petVaccination, petBreed, petDescription, date
             )
                 .collectLatest {
                     _navigateResult.emit(true)

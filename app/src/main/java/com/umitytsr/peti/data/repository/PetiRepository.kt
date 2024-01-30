@@ -10,16 +10,23 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
+import com.umitytsr.peti.data.model.ChatCardModel
+import com.umitytsr.peti.data.model.ChatModel
+import com.umitytsr.peti.data.model.Message
 import com.umitytsr.peti.data.model.PetModel
 import com.umitytsr.peti.data.model.UserModel
+import com.umitytsr.peti.util.Const
 import com.umitytsr.peti.view.authentication.mainActivity.MainActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
-import java.io.File
 import javax.inject.Inject
 
 class PetiRepository @Inject constructor(
@@ -28,6 +35,148 @@ class PetiRepository @Inject constructor(
     private val storage: FirebaseStorage,
     private val firestore: FirebaseFirestore
 ) {
+    suspend fun fetchMyAllMessageWithChatFragment(receiverEmail: String, docPath: String): Flow<List<Message>> {
+        val senderEmail = auth.currentUser!!.email
+        val senderRoom = senderEmail + receiverEmail
+        return fetchMessages(docPath, senderRoom)
+    }
+
+    suspend fun fetchMyAllMessageWithInfoFragment(petName: String, petOwnerEmail: String): Flow<List<Message>> {
+        val senderEmail = auth.currentUser!!.email
+        val senderRoom = senderEmail + petOwnerEmail
+        val docPath = petName + petOwnerEmail + senderEmail
+        return fetchMessages(docPath, senderRoom)
+    }
+
+    private suspend fun fetchMessages(documentPath: String, room: String): Flow<List<Message>> = callbackFlow {
+        val listenerRegistration = firestore.collection(Const.MESSAGES).document(documentPath)
+            .collection(room)
+            .orderBy(Const.DATE, Query.Direction.ASCENDING)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    close(error)
+                }
+                val messages = snapshot?.documents?.mapNotNull {
+                    it.toObject(Message::class.java)
+                } ?: emptyList()
+                trySend(messages).isSuccess
+            }
+        awaitClose { listenerRegistration.remove() }
+    }
+
+    fun sendMessageFromChatFragment(
+        receiverEmail: String,
+        chatDocPath: String,
+        message: String
+    ) {
+        val senderEmail = auth.currentUser!!.email
+        val senderRoom = senderEmail + receiverEmail
+        val receiverRoom = receiverEmail + senderEmail
+        val messageObject = Message(message, senderEmail, receiverEmail, Timestamp.now())
+
+        firestore.collection(Const.MESSAGES).document(chatDocPath).collection(senderRoom)
+            .add(messageObject).addOnCompleteListener {
+                firestore.collection(Const.MESSAGES).document(chatDocPath)
+                    .collection(receiverRoom).add(messageObject)
+            }
+    }
+
+    fun sendMessageFromInfoFragment(petName: String, petOwnerEmail: String, message: String) {
+        val receiverEmail = petOwnerEmail
+        val senderEmail = auth.currentUser!!.email
+        val senderRoom = senderEmail + receiverEmail
+        val receiverRoom = receiverEmail + senderEmail
+        val documentPath = petName + petOwnerEmail + auth.currentUser!!.email
+        val messageObject = Message(message, senderEmail, receiverEmail, Timestamp.now())
+        firestore.collection(Const.MESSAGES).document(documentPath).collection(senderRoom)
+            .add(messageObject).addOnCompleteListener {
+                firestore.collection(Const.MESSAGES).document(documentPath).collection(receiverRoom)
+                    .add(messageObject)
+            }
+    }
+
+    suspend fun fetchMyAllChat(): Flow<List<ChatCardModel>> = flow {
+        val chatModelList = fetchMyAllChatModel()
+        val currentUserEmail = auth.currentUser!!.email
+        val chatCardModels = mutableListOf<ChatCardModel>()
+
+        coroutineScope {
+            chatModelList.map { chatModel ->
+                val receiverEmail = if (chatModel.sender == currentUserEmail) {
+                    chatModel.petOwnerEmail
+                } else {
+                    chatModel.sender
+                }
+
+                async {
+                    fetchUser(receiverEmail).firstOrNull()?.let { userModel ->
+                        ChatCardModel(
+                            petName = chatModel.petName,
+                            petOwnerEmail = chatModel.petOwnerEmail,
+                            receiver = userModel.userFullName,
+                            receiverImage = userModel.userImage,
+                            receiverEmail = userModel.userEmail,
+                            chatDocPath = chatModel.chatDocPath
+                        )
+                    }
+                }
+            }.awaitAll().forEach { chatCardModel ->
+                chatCardModel?.let { chatCardModels.add(it) }
+            }
+        }
+
+        emit(chatCardModels)
+    }
+
+    private suspend fun fetchMyAllChatModel(): List<ChatModel> {
+        val myChatList = mutableListOf<ChatModel>()
+        val currentUserEmail = auth.currentUser!!.email
+
+        coroutineScope {
+            val deferred1 = async {
+                try {
+                    firestore.collection(Const.CHATS)
+                        .whereEqualTo(Const.PET_OWNER_EMAIL, currentUserEmail)
+                        .get()
+                        .await()
+                        .mapNotNull { it.toObject(ChatModel::class.java) }
+                } catch (e: Exception) {
+                    emptyList()
+                }
+            }
+
+            val deferred2 = async {
+                try {
+                    firestore.collection(Const.CHATS)
+                        .whereEqualTo(Const.SENDER, currentUserEmail)
+                        .get()
+                        .await()
+                        .mapNotNull { it.toObject(ChatModel::class.java) }
+                } catch (e: Exception) {
+                    emptyList()
+                }
+            }
+
+            myChatList.addAll(deferred1.await())
+            myChatList.addAll(deferred2.await())
+        }
+
+        return myChatList
+    }
+
+    suspend fun createChat(petName: String, petOwnerEmail: String) {
+        val document = firestore.collection(Const.CHATS)
+            .whereEqualTo(Const.PET_NAME, petName)
+            .whereEqualTo(Const.PET_OWNER_EMAIL, petOwnerEmail)
+            .whereEqualTo(Const.SENDER, auth.currentUser!!.email)
+            .get()
+            .await()
+        if (document.isEmpty) {
+            val chatDocPath = petName + petOwnerEmail + auth.currentUser!!.email
+            val chatModel = ChatModel(petName, petOwnerEmail, auth.currentUser!!.email, chatDocPath)
+            firestore.collection(Const.CHATS).add(chatModel).await()
+        }
+    }
 
     fun signOut(requireActivity: Activity) {
         auth.signOut()
@@ -48,24 +197,24 @@ class PetiRepository @Inject constructor(
             if (selectedPicture != null) {
                 val reference = storage.reference
                 val userImageReference =
-                    reference.child("userImage").child("${auth.currentUser!!.email}.jpg")
+                    reference.child(Const.USER_IMAGE).child("${auth.currentUser!!.email}.jpg")
                 val task = userImageReference.putFile(selectedPicture)
                 task.await()
                 downloadUrl = userImageReference.downloadUrl.await().toString()
-                userPostMap["userImage"] = downloadUrl
+                userPostMap[Const.USER_IMAGE] = downloadUrl
             }
-            userPostMap["userFullName"] = userFirstName
-            userPostMap["userPhoneNumber"] = userPhoneNumber
+            userPostMap[Const.USER_FULL_NAME] = userFirstName
+            userPostMap[Const.USER_PHONE_NUMBER] = userPhoneNumber
 
 
-            val document = firestore.collection("users")
-                .whereEqualTo("userEmail", "${auth.currentUser!!.email}")
+            val document = firestore.collection(Const.USERS)
+                .whereEqualTo(Const.USER_EMAIL, "${auth.currentUser!!.email}")
                 .get()
                 .await()
 
             if (document != null && !document.isEmpty) {
                 val documentId = document.documents[0].id
-                firestore.collection("users").document(documentId).update(userPostMap).await()
+                firestore.collection(Const.USERS).document(documentId).update(userPostMap).await()
                 emit(true)
             }
 
@@ -75,11 +224,10 @@ class PetiRepository @Inject constructor(
         }
     }
 
-
     suspend fun fetchUser(petOwnerEmail: String?): Flow<UserModel> = callbackFlow {
         val userEmail = petOwnerEmail ?: auth.currentUser?.email!!
-        val subscription = firestore.collection("users")
-            .whereEqualTo("userEmail", userEmail)
+        val subscription = firestore.collection(Const.USERS)
+            .whereEqualTo(Const.USER_EMAIL, userEmail)
             .addSnapshotListener { value, error ->
                 if (error != null) {
                     close(error) // Hata durumunda Flow'ı kapat
@@ -88,10 +236,10 @@ class PetiRepository @Inject constructor(
                 if (value != null && !value.isEmpty) {
                     var userModel: UserModel? = null
                     for (document in value.documents) {
-                        val userEmail = document.get("userEmail") as String
-                        val userFullName = document.get("userFullName") as String
-                        val userPhoneNumber = document.get("userPhoneNumber") as String
-                        val userImage = document.get("userImage") as String
+                        val userEmail = document.get(Const.USER_EMAIL) as String
+                        val userFullName = document.get(Const.USER_FULL_NAME) as String
+                        val userPhoneNumber = document.get(Const.USER_PHONE_NUMBER) as String
+                        val userImage = document.get(Const.USER_IMAGE) as String
 
                         userModel = UserModel(userEmail, userFullName, userPhoneNumber, userImage)
                         break
@@ -110,12 +258,12 @@ class PetiRepository @Inject constructor(
 
     fun createUser(userFullName: String) {
         val userPostMap = hashMapOf<String, Any>()
-        userPostMap["userEmail"] = "${auth.currentUser!!.email}"
-        userPostMap["userFullName"] = userFullName
-        userPostMap["userPhoneNumber"] = ""
-        userPostMap["userImage"] = ""
+        userPostMap[Const.USER_EMAIL] = "${auth.currentUser!!.email}"
+        userPostMap[Const.USER_FULL_NAME] = userFullName
+        userPostMap[Const.USER_PHONE_NUMBER] = ""
+        userPostMap[Const.USER_IMAGE] = ""
 
-        firestore.collection("users").add(userPostMap).addOnCompleteListener {
+        firestore.collection(Const.USERS).add(userPostMap).addOnCompleteListener {
             if (!it.isSuccessful) {
                 Toast.makeText(context, it.exception?.message, Toast.LENGTH_SHORT).show()
             }
@@ -123,9 +271,9 @@ class PetiRepository @Inject constructor(
     }
 
     suspend fun fetchPet(petOwnerEmail: String, petName: String): Flow<PetModel> = callbackFlow {
-        val subscription = firestore.collection("pets")
-            .whereEqualTo("petOwnerEmail", petOwnerEmail)
-            .whereEqualTo("petName", petName)
+        val subscription = firestore.collection(Const.PETS)
+            .whereEqualTo(Const.PET_OWNER_EMAIL, petOwnerEmail)
+            .whereEqualTo(Const.PET_NAME, petName)
             .addSnapshotListener { value, error ->
                 if (error != null) {
                     close(error) // Hata durumunda Flow'ı kapat
@@ -134,17 +282,17 @@ class PetiRepository @Inject constructor(
                 if (value != null && !value.isEmpty) {
                     var petModel: PetModel? = null
                     for (document in value.documents) {
-                        val petOwnerEmail = document.get("petOwnerEmail") as String
-                        val petImage = document.get("petImage") as String
-                        val petName = document.get("petName") as String
-                        val petType = document.get("petType") as Long
-                        val petSex = document.get("petSex") as Long
-                        val petGoal = document.get("petGoal") as Long
-                        val petAge = document.get("petAge") as String
-                        val petVaccination = document.get("petVaccination") as Long
-                        val petBreed = document.get("petBreed") as String
-                        val petDescription = document.get("petDescription") as String
-                        val date = document.get("date") as Timestamp?
+                        val petOwnerEmail = document.get(Const.PET_OWNER_EMAIL) as String
+                        val petImage = document.get(Const.PET_IMAGE) as String
+                        val petName = document.get(Const.PET_NAME) as String
+                        val petType = document.get(Const.PET_TYPE) as Long
+                        val petSex = document.get(Const.PET_SEX) as Long
+                        val petGoal = document.get(Const.PET_GOAL) as Long
+                        val petAge = document.get(Const.PET_AGE) as String
+                        val petVaccination = document.get(Const.PET_VACCINATION) as Long
+                        val petBreed = document.get(Const.PET_BREED) as String
+                        val petDescription = document.get(Const.PET_DESCRIPTION) as String
+                        val date = document.get(Const.DATE) as Timestamp?
 
                         petModel = PetModel(
                             petOwnerEmail, petImage, petName, petType, petSex,
@@ -163,7 +311,7 @@ class PetiRepository @Inject constructor(
     }
 
     suspend fun updatePet(
-        oldPetPicture: String, newPetPicture: Uri?, oldPetName: String, newPetName: String,
+        oldPetPicture: String, newPetPicture: Uri?, petName: String,
         petType: Long, petSex: Long, petGoal: Long, petAge: String, petVaccination: Long,
         petBreed: String, petDescription: String, date: Timestamp?
     ): Flow<Boolean> = flow {
@@ -171,56 +319,36 @@ class PetiRepository @Inject constructor(
             val petPostMap = hashMapOf<String, Any>()
             if (newPetPicture != null) {
                 val reference = storage.reference
-                val imageReference = reference.child("petImage")
+                val imageReference = reference.child(Const.PET_IMAGE)
                     .child("${auth.currentUser!!.email}")
-                    .child("$oldPetName.jpg")
+                    .child("$petName.jpg")
                 imageReference.putFile(newPetPicture).await()
                 val newPetPictureUrl = imageReference.downloadUrl.await().toString()
-                petPostMap["petImage"] = newPetPictureUrl
+                petPostMap[Const.PET_IMAGE] = newPetPictureUrl
             } else {
-                petPostMap["petImage"] = oldPetPicture
+                petPostMap[Const.PET_IMAGE] = oldPetPicture
             }
 
-            if (oldPetName != newPetName) {
-                val storageRef = storage.reference
+            petPostMap[Const.PET_OWNER_EMAIL] = auth.currentUser!!.email!!
+            petPostMap[Const.PET_DESCRIPTION] = petDescription
+            petPostMap[Const.PET_NAME] = petName
+            petPostMap[Const.PET_TYPE] = petType
+            petPostMap[Const.PET_SEX] = petSex
+            petPostMap[Const.PET_GOAL] = petGoal
+            petPostMap[Const.PET_AGE] = petAge
+            petPostMap[Const.PET_VACCINATION] = petVaccination
+            petPostMap[Const.PET_BREED] = petBreed
+            petPostMap[Const.DATE] = date!!
 
-                val existingFileRef = storageRef.child("petImage")
-                    .child("${auth.currentUser!!.email}").child("$oldPetName.jpg")
-
-                val newFileRef = storageRef.child("petImage")
-                    .child("${auth.currentUser!!.email}").child("$newPetName.jpg")
-
-                // Eski dosyayı geçici bir dosya olarak indiriyor
-                val localFile = File.createTempFile("temp", "jpg")
-                existingFileRef.getFile(localFile).await()
-
-                // Yeni isimle Firebase Storage'a yükledik
-                newFileRef.putFile(Uri.fromFile(localFile)).await()
-
-                // Eski dosyayı sildik
-                existingFileRef.delete().await()
-            }
-
-            petPostMap["petOwnerEmail"] = auth.currentUser!!.email!!
-            petPostMap["petDescription"] = petDescription
-            petPostMap["petName"] = newPetName
-            petPostMap["petType"] = petType
-            petPostMap["petSex"] = petSex
-            petPostMap["petGoal"] = petGoal
-            petPostMap["petAge"] = petAge
-            petPostMap["petVaccination"] = petVaccination
-            petPostMap["petBreed"] = petBreed
-            petPostMap["date"] = date!!
-
-            val document = firestore.collection("pets")
-                .whereEqualTo("petOwnerEmail", "${auth.currentUser!!.email}")
-                .whereEqualTo("petName", oldPetName)
+            val document = firestore.collection(Const.PETS)
+                .whereEqualTo(Const.PET_OWNER_EMAIL, "${auth.currentUser!!.email}")
+                .whereEqualTo(Const.PET_NAME, petName)
                 .get()
                 .await()
 
             if (document != null && !document.isEmpty) {
                 val documentId = document.documents[0].id
-                firestore.collection("pets").document(documentId).update(petPostMap).await()
+                firestore.collection(Const.PETS).document(documentId).update(petPostMap).await()
                 emit(true)
             }
         } catch (e: Exception) {
@@ -229,27 +357,27 @@ class PetiRepository @Inject constructor(
     }
 
     suspend fun deletePet(petImage: String, petName: String) {
-        val querySnapshotFirestore = firestore.collection("pets")
-            .whereEqualTo("petImage", petImage)
+        val querySnapshotFirestore = firestore.collection(Const.PETS)
+            .whereEqualTo(Const.PET_IMAGE, petImage)
             .get()
             .await()
 
         if (!querySnapshotFirestore.isEmpty) {
             for (document in querySnapshotFirestore.documents) {
-                firestore.collection("pets").document(document.id).delete().await()
+                firestore.collection(Const.PETS).document(document.id).delete().await()
             }
         }
 
         val storageRef = storage.reference
-        val desertRef = storageRef.child("petImage")
+        val desertRef = storageRef.child(Const.PET_IMAGE)
             .child("${auth.currentUser!!.email}")
             .child("$petName.jpg")
         desertRef.delete().await()
     }
 
     suspend fun fetchAllPets(): Flow<List<PetModel>> = callbackFlow {
-        val listenerRegistration = firestore.collection("pets")
-            .orderBy("date", Query.Direction.DESCENDING)
+        val listenerRegistration = firestore.collection(Const.PETS)
+            .orderBy(Const.DATE, Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
                     close(error)
@@ -271,7 +399,7 @@ class PetiRepository @Inject constructor(
         petAge: String, petVaccination: Long, petBreed: String, petDescription: String
     ): Flow<Boolean> = flow {
         val reference = storage.reference
-        val imageReference = reference.child("petImage")
+        val imageReference = reference.child(Const.PET_IMAGE)
             .child("${auth.currentUser!!.email}")
             .child("$petName.jpg")
 
@@ -281,19 +409,19 @@ class PetiRepository @Inject constructor(
                 val downloadUrl = imageReference.downloadUrl.await().toString()
 
                 val petPostMap = hashMapOf<String, Any>()
-                petPostMap["petOwnerEmail"] = auth.currentUser!!.email!!
-                petPostMap["petImage"] = downloadUrl
-                petPostMap["petName"] = petName
-                petPostMap["petType"] = petType
-                petPostMap["petSex"] = petSex
-                petPostMap["petGoal"] = petGoal
-                petPostMap["petAge"] = petAge
-                petPostMap["petVaccination"] = petVaccination
-                petPostMap["petBreed"] = petBreed
-                petPostMap["petDescription"] = petDescription
-                petPostMap["date"] = Timestamp.now()
+                petPostMap[Const.PET_OWNER_EMAIL] = auth.currentUser!!.email!!
+                petPostMap[Const.PET_IMAGE] = downloadUrl
+                petPostMap[Const.PET_NAME] = petName
+                petPostMap[Const.PET_TYPE] = petType
+                petPostMap[Const.PET_SEX] = petSex
+                petPostMap[Const.PET_GOAL] = petGoal
+                petPostMap[Const.PET_AGE] = petAge
+                petPostMap[Const.PET_VACCINATION] = petVaccination
+                petPostMap[Const.PET_BREED] = petBreed
+                petPostMap[Const.PET_DESCRIPTION] = petDescription
+                petPostMap[Const.DATE] = Timestamp.now()
 
-                firestore.collection("pets").add(petPostMap).await()
+                firestore.collection(Const.PETS).add(petPostMap).await()
                 emit(true)
             } ?: emit(false)
         } catch (e: Exception) {

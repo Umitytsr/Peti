@@ -5,10 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
-import android.os.Environment
 import android.provider.MediaStore
-import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -31,31 +28,14 @@ class GalleryUtility(private val fragment: Fragment) {
         }
     }
 
-    private val manageStorageLauncher = fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (Environment.isExternalStorageManager()) {
-                openGallery()
-            } else {
-                Toast.makeText(fragment.requireContext(), "Manage External Storage Permission needed", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
     fun selectImageFromGallery(onImageSelected: (Uri?) -> Unit) {
         this.onImageSelected = onImageSelected
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (!Environment.isExternalStorageManager()) {
-                val intent = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
-                manageStorageLauncher.launch(intent)
-            } else {
-                openGallery()
-            }
+        if (ContextCompat.checkSelfPermission(fragment.requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // İzin isteme işlemini başlat
+            permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         } else {
-            if (ContextCompat.checkSelfPermission(fragment.requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-            } else {
-                openGallery()
-            }
+            // İzin zaten verilmiş, galeriyi aç
+            openGallery()
         }
     }
 
@@ -64,6 +44,3 @@ class GalleryUtility(private val fragment: Fragment) {
         activityResultLauncher.launch(intent)
     }
 }
-
-
-

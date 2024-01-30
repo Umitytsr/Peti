@@ -9,4 +9,5 @@
     <color name="buttonBackgrounColor">#FCE7E9</color>
     <color name="green">#34B839</color>
     <color name="send_message">#515BD4</color>
+    <color name="receive_message">#43464B</color>
 </resources>

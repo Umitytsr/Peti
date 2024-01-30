@@ -28,10 +28,10 @@ class HomeAdapter(private var petList: List<PetModel>
                     petItemClickListener.petItemClickedListener(petModel)
                 }
                 val context = itemView.context
-                petSexTextView.text = getStringForEnumById<Enums.PetSex>(petModel.petSex, context)
-                petGoalTextView.text = getStringForEnumById<Enums.PetGoal>(petModel.petGoal, context)
+                petSexTextView.text = getStringForEnumById<Enums.PetSex>(petModel.petSex!!, context)
+                petGoalTextView.text = getStringForEnumById<Enums.PetGoal>(petModel.petGoal!!, context)
 
-                if (petModel.petGoal.toInt() == 1) {
+                if (petModel.petGoal!!.toInt() == 1) {
                     petGoalCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.green))
                 } else {
                     petGoalCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.red))

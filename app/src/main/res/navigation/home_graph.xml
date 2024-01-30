@@ -18,7 +18,11 @@
         android:id="@+id/chatFragment"
         android:name="com.umitytsr.peti.view.home.chat.ChatFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/action_chatFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addFragment"
         android:name="com.umitytsr.peti.view.home.add.AddFragment"
@@ -103,6 +107,12 @@
         <action
             android:id="@+id/action_infoFragment_to_editPetFragment"
             app:destination="@id/editPetFragment" />
+        <action
+            android:id="@+id/action_infoFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
+        <action
+            android:id="@+id/action_infoFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
     <fragment
         android:id="@+id/editPetFragment"
@@ -120,5 +130,30 @@
         <argument
             android:name="previousFragment"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/messageFragment"
+        android:name="com.umitytsr.peti.view.home.message.MessageFragment"
+        android:label="fragment_message"
+        tools:layout="@layout/fragment_message" >
+        <argument
+            android:name="petModel"
+            app:argType="com.umitytsr.peti.data.model.PetModel" />
+        <argument
+            android:name="previousFragment"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_messageFragment_to_infoFragment"
+            app:destination="@id/infoFragment"
+            app:popUpTo="@id/messageFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_messageFragment_to_chatFragment"
+            app:destination="@id/chatFragment"
+            app:popUpTo="@id/messageFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="chatCardModel"
+            app:argType="com.umitytsr.peti.data.model.ChatCardModel" />
     </fragment>
 </navigation>

@@ -69,4 +69,7 @@
     <string name="unvaccinated">Unvaccinated</string>
     <string name="filter">Filter</string>
     <string name="delete_all_filters">Delete All Filters</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="your_pet_s_name_cannot_be_changed_later">Your pet\'s name cannot be changed later</string>
 </resources>

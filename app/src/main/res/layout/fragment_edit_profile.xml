@@ -21,16 +21,15 @@
 
     <TextView
         android:id="@+id/editTextView"
+        style="@style/textColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/edit_profile"
-        style="@style/textColor"
-        android:textSize="24sp"
         android:layout_marginStart="5dp"
-        app:layout_constraintStart_toEndOf="@id/arrowBackButton"
-        app:layout_constraintTop_toTopOf="@id/arrowBackButton"
+        android:text="@string/edit_profile"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@id/arrowBackButton"
-        />
+        app:layout_constraintStart_toEndOf="@id/arrowBackButton"
+        app:layout_constraintTop_toTopOf="@id/arrowBackButton" />
 
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -39,13 +38,12 @@
         android:layout_height="130dp"
         android:layout_marginTop="20dp"
         android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextView"
         app:shapeAppearanceOverlay="@style/circleImageView"
         app:srcCompat="@drawable/select_picture"
-        app:strokeWidth="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextView"
-        />
+        app:strokeWidth="2dp" />
 
     <TextView
         android:id="@+id/userFullNameTextView"
@@ -62,14 +60,13 @@
         android:id="@+id/userFullNameEditText"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
-        android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:hint="@string/optional"
-        app:layout_constraintTop_toBottomOf="@id/userProfileImage"
-        app:layout_constraintStart_toEndOf="@id/userFullNameTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        >
+        app:layout_constraintStart_toEndOf="@id/userFullNameTextView"
+        app:layout_constraintTop_toBottomOf="@id/userProfileImage">
 
         <com.google.android.material.textfield.TextInputEditText
             style="@style/textColor"
@@ -94,14 +91,13 @@
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:hint="@string/_05xx_xxx_xx_xx"
         app:helperText="Optional"
-        app:layout_constraintStart_toEndOf="@id/userPhoneNumberTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userFullNameEditText"
-        >
+        app:layout_constraintStart_toEndOf="@id/userPhoneNumberTextView"
+        app:layout_constraintTop_toBottomOf="@id/userFullNameEditText">
 
         <com.google.android.material.textfield.TextInputEditText
             style="@style/textColor"
@@ -113,12 +109,13 @@
     <Button
         android:id="@+id/saveButton"
         style="@style/buttonColor"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="55dp"
         android:layout_marginTop="30dp"
         android:text="@string/save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userPhoneNumberEditText"/>
+        app:layout_constraintTop_toBottomOf="@id/userPhoneNumberEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

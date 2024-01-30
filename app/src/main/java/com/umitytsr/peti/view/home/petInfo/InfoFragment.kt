@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.umitytsr.peti.data.model.ChatCardModel
 import com.umitytsr.peti.databinding.FragmentInfoBinding
 import com.umitytsr.peti.util.Enums
 import com.umitytsr.peti.util.formatTimestampToDayMonthYear
@@ -39,15 +40,15 @@ class InfoFragment : Fragment() {
     private fun petDetailerData(){
         viewLifecycleOwner.lifecycleScope.launch {
             launch {
-                viewModel.getUserData(args.petModel.petOwnerEmail)
+                viewModel.getUserData(args.petModel.petOwnerEmail!!)
             }
 
             launch {
-                viewModel.getPetData(args.petModel.petOwnerEmail,args.petModel.petName)
+                viewModel.getPetData(args.petModel.petOwnerEmail!!,args.petModel.petName!!)
             }
 
             launch {
-                viewModel.petOwnerEquals(args.petModel.petOwnerEmail)
+                viewModel.petOwnerEquals(args.petModel.petOwnerEmail!!)
             }
 
             launch {
@@ -58,16 +59,27 @@ class InfoFragment : Fragment() {
                     }else{
                         binding.callButton.visibility = View.GONE
                     }
-                    binding.petOwnerNameTextView.text = it.userFullName
+                    with(binding){
+                        petOwnerNameTextView.text = it.userFullName
+                        Glide.with(requireContext()).load(it.userImage).into(petOwnerImage)
+                    }
                 }
             }
 
             launch {
                 viewModel.petOwnerEqualsResult.collectLatest {
                     if (it){
-                        binding.editPetButton.visibility = View.VISIBLE
+                        with(binding){
+                            editPetButton.visibility = View.VISIBLE
+                            messageButton.visibility = View.GONE
+                            callButton.visibility = View.GONE
+                        }
                     }else{
-                        binding.editPetButton.visibility = View.GONE
+                        with(binding){
+                            editPetButton.visibility = View.GONE
+                            messageButton.visibility = View.VISIBLE
+                            callButton.visibility = View.VISIBLE
+                        }
                     }
                 }
             }
@@ -78,18 +90,16 @@ class InfoFragment : Fragment() {
                         Glide.with(requireContext()).load(it.petImage).into(petImage)
                         petNameTextView.text = it.petName
                         petBreedTextView.text = it.petBreed
-                        petSexTextView.text = getStringForEnumById<Enums.PetSex>(it.petSex,requireContext())
+                        petSexTextView.text = getStringForEnumById<Enums.PetSex>(it.petSex!!,requireContext())
                         petAgeTextView.text = it.petAge
-                        petGoalTextView.text = getStringForEnumById<Enums.PetGoal>(it.petGoal,requireContext())
-                        petVacTextView.text = getStringForEnumById<Enums.PetVaccination>(it.petVaccination,requireContext())
+                        petGoalTextView.text = getStringForEnumById<Enums.PetGoal>(it.petGoal!!,requireContext())
+                        petVacTextView.text = getStringForEnumById<Enums.PetVaccination>(it.petVaccination!!,requireContext())
                         petDescriptionTextView.text = it.petDescription
-                        dateTextView.text = formatTimestampToDayMonthYear(it.date!!)
+                        dateTextView.text = formatTimestampToDayMonthYear(requireContext(),it.date!!)
                     }
                 }
             }
         }
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -112,12 +122,24 @@ class InfoFragment : Fragment() {
                             InfoFragmentDirections.actionInfoFragmentToMyPetsFragment()
                         )
                     }
+                    "chatFragment" -> {
+                        findNavController().navigate(
+                            InfoFragmentDirections.actionInfoFragmentToChatFragment()
+                        )
+                    }
                 }
             }
             
             editPetButton.setOnClickListener {
                 findNavController().navigate(
                     InfoFragmentDirections.actionInfoFragmentToEditPetFragment(args.petModel,args.previousFragment)
+                )
+            }
+
+            messageButton.setOnClickListener {
+                val chatCardModel = ChatCardModel()
+                findNavController().navigate(
+                    InfoFragmentDirections.actionInfoFragmentToMessageFragment(args.petModel,args.previousFragment,chatCardModel)
                 )
             }
         }
