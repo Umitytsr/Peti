@@ -7,15 +7,31 @@
     android:layout_height="match_parent"
     tools:context=".view.home.chat.ChatFragment">
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchChat"
+        app:queryHint="Search"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_width="match_parent"
+        app:iconifiedByDefault="false"
+        android:layout_height="wrap_content"
+        app:queryBackground="@color/transparent"
+        android:background="@drawable/message_box_background"
+        android:layout_marginHorizontal="@dimen/margin_20"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatFragmentRecyclerView"
         style="@style/backgroundColor"
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/margin_8"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/searchChat" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,7 +57,7 @@
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="30dp"
             android:gravity="center"
-            android:text="You haven't talked to anyone yet"
+            android:text="@string/you_haven_t_talked_to_anyone_yet"
             android:textColor="@color/red"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -55,7 +71,7 @@
             android:layout_marginHorizontal="60dp"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="How about writing to someone"
+            android:text="@string/how_about_writing_to_someone"
             android:textSize="16sp"
             android:visibility="gone" />
 

@@ -59,7 +59,7 @@ class MessageFragment : Fragment() {
                         if (it.userImage != ""){
                             Glide.with(requireContext()).load(it.userImage).into(receiverImage)
                         }
-                        receiverNameTextView.text = "${it.userFullName}-${args.petModel.petName}"
+                        receiverNameTextView.text = "${it.userFullName} - ${args.petModel.petName}"
                     }
                 }
             }
