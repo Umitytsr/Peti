@@ -5,11 +5,12 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 
 class GalleryUtility(private val fragment: Fragment) {
     private var onImageSelected: ((Uri?) -> Unit)? = null
@@ -24,17 +25,36 @@ class GalleryUtility(private val fragment: Fragment) {
         if (isGranted) {
             openGallery()
         } else {
-            Toast.makeText(fragment.requireContext(), "Permission needed for gallery", Toast.LENGTH_SHORT).show()
+            Snackbar.make(fragment.requireView(), "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE)
+                .setAction("Give Permission") {
+                    requestPermission()
+                }.show()
         }
     }
 
     fun selectImageFromGallery(onImageSelected: (Uri?) -> Unit) {
         this.onImageSelected = onImageSelected
-        if (ContextCompat.checkSelfPermission(fragment.requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            // İzin isteme işlemini başlat
+        if (hasStoragePermission()) {
+            openGallery()
+        } else {
+            requestPermission()
+        }
+    }
+
+    private fun hasStoragePermission(): Boolean {
+        val context = fragment.requireContext()
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            true // Scoped storage is used, no need for READ_EXTERNAL_STORAGE permission
+        } else {
+            ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    private fun requestPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         } else {
-            // İzin zaten verilmiş, galeriyi aç
+            // Android 10 and above, scoped storage is used.
             openGallery()
         }
     }

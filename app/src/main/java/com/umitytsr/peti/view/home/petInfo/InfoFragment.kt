@@ -71,14 +71,12 @@ class InfoFragment : Fragment() {
                     if (it){
                         with(binding){
                             editPetButton.visibility = View.VISIBLE
-                            messageButton.visibility = View.GONE
-                            callButton.visibility = View.GONE
+                            messageAndCallButtonLinearLayout.visibility = View.GONE
                         }
                     }else{
                         with(binding){
                             editPetButton.visibility = View.GONE
-                            messageButton.visibility = View.VISIBLE
-                            callButton.visibility = View.VISIBLE
+                            messageAndCallButtonLinearLayout.visibility = View.VISIBLE
                         }
                     }
                 }

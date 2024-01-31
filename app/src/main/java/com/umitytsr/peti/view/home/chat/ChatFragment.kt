@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -48,7 +49,38 @@ class ChatFragment : Fragment(), ChatAdapter.ChatItemClickListener {
                         youHaventTextView.visibility = View.VISIBLE
                         chatFragmentRecyclerView.visibility = View.INVISIBLE
                     }
+                    initRecyclerView(it)
                 }
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.searchChat.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                binding.searchChat.clearFocus()
+                filterChatList(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterChatList(newText)
+                return true
+            }
+        })
+    }
+
+    private fun filterChatList(query: String?) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.chatListResult.collectLatest { chatList ->
+                query?.let {
+                    val filteredList = chatList.filter { chatCardModel ->
+                        chatCardModel.receiver!!.contains(query, ignoreCase = true) ||
+                                chatCardModel.petName!!.contains(query, ignoreCase = true)
+                    }
+                    initRecyclerView(filteredList)
+                } ?: initRecyclerView(chatList)
             }
         }
     }
@@ -65,7 +97,11 @@ class ChatFragment : Fragment(), ChatAdapter.ChatItemClickListener {
     override fun chatCardClickedListener(chatCardModel: ChatCardModel) {
         val petModel = PetModel()
         findNavController().navigate(
-            ChatFragmentDirections.actionChatFragmentToMessageFragment(petModel,"chatFragment",chatCardModel)
+            ChatFragmentDirections.actionChatFragmentToMessageFragment(
+                petModel,
+                "chatFragment",
+                chatCardModel
+            )
         )
     }
 }
