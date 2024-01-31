@@ -73,5 +73,6 @@
     <string name="today">Aujourd\'hui</string>
     <string name="yesterday">Hier</string>
     <string name="your_pet_s_name_cannot_be_changed_later">Le nom de votre animal ne pourra pas être modifié ultérieurement</string>
+    <string name="location">Emplacement</string>
 
 </resources>

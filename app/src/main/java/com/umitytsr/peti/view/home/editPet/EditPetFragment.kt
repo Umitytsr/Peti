@@ -53,6 +53,7 @@ class EditPetFragment : Fragment() {
             val petGoalString = getStringForEnumById<Enums.PetGoal>(args.petModel.petGoal!!, requireContext())
             val petVaccinationString = getStringForEnumById<Enums.PetVaccination>(args.petModel.petVaccination!!, requireContext())
             val petAgeString = args.petModel.petAge
+            val petLocation = args.petModel.petLocation
             breedEditText.editText?.setText(args.petModel.petBreed)
             petDescriptionEditText.editText?.setText(args.petModel.petDescription)
 
@@ -61,6 +62,7 @@ class EditPetFragment : Fragment() {
             (goalDropdownMenu.editText as? AutoCompleteTextView)?.setText(petGoalString, false)
             (vaccinationDropdownMenu.editText as? AutoCompleteTextView)?.setText(petVaccinationString, false)
             (ageDropdownMenu.editText as? AutoCompleteTextView)?.setText(petAgeString, false)
+            (locationDropdownMenu.editText as? AutoCompleteTextView)?.setText(petLocation,false)
         }
     }
 
@@ -102,18 +104,20 @@ class EditPetFragment : Fragment() {
                 val petVaccinationString = vaccinationDropdownMenu.editText?.text.toString()
                 val petVaccination = getIdForEnumString<Enums.PetVaccination>(petVaccinationString,requireContext())
 
+                val petLocation = locationDropdownMenu.editText?.text.toString()
+
                 val petBreed = breedEditText.editText?.text.toString()
                 val petDescription = petDescriptionEditText.editText?.text.toString()
                 val date = args.petModel.date
 
                 if (petTypeString.isNotEmpty() && petSexString.isNotEmpty() &&
                     petGoalString.isNotEmpty() && petAge.isNotEmpty() &&
-                    petVaccinationString.isNotEmpty() && petBreed.isNotEmpty() &&
-                    petDescription.isNotEmpty()
+                    petVaccinationString.isNotEmpty() && petLocation.isNotEmpty() &&
+                    petBreed.isNotEmpty() && petDescription.isNotEmpty()
                 ) {
                     viewModel.updatePet(
                         oldPetPicture!!, newPetPicture, petName!!, petType,
-                        petSex, petGoal, petAge, petVaccination, petBreed, petDescription, date
+                        petSex, petGoal, petAge, petVaccination, petLocation, petBreed, petDescription, date
                     )
                 } else {
                     Toast.makeText(
@@ -175,6 +179,14 @@ class EditPetFragment : Fragment() {
                 requireContext(),
                 Enums.PetVaccination.values().map { it.getString(requireContext()) }
             )
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.cityResult.collectLatest {
+                    val cityName = it.mapNotNull { it.city }
+                    (locationDropdownMenu.editText as? MaterialAutoCompleteTextView)?.setSimpleItem(
+                        requireContext(),cityName
+                    )
+                }
+            }
         }
     }
 }

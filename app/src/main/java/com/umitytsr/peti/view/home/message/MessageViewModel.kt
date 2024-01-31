@@ -27,7 +27,7 @@ class MessageViewModel @Inject constructor(private val petiRepository: PetiRepos
 
     private val _petResult = MutableStateFlow<PetModel>(PetModel("" ,"",
         "",0,0,0,"",0,
-        "","", Timestamp.now()))
+        "","", "",Timestamp.now()))
     val petResult : StateFlow<PetModel> = _petResult.asStateFlow()
 
     suspend fun getPetData(petOwnerEmail: String, petName: String) {

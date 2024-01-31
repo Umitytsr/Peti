@@ -237,6 +237,37 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/petVacTextView" />
 
+            <View
+                android:id="@+id/line5"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginHorizontal="18dp"
+                android:background="@color/solukTextYazisi"
+                app:layout_constraintTop_toBottomOf="@id/petVacTextView" />
+
+            <TextView
+                android:id="@+id/petLocationTextView"
+                style="@style/textColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="@string/lorem_ipsum"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line5" />
+
+            <TextView
+                style="@style/textColor"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:text="@string/location"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/petLocationTextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/petLocationTextView" />
+
             <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
@@ -249,7 +280,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/petVacTextView" />
+                app:layout_constraintTop_toBottomOf="@id/petLocationTextView" />
 
             <TextView
                 android:id="@+id/petDescriptionTextView"

@@ -6,4 +6,5 @@ class FilteredPetModel(
     val selectedPetGoal: Long? = null,
     val selectedPetAge: String? = null,
     val selectedPetVac: Long? = null,
+    val selectedPetLocation : String? = null
 )

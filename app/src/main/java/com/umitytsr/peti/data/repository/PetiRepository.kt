@@ -12,6 +12,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.umitytsr.peti.data.model.ChatCardModel
 import com.umitytsr.peti.data.model.ChatModel
+import com.umitytsr.peti.data.model.CityModel
 import com.umitytsr.peti.data.model.Message
 import com.umitytsr.peti.data.model.PetModel
 import com.umitytsr.peti.data.model.UserModel
@@ -64,11 +65,7 @@ class PetiRepository @Inject constructor(
         awaitClose { listenerRegistration.remove() }
     }
 
-    fun sendMessageFromChatFragment(
-        receiverEmail: String,
-        chatDocPath: String,
-        message: String
-    ) {
+    fun sendMessageFromChatFragment(receiverEmail: String, chatDocPath: String, message: String) {
         val senderEmail = auth.currentUser!!.email
         val senderRoom = senderEmail + receiverEmail
         val receiverRoom = receiverEmail + senderEmail
@@ -290,13 +287,14 @@ class PetiRepository @Inject constructor(
                         val petGoal = document.get(Const.PET_GOAL) as Long
                         val petAge = document.get(Const.PET_AGE) as String
                         val petVaccination = document.get(Const.PET_VACCINATION) as Long
+                        val petLocation = document.get(Const.PET_LOCATION) as String
                         val petBreed = document.get(Const.PET_BREED) as String
                         val petDescription = document.get(Const.PET_DESCRIPTION) as String
                         val date = document.get(Const.DATE) as Timestamp?
 
                         petModel = PetModel(
-                            petOwnerEmail, petImage, petName, petType, petSex,
-                            petGoal, petAge, petVaccination, petBreed, petDescription, date
+                            petOwnerEmail, petImage, petName, petType, petSex, petGoal, petAge,
+                            petVaccination, petLocation ,petBreed, petDescription, date
                         )
                         break
                     }
@@ -311,8 +309,8 @@ class PetiRepository @Inject constructor(
     }
 
     suspend fun updatePet(
-        oldPetPicture: String, newPetPicture: Uri?, petName: String,
-        petType: Long, petSex: Long, petGoal: Long, petAge: String, petVaccination: Long,
+        oldPetPicture: String, newPetPicture: Uri?, petName: String, petType: Long, petSex: Long,
+        petGoal: Long, petAge: String, petVaccination: Long, petLocation : String,
         petBreed: String, petDescription: String, date: Timestamp?
     ): Flow<Boolean> = flow {
         try {
@@ -337,6 +335,7 @@ class PetiRepository @Inject constructor(
             petPostMap[Const.PET_GOAL] = petGoal
             petPostMap[Const.PET_AGE] = petAge
             petPostMap[Const.PET_VACCINATION] = petVaccination
+            petPostMap[Const.PET_LOCATION] = petLocation
             petPostMap[Const.PET_BREED] = petBreed
             petPostMap[Const.DATE] = date!!
 
@@ -354,6 +353,22 @@ class PetiRepository @Inject constructor(
         } catch (e: Exception) {
             emit(false)
         }
+    }
+
+    suspend fun fetchAllCity():Flow<List<CityModel>> = callbackFlow {
+        val listenerRegistration = firestore.collection("citys")
+            .orderBy("plateCode",Query.Direction.ASCENDING)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    close(error)
+                    return@addSnapshotListener
+                }
+                val cityList = (snapshot?.documents?.mapNotNull { doc ->
+                    doc.toObject(CityModel::class.java)
+                } ?: emptyList()).toMutableList()
+                trySend(cityList)
+            }
+        awaitClose { listenerRegistration.remove() }
     }
 
     suspend fun deletePet(petImage: String, petName: String) {
@@ -396,7 +411,8 @@ class PetiRepository @Inject constructor(
 
     suspend fun addPet(
         selectedPetImage: Uri?, petName: String, petType: Long, petSex: Long, petGoal: Long,
-        petAge: String, petVaccination: Long, petBreed: String, petDescription: String
+        petAge: String, petVaccination: Long, petLocation: String ,petBreed: String,
+        petDescription: String
     ): Flow<Boolean> = flow {
         val reference = storage.reference
         val imageReference = reference.child(Const.PET_IMAGE)
@@ -417,6 +433,7 @@ class PetiRepository @Inject constructor(
                 petPostMap[Const.PET_GOAL] = petGoal
                 petPostMap[Const.PET_AGE] = petAge
                 petPostMap[Const.PET_VACCINATION] = petVaccination
+                petPostMap[Const.PET_LOCATION] = petLocation
                 petPostMap[Const.PET_BREED] = petBreed
                 petPostMap[Const.PET_DESCRIPTION] = petDescription
                 petPostMap[Const.DATE] = Timestamp.now()
