@@ -74,5 +74,6 @@
     <string name="yesterday">Ayer</string>
     <string name="your_pet_s_name_cannot_be_changed_later">El nombre de tu mascota no se puede cambiar más tarde</string>
     <string name="location">Ubicación</string>
-
+    <string name="you_haven_t_talked_to_anyone_yet">Todavía no has hablado con nadie</string>
+    <string name="how_about_writing_to_someone">Qué tal escribirle a alguien</string>
 </resources>

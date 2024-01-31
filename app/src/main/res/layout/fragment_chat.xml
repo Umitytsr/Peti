@@ -57,7 +57,7 @@
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="30dp"
             android:gravity="center"
-            android:text="You haven't talked to anyone yet"
+            android:text="@string/you_haven_t_talked_to_anyone_yet"
             android:textColor="@color/red"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -71,7 +71,7 @@
             android:layout_marginHorizontal="60dp"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="How about writing to someone"
+            android:text="@string/how_about_writing_to_someone"
             android:textSize="16sp"
             android:visibility="gone" />
 

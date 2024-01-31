@@ -74,5 +74,7 @@
     <string name="yesterday">Dün</string>
     <string name="your_pet_s_name_cannot_be_changed_later">Evcil hayvanınızın adı daha sonra değiştirilemez</string>
     <string name="location">Konum</string>
+    <string name="you_haven_t_talked_to_anyone_yet">Henüz kimseyle konuşmadınız</string>
+    <string name="how_about_writing_to_someone">Birine yazmaya ne dersiniz</string>
 
 </resources>

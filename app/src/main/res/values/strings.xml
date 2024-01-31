@@ -73,4 +73,6 @@
     <string name="yesterday">Yesterday</string>
     <string name="your_pet_s_name_cannot_be_changed_later">Your pet\'s name cannot be changed later</string>
     <string name="location">Location</string>
+    <string name="you_haven_t_talked_to_anyone_yet">You haven\'t talked to anyone yet</string>
+    <string name="how_about_writing_to_someone">How about writing to someone</string>
 </resources>
