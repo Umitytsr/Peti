@@ -18,6 +18,7 @@ import com.umitytsr.peti.util.GalleryUtility
 import com.umitytsr.peti.util.getIdForEnumString
 import com.umitytsr.peti.util.setSimpleItem
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -65,15 +66,19 @@ class AddFragment : Fragment() {
                 val petVaccinationString = vaccinationDropdownMenu.editText?.text.toString()
                 val petVaccination = getIdForEnumString<Enums.PetVaccination>(petVaccinationString,requireContext())
 
+                val petLocation = locationDropdownMenu.editText?.text.toString()
+
                 val petBreed = breedEditText.editText?.text.toString()
 
                 val petDescription = petDescriptionEditText.editText?.text.toString()
 
                 if (selectedPetImage != null && petName.isNotEmpty() && petTypeString.isNotEmpty() &&
                     petSexString.isNotEmpty() && petGoalString.isNotEmpty() && petAge.isNotEmpty() &&
-                    petVaccinationString.isNotEmpty() && petBreed.isNotEmpty() && petDescription.isNotEmpty()
+                    petVaccinationString.isNotEmpty() && petLocation.isNotEmpty()
+                    && petBreed.isNotEmpty() && petDescription.isNotEmpty()
                 ){
-                    viewModel.addPet(selectedPetImage,petName,petType,petSex,petGoal,petAge,petVaccination,petBreed,petDescription)
+                    viewModel.addPet(selectedPetImage,petName,petType,petSex,petGoal,petAge,
+                        petVaccination,petLocation,petBreed,petDescription)
                     lifecycleScope.launch {
                         viewModel.navigateResult.collect{navigate ->
                             if (navigate){
@@ -113,6 +118,14 @@ class AddFragment : Fragment() {
                 requireContext(),
                 Enums.PetVaccination.values().map { it.getString(requireContext()) }
             )
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.cityResult.collectLatest {
+                    val cityName = it.mapNotNull { it.city }
+                    (locationDropdownMenu.editText as? MaterialAutoCompleteTextView)?.setSimpleItem(
+                        requireContext(),cityName
+                    )
+                }
+            }
         }
     }
 }

@@ -72,4 +72,5 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="your_pet_s_name_cannot_be_changed_later">Your pet\'s name cannot be changed later</string>
+    <string name="location">Location</string>
 </resources>

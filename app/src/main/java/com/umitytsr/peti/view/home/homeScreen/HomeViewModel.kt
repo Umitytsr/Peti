@@ -3,6 +3,7 @@ package com.umitytsr.peti.view.home.homeScreen
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umitytsr.peti.data.model.CityModel
 import com.umitytsr.peti.data.model.FilteredPetModel
 import com.umitytsr.peti.data.model.PetModel
 import com.umitytsr.peti.data.repository.PetiRepository
@@ -13,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,16 +22,19 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val petiRepository: PetiRepository) : ViewModel() {
 
+    private val _cityResult = MutableStateFlow<List<CityModel>>(emptyList())
+    val cityResult = _cityResult.asStateFlow()
+
     private val _petListResult = MutableStateFlow<List<PetModel>>(emptyList())
     val petListResult: StateFlow<List<PetModel>> = _petListResult.asStateFlow()
 
-    private val _filteredPet =
-        MutableStateFlow<FilteredPetModel>(FilteredPetModel(null, null, null, null, null))
+    private val _filteredPet = MutableStateFlow<FilteredPetModel>(FilteredPetModel())
     val filteredPet = _filteredPet.asStateFlow()
 
 
     init {
         getData()
+        getCityData()
     }
 
     private fun getData() {
@@ -39,6 +44,14 @@ class HomeViewModel @Inject constructor(private val petiRepository: PetiReposito
             }
         }
     }
+    private fun getCityData(){
+        viewModelScope.launch {
+            petiRepository.fetchAllCity().collectLatest {
+                _cityResult.emit(it)
+            }
+        }
+    }
+
 
     fun filterPets(
         selectedPetTypeText: String,
@@ -46,6 +59,7 @@ class HomeViewModel @Inject constructor(private val petiRepository: PetiReposito
         selectedPetGoalText: String,
         selectedPetAgeText: String,
         selectedPetVaccinationText: String,
+        selectedPetLocationText : String,
         context: Context
     ) {
         viewModelScope.launch {
@@ -88,6 +102,12 @@ class HomeViewModel @Inject constructor(private val petiRepository: PetiReposito
                 }
             }
 
+            if (selectedPetLocationText.isNotEmpty()){
+                filteredPet = filteredPet.filter {
+                    it.petLocation == selectedPetLocationText
+                }
+            }
+
             _petListResult.emit(filteredPet)
         }
 
@@ -96,13 +116,13 @@ class HomeViewModel @Inject constructor(private val petiRepository: PetiReposito
             val petSexId = getIdForEnumString<Enums.PetSex>(selectedPetSexText,context)
             val petGoalId = getIdForEnumString<Enums.PetGoal>(selectedPetGoalText,context)
             val petVacId = getIdForEnumString<Enums.PetVaccination>(selectedPetVaccinationText,context)
-            _filteredPet.emit(FilteredPetModel(petTypeId,petSexId,petGoalId,selectedPetAgeText,petVacId))
+            _filteredPet.emit(FilteredPetModel(petTypeId,petSexId,petGoalId,selectedPetAgeText,petVacId,selectedPetLocationText))
         }
     }
 
     fun clearFilters() {
         viewModelScope.launch {
-            _filteredPet.emit(FilteredPetModel(null,null,null,null,null))
+            _filteredPet.emit(FilteredPetModel())
         }
     }
 }

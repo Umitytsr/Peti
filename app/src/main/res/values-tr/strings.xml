@@ -73,5 +73,6 @@
     <string name="today">Bugün</string>
     <string name="yesterday">Dün</string>
     <string name="your_pet_s_name_cannot_be_changed_later">Evcil hayvanınızın adı daha sonra değiştirilemez</string>
+    <string name="location">Konum</string>
 
 </resources>

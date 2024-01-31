@@ -4,15 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AutoCompleteTextView
 import androidx.core.view.children
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.umitytsr.peti.databinding.FragmentFilterBottomSheetBinding
 import com.umitytsr.peti.util.Enums
 import com.umitytsr.peti.util.getStringForEnumById
+import com.umitytsr.peti.util.setSimpleItem
 import com.umitytsr.peti.view.home.homeScreen.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -37,25 +40,38 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun getSelectedFilterData(){
         viewLifecycleOwner.lifecycleScope.launch {
-            homeViewModel.filteredPet.collectLatest {
-                it.selectedPetType?.let {
-                    val selectedChipString = getStringForEnumById<Enums.PetType>(it, requireContext())
-                    setSelectedChipByText(binding.petTypeChipGroup,selectedChipString)
+            launch {
+                homeViewModel.filteredPet.collectLatest {
+                    it.selectedPetType?.let {
+                        val selectedChipString = getStringForEnumById<Enums.PetType>(it, requireContext())
+                        setSelectedChipByText(binding.petTypeChipGroup,selectedChipString)
+                    }
+                    it.selectedPetSex?.let {
+                        val selectedChipString = getStringForEnumById<Enums.PetSex>(it, requireContext())
+                        setSelectedChipByText(binding.petSexChipGroup,selectedChipString)
+                    }
+                    it.selectedPetGoal?.let {
+                        val selectedChipString = getStringForEnumById<Enums.PetGoal>(it, requireContext())
+                        setSelectedChipByText(binding.petGoalChipGroup,selectedChipString)
+                    }
+                    it.selectedPetAge?.let {
+                        setSelectedChipByText(binding.petAgeChipGroup,it)
+                    }
+                    it.selectedPetVac?.let {
+                        val selectedChipString = getStringForEnumById<Enums.PetVaccination>(it, requireContext())
+                        setSelectedChipByText(binding.petVacChipGroup,selectedChipString)
+                    }
+                    it.selectedPetLocation?.let {
+                        (binding.locationDropdownMenu.editText as? AutoCompleteTextView)?.setText(it,false)
+                    }
                 }
-                it.selectedPetSex?.let {
-                    val selectedChipString = getStringForEnumById<Enums.PetSex>(it, requireContext())
-                    setSelectedChipByText(binding.petSexChipGroup,selectedChipString)
-                }
-                it.selectedPetGoal?.let {
-                    val selectedChipString = getStringForEnumById<Enums.PetGoal>(it, requireContext())
-                    setSelectedChipByText(binding.petGoalChipGroup,selectedChipString)
-                }
-                it.selectedPetAge?.let {
-                    setSelectedChipByText(binding.petAgeChipGroup,it)
-                }
-                it.selectedPetVac?.let {
-                    val selectedChipString = getStringForEnumById<Enums.PetVaccination>(it, requireContext())
-                    setSelectedChipByText(binding.petVacChipGroup,selectedChipString)
+            }
+            launch {
+                homeViewModel.cityResult.collectLatest {
+                    val cityName = it.mapNotNull { it.city }
+                    (binding.locationDropdownMenu.editText as? MaterialAutoCompleteTextView)?.setSimpleItem(
+                        requireContext(),cityName
+                    )
                 }
             }
         }
@@ -70,6 +86,7 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                 val selectedPetGoalText = getSelectedChipText(petGoalChipGroup)
                 val selectedPetAgeText = getSelectedChipText(petAgeChipGroup)
                 val selectedPetVaccinationText = getSelectedChipText(petVacChipGroup)
+                val selectedPetLocationText = locationDropdownMenu.editText?.text.toString()
 
                 homeViewModel.filterPets(
                     selectedPetTypeText,
@@ -77,6 +94,7 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                     selectedPetGoalText,
                     selectedPetAgeText,
                     selectedPetVaccinationText,
+                    selectedPetLocationText,
                     requireContext())
 
                 dismiss()
@@ -88,6 +106,7 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                 petGoalChipGroup.clearCheck()
                 petAgeChipGroup.clearCheck()
                 petVacChipGroup.clearCheck()
+                (locationDropdownMenu.editText as? MaterialAutoCompleteTextView)?.setText("",false)
                 homeViewModel.clearFilters()
             }
         }

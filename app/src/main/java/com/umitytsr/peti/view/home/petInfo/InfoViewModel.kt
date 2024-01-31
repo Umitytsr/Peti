@@ -28,7 +28,7 @@ class InfoViewModel @Inject constructor(
 
     private val _petResult = MutableStateFlow<PetModel>(PetModel("" ,"",
         "",0,0,0,"",0,
-        "","", Timestamp.now()))
+        "","", "",Timestamp.now()))
     val petResult : StateFlow<PetModel> = _petResult.asStateFlow()
 
     suspend fun getUserData(petOwnerEmail : String){

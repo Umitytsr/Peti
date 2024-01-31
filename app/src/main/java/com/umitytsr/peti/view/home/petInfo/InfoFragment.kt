@@ -94,6 +94,7 @@ class InfoFragment : Fragment() {
                         petAgeTextView.text = it.petAge
                         petGoalTextView.text = getStringForEnumById<Enums.PetGoal>(it.petGoal!!,requireContext())
                         petVacTextView.text = getStringForEnumById<Enums.PetVaccination>(it.petVaccination!!,requireContext())
+                        petLocationTextView.text = it.petLocation
                         petDescriptionTextView.text = it.petDescription
                         dateTextView.text = formatTimestampToDayMonthYear(requireContext(),it.date!!)
                     }

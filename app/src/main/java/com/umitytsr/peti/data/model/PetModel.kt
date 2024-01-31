@@ -14,6 +14,7 @@ data class PetModel(
     var petGoal: Long? = null,
     var petAge: String? = null,
     var petVaccination: Long? = null,
+    var petLocation: String? = null,
     var petBreed: String? = null,
     var petDescription: String? = null,
     var date: Timestamp? = null
