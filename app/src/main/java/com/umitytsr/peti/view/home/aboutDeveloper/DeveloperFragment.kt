@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.umitytsr.peti.R
 import com.umitytsr.peti.databinding.FragmentDeveloperBinding
 import dagger.hilt.android.AndroidEntryPoint
 
