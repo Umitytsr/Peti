@@ -280,8 +280,8 @@
             android:id="@+id/messageAndCallButtonLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="@dimen/margin_4"
+            android:orientation="horizontal"
             android:weightSum="2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -292,8 +292,8 @@
                 style="@style/buttonColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
                 android:layout_marginVertical="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:text="@string/filter" />
 

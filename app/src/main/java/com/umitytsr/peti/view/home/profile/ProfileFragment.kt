@@ -83,6 +83,12 @@ class ProfileFragment : Fragment() {
                     ProfileFragmentDirections.actionProfileFragmentToLanguageFragment()
                 )
             }
+
+            aboutDeveloperCardView.setOnClickListener {
+                findNavController().navigate(
+                    ProfileFragmentDirections.actionProfileFragmentToDeveloperFragment()
+                )
+            }
         }
     }
 }
