@@ -42,7 +42,6 @@ class MessageFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun getData() {
         if (args.previousFragment == "homeFragment") {
-            viewModel.createChat(args.petModel.petName!!, args.petModel.petOwnerEmail!!)
             viewModel.fetchMyAllMessageWithInfoFragment(
                 args.petModel.petName!!,
                 args.petModel.petOwnerEmail!!
@@ -127,6 +126,7 @@ class MessageFragment : Fragment() {
             sendMessageButton.setOnClickListener {
                 val message = messageEditText.text.toString()
                 if (args.previousFragment == "homeFragment") {
+                    viewModel.createChat(args.petModel.petName!!, args.petModel.petOwnerEmail!!,message)
                     viewModel.sendMessageFromInfoFragment(
                         args.petModel.petName!!,
                         args.petModel.petOwnerEmail!!,

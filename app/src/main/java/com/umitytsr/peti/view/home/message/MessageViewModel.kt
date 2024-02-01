@@ -62,9 +62,9 @@ class MessageViewModel @Inject constructor(private val petiRepository: PetiRepos
         }
     }
 
-    fun createChat(petName: String, petOwnerEmail: String) {
+    fun createChat(petName: String, petOwnerEmail: String,message: String) {
         viewModelScope.launch {
-            petiRepository.createChat(petName, petOwnerEmail)
+            petiRepository.createChat(petName, petOwnerEmail,message)
         }
     }
 
