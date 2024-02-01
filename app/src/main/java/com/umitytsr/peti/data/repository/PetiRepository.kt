@@ -70,12 +70,13 @@ class PetiRepository @Inject constructor(
         val senderRoom = senderEmail + receiverEmail
         val receiverRoom = receiverEmail + senderEmail
         val messageObject = Message(message, senderEmail, receiverEmail, Timestamp.now())
-
-        firestore.collection(Const.MESSAGES).document(chatDocPath).collection(senderRoom)
-            .add(messageObject).addOnCompleteListener {
-                firestore.collection(Const.MESSAGES).document(chatDocPath)
-                    .collection(receiverRoom).add(messageObject)
-            }
+        if (message.isNotEmpty() && message !=""){
+            firestore.collection(Const.MESSAGES).document(chatDocPath).collection(senderRoom)
+                .add(messageObject).addOnCompleteListener {
+                    firestore.collection(Const.MESSAGES).document(chatDocPath)
+                        .collection(receiverRoom).add(messageObject)
+                }
+        }
     }
 
     fun sendMessageFromInfoFragment(petName: String, petOwnerEmail: String, message: String) {
@@ -85,11 +86,14 @@ class PetiRepository @Inject constructor(
         val receiverRoom = receiverEmail + senderEmail
         val documentPath = petName + petOwnerEmail + auth.currentUser!!.email
         val messageObject = Message(message, senderEmail, receiverEmail, Timestamp.now())
-        firestore.collection(Const.MESSAGES).document(documentPath).collection(senderRoom)
-            .add(messageObject).addOnCompleteListener {
-                firestore.collection(Const.MESSAGES).document(documentPath).collection(receiverRoom)
-                    .add(messageObject)
-            }
+
+        if (message.isNotEmpty() && message != ""){
+            firestore.collection(Const.MESSAGES).document(documentPath).collection(senderRoom)
+                .add(messageObject).addOnCompleteListener {
+                    firestore.collection(Const.MESSAGES).document(documentPath).collection(receiverRoom)
+                        .add(messageObject)
+                }
+        }
     }
 
     suspend fun fetchMyAllChat(): Flow<List<ChatCardModel>> = flow {
@@ -161,14 +165,14 @@ class PetiRepository @Inject constructor(
         return myChatList
     }
 
-    suspend fun createChat(petName: String, petOwnerEmail: String) {
+    suspend fun createChat(petName: String, petOwnerEmail: String,message: String) {
         val document = firestore.collection(Const.CHATS)
             .whereEqualTo(Const.PET_NAME, petName)
             .whereEqualTo(Const.PET_OWNER_EMAIL, petOwnerEmail)
             .whereEqualTo(Const.SENDER, auth.currentUser!!.email)
             .get()
             .await()
-        if (document.isEmpty) {
+        if (document.isEmpty && message.isNotEmpty() && message != "") {
             val chatDocPath = petName + petOwnerEmail + auth.currentUser!!.email
             val chatModel = ChatModel(petName, petOwnerEmail, auth.currentUser!!.email, chatDocPath)
             firestore.collection(Const.CHATS).add(chatModel).await()

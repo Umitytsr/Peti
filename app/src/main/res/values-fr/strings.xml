@@ -74,6 +74,6 @@
     <string name="yesterday">Hier</string>
     <string name="your_pet_s_name_cannot_be_changed_later">Le nom de votre animal ne pourra pas être modifié ultérieurement</string>
     <string name="location">Emplacement</string>
-    <string name="you_haven_t_talked_to_anyone_yet">Vous n'avez encore parlé à personne</string>
-    <string name="how_about_writing_to_someone">Et si vous écriviez à quelqu'un</string>
+    <string name="you_haven_t_talked_to_anyone_yet">Vous n\'avez encore parlé à personne</string>
+    <string name="how_about_writing_to_someone">Et si vous écriviez à quelqu\'un</string>
 </resources>
