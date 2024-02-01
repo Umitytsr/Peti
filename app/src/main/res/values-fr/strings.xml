@@ -76,4 +76,9 @@
     <string name="location">Emplacement</string>
     <string name="you_haven_t_talked_to_anyone_yet">Vous n\'avez encore parlé à personne</string>
     <string name="how_about_writing_to_someone">Et si vous écriviez à quelqu\'un</string>
+    <string name="about_the_app_developer">À propos du développeur de l\'application</string>
+    <string name="about_developer">Merhaba hayvansever dostlarım. Ben Ümit Yetişir. 1998 yılında Ankara\'da doğdum. 2023 yılında Bursa Uludağ Üniversitesi Elektrik-Elektronik bölümünden mezun oldum. 2022 yılından beri native android geliştirme üzerine çalışıyorum. Uygulamayı yapmaktaki amacım iş başvurularında ön plana çıkabilmektir. Herhangi bir gelir bekleyerek geliştirdiğim bir uygulama değil. Eğer hatalarım varsa sizden özür dilerim.</string>
+    <string name="peti">Peti</string>
+    <string name="write_a_message">Écrire un message</string>
+
 </resources>

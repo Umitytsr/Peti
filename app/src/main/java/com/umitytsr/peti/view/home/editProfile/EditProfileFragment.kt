@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.umitytsr.peti.databinding.FragmentEditProfileBinding
 import com.umitytsr.peti.util.GalleryUtility
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -26,7 +28,24 @@ class EditProfileFragment : Fragment() {
     ): View {
         binding = FragmentEditProfileBinding.inflate(inflater,container,false)
         galleryUtility = GalleryUtility(this)
+        getUserData()
         return binding.root
+    }
+
+    private fun getUserData(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.userResult.collectLatest {
+                with(binding){
+                    userFullNameEditText.editText?.setText(it.userFullName)
+                    if (it.userImage != ""){
+                        Glide.with(requireContext()).load(it.userImage).into(userProfileImage)
+                    }
+                    if (it.userPhoneNumber != ""){
+                        userPhoneNumberEditText.editText?.setText(it.userPhoneNumber)
+                    }
+                }
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +58,7 @@ class EditProfileFragment : Fragment() {
                 )
             }
 
-            userProfileImage.setOnClickListener {
+            editUserImageButton.setOnClickListener {
                 galleryUtility.selectImageFromGallery { uri ->
                     uri?.let {
                         userProfileImage.setImageURI(it)

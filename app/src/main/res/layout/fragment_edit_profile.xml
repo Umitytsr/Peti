@@ -45,27 +45,27 @@
         app:srcCompat="@drawable/select_picture"
         app:strokeWidth="2dp" />
 
-    <TextView
-        android:id="@+id/userFullNameTextView"
-        style="@style/textColor"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="@string/full_name"
-        app:layout_constraintBottom_toBottomOf="@id/userFullNameEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/userFullNameEditText" />
+    <ImageButton
+        android:id="@+id/editUserImageButton"
+        style="@style/iconColor"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:backgroundTint="@color/transparent"
+        android:src="@drawable/edit_pet_button"
+        app:layout_constraintBottom_toBottomOf="@id/userProfileImage"
+        app:layout_constraintEnd_toEndOf="@id/userProfileImage" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/userFullNameEditText"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:hint="@string/optional"
+        android:hint="@string/full_name"
+        app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/userFullNameTextView"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/userProfileImage">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -75,28 +75,18 @@
             android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/userPhoneNumberTextView"
-        style="@style/textColor"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="@string/phone_number"
-        app:layout_constraintBottom_toBottomOf="@id/userPhoneNumberEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/userPhoneNumberEditText" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/userPhoneNumberEditText"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
         android:hint="@string/_05xx_xxx_xx_xx"
+        app:endIconMode="clear_text"
         app:helperText="Optional"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/userPhoneNumberTextView"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/userFullNameEditText">
 
         <com.google.android.material.textfield.TextInputEditText

@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umitytsr.peti.R
+import com.umitytsr.peti.data.model.UserModel
 import com.umitytsr.peti.data.repository.PetiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -19,6 +20,21 @@ import javax.inject.Inject
 class EditProfileViewModel @Inject constructor(private val petiRepository: PetiRepository,@ApplicationContext private val context: Context): ViewModel() {
     private val _navigateResult = MutableStateFlow<Boolean>(false)
     val navigateResult: StateFlow<Boolean> = _navigateResult.asStateFlow()
+
+    private val _userResult = MutableStateFlow<UserModel>(UserModel("","","",""))
+    val userResult : StateFlow<UserModel> = _userResult.asStateFlow()
+
+    init {
+        getUserData()
+    }
+
+    private fun getUserData(){
+        viewModelScope.launch {
+            petiRepository.fetchUser(null).collect{user ->
+                _userResult.emit(user)
+            }
+        }
+    }
 
     fun updateUserInfo(userFirstName: String, userPhoneNumber: String, selectedPicture: Uri?) {
         if (userFirstName.isNotEmpty()){

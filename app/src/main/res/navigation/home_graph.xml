@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_profileFragment_to_myPetsFragment"
             app:destination="@id/myPetsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_developerFragment"
+            app:destination="@id/developerFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -155,5 +158,16 @@
         <argument
             android:name="chatCardModel"
             app:argType="com.umitytsr.peti.data.model.ChatCardModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/developerFragment"
+        android:name="com.umitytsr.peti.view.home.aboutDeveloper.DeveloperFragment"
+        android:label="fragment_developer"
+        tools:layout="@layout/fragment_developer" >
+        <action
+            android:id="@+id/action_developerFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/developerFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
