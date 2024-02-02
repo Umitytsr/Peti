@@ -50,7 +50,7 @@
     <string name="pet_breed">Evcil Hayvan Irkı</string>
     <string name="description">Açıklama</string>
     <string name="share">Paylaş</string>
-    <string name="my_pets">Benim Evcil Hayvanlarım</string>
+    <string name="my_pets">Evcil Hayvanlarım</string>
     <string name="it_seems_that_you_haven_t_n_add_any_pets">Görünüşe göre henüz hiçbir\nevcil hayvan eklememişsiniz</string>
     <string name="your_list_is_empty">Listeniz Boş</string>
     <string name="the_post_has_not_been_shared_yet">Gönderi henüz paylaşılmadı</string>

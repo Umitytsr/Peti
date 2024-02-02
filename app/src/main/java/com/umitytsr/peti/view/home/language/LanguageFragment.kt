@@ -31,7 +31,7 @@ class LanguageFragment : Fragment() {
     private fun getData(){
         viewLifecycleOwner.lifecycleScope.launch {
             mainViewModel.isLanguageId.collectLatest {
-                binding.languageRadioGroup.check(it)
+                binding.languageRadioGroup.check(getRadioButtonIdForLanguage(it))
             }
         }
     }
@@ -52,10 +52,20 @@ class LanguageFragment : Fragment() {
                     R.id.turkishRadioButton -> mainViewModel.setLanguageString("tr")
                     R.id.frenchRadioButton -> mainViewModel.setLanguageString("fr")
                     R.id.spanishRadioButton -> mainViewModel.setLanguageString("es")
-                    else -> mainViewModel.setLanguageString("en") // Varsayılan dil
+                    else -> mainViewModel.setLanguageString("tr") // Varsayılan dil
                 }
                 mainViewModel.setLanguageId(checkedId)
             }
+        }
+    }
+
+    private fun getRadioButtonIdForLanguage(languageId: Int): Int {
+        return when (languageId) {
+            1 -> R.id.englishRadioButton
+            2 -> R.id.turkishRadioButton
+            3 -> R.id.frenchRadioButton
+            4 -> R.id.spanishRadioButton
+            else -> R.id.turkishRadioButton
         }
     }
 }
