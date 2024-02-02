@@ -65,7 +65,14 @@ class MainActivityViewModel @Inject constructor(private val sharedPreferences: S
     }
 
     private fun setLanguagePreferenceId(){
-        val isLanguageDefault = sharedPreferences.getInt("languageId",1)
+        val languageId = when(getDefaultLanguage()){
+            "en" -> 1
+            "tr" -> 2
+            "fr" -> 3
+            "es" -> 4
+            else -> 2
+        }
+        val isLanguageDefault = sharedPreferences.getInt("languageId", languageId)
         viewModelScope.launch {
             if (isLanguageDefault != null) {
                 _isLanguageId.emit(isLanguageDefault)
