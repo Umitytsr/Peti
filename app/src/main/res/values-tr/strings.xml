@@ -80,5 +80,7 @@
     <string name="about_developer">Merhaba hayvansever dostlarım. Ben Ümit Yetişir. 1998 yılında Ankara\'da doğdum. 2023 yılında Bursa Uludağ Üniversitesi Elektrik-Elektronik bölümünden mezun oldum. 2022 yılından beri native android geliştirme üzerine çalışıyorum. Uygulamayı yapmaktaki amacım iş başvurularında ön plana çıkabilmektir. Herhangi bir gelir bekleyerek geliştirdiğim bir uygulama değil. Eğer hatalarım varsa sizden özür dilerim.</string>
     <string name="peti">Peti</string>
     <string name="write_a_message">Bir mesaj yazın</string>
+    <string name="permission_gallery">Galeriye erişmek için izin gereklidir!</string>
+    <string name="permission_allow">İzin Ver</string>
 
 </resources>

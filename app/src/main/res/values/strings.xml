@@ -79,4 +79,7 @@
     <string name="about_developer">Hello, my animal-loving friends. I am Ümit Yetişir. I was born in Ankara in 1998. I graduated from Bursa Uludag University electrical and electronics department in 2023. I have been working on native android development since 2022. My goal in making the application is to be able to stand out in job applications. It is not an application that I developed expecting any income. If I have made mistakes, I apologize to you.</string>
     <string name="peti">Peti</string>
     <string name="write_a_message">Write a message</string>
+    <string name="permission_gallery">Permission is required to access the gallery!</string>
+    <string name="permission_allow">Allow</string>
+
 </resources>

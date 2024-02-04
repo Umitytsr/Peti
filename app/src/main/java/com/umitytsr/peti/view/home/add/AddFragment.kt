@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 class AddFragment : Fragment() {
     private lateinit var binding: FragmentAddBinding
     private lateinit var galleryUtility: GalleryUtility
-    var selectedPetImage: Uri? = null
+    private var selectedPetImage: Uri? = null
     private val viewModel : AddViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

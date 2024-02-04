@@ -11,9 +11,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
+import com.umitytsr.peti.R
 
 class GalleryUtility(private val fragment: Fragment) {
     private var onImageSelected: ((Uri?) -> Unit)? = null
+
+    private val storagePermissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
+    } else {
+        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+    }
+
     private val activityResultLauncher = fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val selectedImageUri = result.data?.data
@@ -21,14 +29,12 @@ class GalleryUtility(private val fragment: Fragment) {
         }
     }
 
-    private val permissionLauncher = fragment.registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        if (isGranted) {
+    private val permissionLauncher = fragment.registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+        val allPermissionsGranted = permissions.entries.all { it.value }
+        if (allPermissionsGranted) {
             openGallery()
         } else {
-            Snackbar.make(fragment.requireView(), "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE)
-                .setAction("Give Permission") {
-                    requestPermission()
-                }.show()
+            showPermissionDeniedSnackbar()
         }
     }
 
@@ -43,24 +49,24 @@ class GalleryUtility(private val fragment: Fragment) {
 
     private fun hasStoragePermission(): Boolean {
         val context = fragment.requireContext()
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            true // Scoped storage is used, no need for READ_EXTERNAL_STORAGE permission
-        } else {
-            ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        return storagePermissions.all {
+            ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
         }
     }
 
     private fun requestPermission() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-        } else {
-            // Android 10 and above, scoped storage is used.
-            openGallery()
-        }
+        permissionLauncher.launch(storagePermissions)
     }
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         activityResultLauncher.launch(intent)
+    }
+
+    private fun showPermissionDeniedSnackbar() {
+        Snackbar.make(fragment.requireView(), R.string.permission_gallery, Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.permission_allow) {
+                requestPermission()
+            }.show()
     }
 }

@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:background="@drawable/ic_launcher_foreground"
+            android:background="@drawable/peti_logo_1"
             android:maxHeight="450dp"
             android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
