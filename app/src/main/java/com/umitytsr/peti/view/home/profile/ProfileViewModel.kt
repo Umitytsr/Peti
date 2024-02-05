@@ -35,4 +35,10 @@ class ProfileViewModel @Inject constructor(private val petiRepository: PetiRepos
             petiRepository.signOut(requireActivity)
         }
     }
+
+    fun deleteAccount(requireActivity: Activity){
+        viewModelScope.launch {
+            petiRepository.deleteAccount(requireActivity)
+        }
+    }
 }

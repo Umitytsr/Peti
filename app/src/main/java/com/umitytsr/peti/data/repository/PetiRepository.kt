@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageException
 import com.umitytsr.peti.data.model.ChatCardModel
 import com.umitytsr.peti.data.model.ChatModel
 import com.umitytsr.peti.data.model.CityModel
@@ -36,41 +37,156 @@ class PetiRepository @Inject constructor(
     private val storage: FirebaseStorage,
     private val firestore: FirebaseFirestore
 ) {
-    suspend fun fetchMyAllMessageWithChatFragment(receiverEmail: String, docPath: String): Flow<List<Message>> {
+    suspend fun deleteAccount(requireActivity: Activity) {
+        val user = auth.currentUser
+        val userEmail = auth.currentUser!!.email
+
+        val listenerChats1 = firestore.collection(Const.CHATS)
+            .whereEqualTo(Const.PET_OWNER_EMAIL, userEmail)
+            .get()
+            .await()
+
+        if (!listenerChats1.isEmpty) {
+            for (doc in listenerChats1.documents) {
+                firestore.collection(Const.CHATS).document(doc.id).delete().await()
+            }
+        }
+
+        val listenerChats2 = firestore.collection(Const.CHATS)
+            .whereEqualTo(Const.SENDER, userEmail)
+            .get()
+            .await()
+
+        if (!listenerChats2.isEmpty) {
+            for (doc in listenerChats2.documents) {
+                firestore.collection(Const.CHATS).document(doc.id).delete().await()
+            }
+        }
+
+        val listenerChats3 = firestore.collection(Const.MESSAGES)
+            .whereEqualTo("receiverEmail", userEmail)
+            .get()
+            .await()
+
+        if (!listenerChats3.isEmpty) {
+            for (doc in listenerChats3.documents) {
+                firestore.collection(Const.MESSAGES).document(doc.id).delete().await()
+            }
+        }
+
+        val listenerChats4 = firestore.collection(Const.MESSAGES)
+            .whereEqualTo("senderEmail", userEmail)
+            .get()
+            .await()
+
+        if (!listenerChats4.isEmpty) {
+            for (doc in listenerChats4.documents) {
+                firestore.collection(Const.MESSAGES).document(doc.id).delete().await()
+            }
+        }
+
+        val listenerChats5 = firestore.collection(Const.PETS)
+            .whereEqualTo(Const.PET_OWNER_EMAIL, userEmail)
+            .get()
+            .await()
+
+        if (!listenerChats5.isEmpty) {
+            for (doc in listenerChats5.documents) {
+                firestore.collection(Const.PETS).document(doc.id).delete().await()
+            }
+        }
+
+        val listenerChats6 = firestore.collection(Const.USERS)
+            .whereEqualTo(Const.USER_EMAIL, userEmail)
+            .get()
+            .await()
+
+        if (!listenerChats6.isEmpty) {
+            for (doc in listenerChats6.documents) {
+                firestore.collection(Const.USERS).document(doc.id).delete().await()
+            }
+        }
+
+        val storageRef = storage.reference
+        val desertRef = storageRef.child(Const.PET_IMAGE).child("$userEmail/")
+        val desertRef2 = storageRef.child(Const.USER_IMAGE).child("$userEmail.jpg")
+
+        try {
+            // İlk dosyanın varlığını kontrol et ve varsa sil
+            desertRef.downloadUrl.await()
+            desertRef.delete().await()
+        } catch (e: StorageException) {
+            if (e.errorCode != StorageException.ERROR_OBJECT_NOT_FOUND) {
+                // Dosya bulunamadığı dışında bir hata oluştuysa, hatayı fırlat
+                throw e
+            }
+            // Dosya bulunamadı, hiçbir şey yapma
+        }
+
+        try {
+            // İkinci dosyanın varlığını kontrol et ve varsa sil
+            desertRef2.downloadUrl.await()
+            desertRef2.delete().await()
+        } catch (e: StorageException) {
+            if (e.errorCode != StorageException.ERROR_OBJECT_NOT_FOUND) {
+                // Dosya bulunamadığı dışında bir hata oluştuysa, hatayı fırlat
+                throw e
+            }
+            // Dosya bulunamadı, hiçbir şey yapma
+        }
+
+        user?.delete()?.addOnCompleteListener {
+            if (it.isSuccessful) {
+                val intent = Intent(context, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                context.startActivity(intent)
+                requireActivity.finish()
+            }
+        }
+    }
+
+    suspend fun fetchMyAllMessageWithChatFragment(
+        receiverEmail: String,
+        docPath: String
+    ): Flow<List<Message>> {
         val senderEmail = auth.currentUser!!.email
         val senderRoom = senderEmail + receiverEmail
         return fetchMessages(docPath, senderRoom)
     }
 
-    suspend fun fetchMyAllMessageWithInfoFragment(petName: String, petOwnerEmail: String): Flow<List<Message>> {
+    suspend fun fetchMyAllMessageWithInfoFragment(
+        petName: String,
+        petOwnerEmail: String
+    ): Flow<List<Message>> {
         val senderEmail = auth.currentUser!!.email
         val senderRoom = senderEmail + petOwnerEmail
         val docPath = petName + petOwnerEmail + senderEmail
         return fetchMessages(docPath, senderRoom)
     }
 
-    private suspend fun fetchMessages(documentPath: String, room: String): Flow<List<Message>> = callbackFlow {
-        val listenerRegistration = firestore.collection(Const.MESSAGES).document(documentPath)
-            .collection(room)
-            .orderBy(Const.DATE, Query.Direction.ASCENDING)
-            .addSnapshotListener { snapshot, error ->
-                if (error != null) {
-                    close(error)
+    private suspend fun fetchMessages(documentPath: String, room: String): Flow<List<Message>> =
+        callbackFlow {
+            val listenerRegistration = firestore.collection(Const.MESSAGES).document(documentPath)
+                .collection(room)
+                .orderBy(Const.DATE, Query.Direction.ASCENDING)
+                .addSnapshotListener { snapshot, error ->
+                    if (error != null) {
+                        close(error)
+                    }
+                    val messages = snapshot?.documents?.mapNotNull {
+                        it.toObject(Message::class.java)
+                    } ?: emptyList()
+                    trySend(messages).isSuccess
                 }
-                val messages = snapshot?.documents?.mapNotNull {
-                    it.toObject(Message::class.java)
-                } ?: emptyList()
-                trySend(messages).isSuccess
-            }
-        awaitClose { listenerRegistration.remove() }
-    }
+            awaitClose { listenerRegistration.remove() }
+        }
 
     fun sendMessageFromChatFragment(receiverEmail: String, chatDocPath: String, message: String) {
         val senderEmail = auth.currentUser!!.email
         val senderRoom = senderEmail + receiverEmail
         val receiverRoom = receiverEmail + senderEmail
         val messageObject = Message(message, senderEmail, receiverEmail, Timestamp.now())
-        if (message.isNotEmpty() && message !=""){
+        if (message.isNotEmpty() && message != "") {
             firestore.collection(Const.MESSAGES).document(chatDocPath).collection(senderRoom)
                 .add(messageObject).addOnCompleteListener {
                     firestore.collection(Const.MESSAGES).document(chatDocPath)
@@ -87,10 +203,11 @@ class PetiRepository @Inject constructor(
         val documentPath = petName + petOwnerEmail + auth.currentUser!!.email
         val messageObject = Message(message, senderEmail, receiverEmail, Timestamp.now())
 
-        if (message.isNotEmpty() && message != ""){
+        if (message.isNotEmpty() && message != "") {
             firestore.collection(Const.MESSAGES).document(documentPath).collection(senderRoom)
                 .add(messageObject).addOnCompleteListener {
-                    firestore.collection(Const.MESSAGES).document(documentPath).collection(receiverRoom)
+                    firestore.collection(Const.MESSAGES).document(documentPath)
+                        .collection(receiverRoom)
                         .add(messageObject)
                 }
         }
@@ -165,7 +282,7 @@ class PetiRepository @Inject constructor(
         return myChatList
     }
 
-    suspend fun createChat(petName: String, petOwnerEmail: String,message: String) {
+    suspend fun createChat(petName: String, petOwnerEmail: String, message: String) {
         val document = firestore.collection(Const.CHATS)
             .whereEqualTo(Const.PET_NAME, petName)
             .whereEqualTo(Const.PET_OWNER_EMAIL, petOwnerEmail)
@@ -298,7 +415,7 @@ class PetiRepository @Inject constructor(
 
                         petModel = PetModel(
                             petOwnerEmail, petImage, petName, petType, petSex, petGoal, petAge,
-                            petVaccination, petLocation ,petBreed, petDescription, date
+                            petVaccination, petLocation, petBreed, petDescription, date
                         )
                         break
                     }
@@ -314,7 +431,7 @@ class PetiRepository @Inject constructor(
 
     suspend fun updatePet(
         oldPetPicture: String, newPetPicture: Uri?, petName: String, petType: Long, petSex: Long,
-        petGoal: Long, petAge: String, petVaccination: Long, petLocation : String,
+        petGoal: Long, petAge: String, petVaccination: Long, petLocation: String,
         petBreed: String, petDescription: String, date: Timestamp?
     ): Flow<Boolean> = flow {
         try {
@@ -359,9 +476,9 @@ class PetiRepository @Inject constructor(
         }
     }
 
-    suspend fun fetchAllCity():Flow<List<CityModel>> = callbackFlow {
+    suspend fun fetchAllCity(): Flow<List<CityModel>> = callbackFlow {
         val listenerRegistration = firestore.collection("citys")
-            .orderBy("plateCode",Query.Direction.ASCENDING)
+            .orderBy("plateCode", Query.Direction.ASCENDING)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
                     close(error)
@@ -415,7 +532,7 @@ class PetiRepository @Inject constructor(
 
     suspend fun addPet(
         selectedPetImage: Uri?, petName: String, petType: Long, petSex: Long, petGoal: Long,
-        petAge: String, petVaccination: Long, petLocation: String ,petBreed: String,
+        petAge: String, petVaccination: Long, petLocation: String, petBreed: String,
         petDescription: String
     ): Flow<Boolean> = flow {
         val reference = storage.reference

@@ -89,6 +89,10 @@ class ProfileFragment : Fragment() {
                     ProfileFragmentDirections.actionProfileFragmentToDeveloperFragment()
                 )
             }
+
+            deleteAccountCardView.setOnClickListener {
+                viewModel.deleteAccount(requireActivity())
+            }
         }
     }
 }

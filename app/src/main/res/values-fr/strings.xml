@@ -82,5 +82,6 @@
     <string name="write_a_message">Écrire un message</string>
     <string name="permission_gallery">L\'autorisation est requise pour accéder à la galerie!</string>
     <string name="permission_allow">Autoriser</string>
-
+    <string name="delete_my_account">Supprimer mon compte</string>
+    <string name="log_out">Déconnexion</string>
 </resources>
