@@ -82,4 +82,6 @@
     <string name="write_a_message">Write a message</string>
     <string name="permission_gallery">Permission is required to access the gallery!</string>
     <string name="permission_allow">Allow</string>
+    <string name="delete_my_account">Delete My Account</string>
+    <string name="log_out">Log Out</string>
 </resources>
