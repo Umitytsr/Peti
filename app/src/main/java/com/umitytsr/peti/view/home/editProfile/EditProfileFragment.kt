@@ -53,9 +53,7 @@ class EditProfileFragment : Fragment() {
 
         with(binding){
             arrowBackButton.setOnClickListener {
-                findNavController().navigate(
-                    EditProfileFragmentDirections.actionEditProfileFragmentToProfileFragment()
-                )
+                findNavController().popBackStack()
             }
 
             editUserImageButton.setOnClickListener {

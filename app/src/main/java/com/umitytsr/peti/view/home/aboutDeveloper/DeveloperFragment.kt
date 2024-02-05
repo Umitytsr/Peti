@@ -24,9 +24,7 @@ class DeveloperFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding){
             arrowBackButton.setOnClickListener {
-                findNavController().navigate(
-                    DeveloperFragmentDirections.actionDeveloperFragmentToProfileFragment()
-                )
+                findNavController().popBackStack()
             }
         }
     }

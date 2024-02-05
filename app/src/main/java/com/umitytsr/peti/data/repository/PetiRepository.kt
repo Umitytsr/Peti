@@ -112,27 +112,21 @@ class PetiRepository @Inject constructor(
         val desertRef2 = storageRef.child(Const.USER_IMAGE).child("$userEmail.jpg")
 
         try {
-            // İlk dosyanın varlığını kontrol et ve varsa sil
             desertRef.downloadUrl.await()
             desertRef.delete().await()
         } catch (e: StorageException) {
             if (e.errorCode != StorageException.ERROR_OBJECT_NOT_FOUND) {
-                // Dosya bulunamadığı dışında bir hata oluştuysa, hatayı fırlat
                 throw e
             }
-            // Dosya bulunamadı, hiçbir şey yapma
         }
 
         try {
-            // İkinci dosyanın varlığını kontrol et ve varsa sil
             desertRef2.downloadUrl.await()
             desertRef2.delete().await()
         } catch (e: StorageException) {
             if (e.errorCode != StorageException.ERROR_OBJECT_NOT_FOUND) {
-                // Dosya bulunamadığı dışında bir hata oluştuysa, hatayı fırlat
                 throw e
             }
-            // Dosya bulunamadı, hiçbir şey yapma
         }
 
         user?.delete()?.addOnCompleteListener {

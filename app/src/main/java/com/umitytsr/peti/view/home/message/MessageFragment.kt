@@ -91,18 +91,7 @@ class MessageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             arrowBackButton.setOnClickListener {
-                if (args.previousFragment == "homeFragment") {
-                    findNavController().navigate(
-                        MessageFragmentDirections.actionMessageFragmentToInfoFragment(
-                            args.petModel,
-                            "homeFragment"
-                        )
-                    )
-                } else {
-                    findNavController().navigate(
-                        MessageFragmentDirections.actionMessageFragmentToChatFragment()
-                    )
-                }
+                findNavController().popBackStack()
             }
             var petInfo = PetModel()
             if (args.previousFragment == "chatFragment"){

@@ -70,11 +70,7 @@ class EditPetFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             arrowBackButton.setOnClickListener {
-                findNavController().navigate(
-                    EditPetFragmentDirections.actionEditPetFragmentToInfoFragment(
-                        args.petModel, args.previousFragment
-                    )
-                )
+                findNavController().popBackStack()
             }
 
             editPetImageButton.setOnClickListener {

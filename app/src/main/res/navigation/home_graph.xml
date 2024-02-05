@@ -65,23 +65,12 @@
         android:id="@+id/languageFragment"
         android:name="com.umitytsr.peti.view.home.language.LanguageFragment"
         android:label="fragment_language"
-        tools:layout="@layout/fragment_language" >
-        <action
-            android:id="@+id/action_languageFragment_to_profileFragment"
-            app:destination="@id/profileFragment"
-            app:popUpTo="@id/languageFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        tools:layout="@layout/fragment_language" />
     <fragment
         android:id="@+id/myPetsFragment"
         android:name="com.umitytsr.peti.view.home.myPets.MyPetsFragment"
         android:label="fragment_my_pets"
         tools:layout="@layout/fragment_my_pets" >
-        <action
-            android:id="@+id/action_myPetsFragment_to_profileFragment"
-            app:destination="@id/profileFragment"
-            app:popUpTo="@id/myPetsFragment"
-            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_myPetsFragment_to_infoFragment"
             app:destination="@id/infoFragment" />
@@ -94,16 +83,6 @@
         <argument
             android:name="petModel"
             app:argType="com.umitytsr.peti.data.model.PetModel" />
-        <action
-            android:id="@+id/action_infoFragment_to_myPetsFragment"
-            app:destination="@id/myPetsFragment"
-            app:popUpTo="@id/infoFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_infoFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/infoFragment"
-            app:popUpToInclusive="true" />
         <argument
             android:name="previousFragment"
             app:argType="string" />
@@ -113,9 +92,6 @@
         <action
             android:id="@+id/action_infoFragment_to_messageFragment"
             app:destination="@id/messageFragment" />
-        <action
-            android:id="@+id/action_infoFragment_to_chatFragment"
-            app:destination="@id/chatFragment" />
     </fragment>
     <fragment
         android:id="@+id/editPetFragment"
@@ -148,13 +124,7 @@
         <action
             android:id="@+id/action_messageFragment_to_infoFragment"
             app:destination="@id/infoFragment"
-            app:popUpTo="@id/messageFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_messageFragment_to_chatFragment"
-            app:destination="@id/chatFragment"
-            app:popUpTo="@id/messageFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
         <argument
             android:name="chatCardModel"
             app:argType="com.umitytsr.peti.data.model.ChatCardModel" />
@@ -163,11 +133,5 @@
         android:id="@+id/developerFragment"
         android:name="com.umitytsr.peti.view.home.aboutDeveloper.DeveloperFragment"
         android:label="fragment_developer"
-        tools:layout="@layout/fragment_developer" >
-        <action
-            android:id="@+id/action_developerFragment_to_profileFragment"
-            app:destination="@id/profileFragment"
-            app:popUpTo="@id/developerFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        tools:layout="@layout/fragment_developer" />
 </navigation>

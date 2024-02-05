@@ -41,9 +41,7 @@ class LanguageFragment : Fragment() {
 
         with(binding) {
             arrowBackButton.setOnClickListener {
-                findNavController().navigate(
-                    LanguageFragmentDirections.actionLanguageFragmentToProfileFragment()
-                )
+                findNavController().popBackStack()
             }
 
             languageRadioGroup.setOnCheckedChangeListener { _, checkedId ->

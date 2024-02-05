@@ -55,9 +55,7 @@ class MyPetsFragment : Fragment(), MyPetsAdapter.PetItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.arrowBackButton.setOnClickListener {
-            findNavController().navigate(
-                MyPetsFragmentDirections.actionMyPetsFragmentToProfileFragment()
-            )
+            findNavController().popBackStack()
         }
     }
 

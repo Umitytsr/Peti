@@ -110,23 +110,7 @@ class InfoFragment : Fragment() {
                 }
             }
             arrowBackButton.setOnClickListener {
-                when(args.previousFragment){
-                    "homeFragment" -> {
-                        findNavController().navigate(
-                            InfoFragmentDirections.actionInfoFragmentToHomeFragment()
-                        )
-                    }
-                    "myPetsFragment" -> {
-                        findNavController().navigate(
-                            InfoFragmentDirections.actionInfoFragmentToMyPetsFragment()
-                        )
-                    }
-                    "chatFragment" -> {
-                        findNavController().navigate(
-                            InfoFragmentDirections.actionInfoFragmentToChatFragment()
-                        )
-                    }
-                }
+                findNavController().popBackStack()
             }
             
             editPetButton.setOnClickListener {
