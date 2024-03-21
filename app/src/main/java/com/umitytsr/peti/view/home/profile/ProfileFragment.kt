@@ -1,5 +1,6 @@
 package com.umitytsr.peti.view.home.profile
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -91,7 +92,15 @@ class ProfileFragment : Fragment() {
             }
 
             deleteAccountCardView.setOnClickListener {
-                viewModel.deleteAccount(requireActivity())
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Hesabımı Sil") // Dialog başlığı
+                    .setMessage("Hesabınızı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.") // Dialog mesajı
+                    .setPositiveButton("Sil") { dialog, which ->
+                        // Sil butonuna basıldığında yapılacak işlem
+                        viewModel.deleteAccount(requireActivity())
+                    }
+                    .setNegativeButton("İptal", null) // İptal butonu, hiçbir işlem yapmaz
+                    .show() // Dialogu göster
             }
         }
     }

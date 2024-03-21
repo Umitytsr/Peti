@@ -84,4 +84,7 @@
     <string name="permission_allow">Autoriser</string>
     <string name="delete_my_account">Supprimer mon compte</string>
     <string name="log_out">Déconnexion</string>
+    <string name="password_toggle_description">Afficher le mot de passe pour le champ de mot de passe</string>
+    <string name="confirm_password_toggle_description">Afficher le mot de passe pour le champ de confirmation de mot de passe</string>
+
 </resources>

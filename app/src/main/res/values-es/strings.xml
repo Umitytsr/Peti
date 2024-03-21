@@ -84,4 +84,7 @@
     <string name="permission_allow">Permitir</string>
     <string name="delete_my_account">Eliminar mi cuenta</string>
     <string name="log_out">Cerrar sesión</string>
+    <string name="password_toggle_description">Mostrar contraseña para el campo de contraseña</string>
+    <string name="confirm_password_toggle_description">Mostrar contraseña para el campo de confirmación de contraseña</string>
+
 </resources>

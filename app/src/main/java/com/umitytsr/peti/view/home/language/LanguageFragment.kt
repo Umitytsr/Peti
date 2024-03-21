@@ -45,14 +45,14 @@ class LanguageFragment : Fragment() {
             }
 
             languageRadioGroup.setOnCheckedChangeListener { _, checkedId ->
-                when (checkedId) {
-                    R.id.englishRadioButton -> mainViewModel.setLanguageString("en")
-                    R.id.turkishRadioButton -> mainViewModel.setLanguageString("tr")
-                    R.id.frenchRadioButton -> mainViewModel.setLanguageString("fr")
-                    R.id.spanishRadioButton -> mainViewModel.setLanguageString("es")
-                    else -> mainViewModel.setLanguageString("tr") // Varsayılan dil
+                val language = when (checkedId) {
+                    R.id.englishRadioButton -> "en"
+                    R.id.turkishRadioButton -> "tr"
+                    R.id.frenchRadioButton -> "fr"
+                    R.id.spanishRadioButton -> "es"
+                    else -> "tr"
                 }
-                mainViewModel.setLanguageId(checkedId)
+                mainViewModel.setLanguageString(language)
             }
         }
     }

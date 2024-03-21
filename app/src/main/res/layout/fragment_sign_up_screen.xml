@@ -57,7 +57,9 @@
         <com.google.android.material.textfield.TextInputEditText
             style="@style/textColor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -68,13 +70,15 @@
         android:layout_marginTop="8dp"
         android:hint="@string/password"
         app:boxStrokeWidthFocused="1dp"
+        app:endIconContentDescription="@string/password_toggle_description"
         app:endIconMode="password_toggle">
 
         <com.google.android.material.textfield.TextInputEditText
             style="@style/textColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -85,13 +89,15 @@
         android:layout_marginTop="8dp"
         android:hint="@string/confirm_password"
         app:boxStrokeWidthFocused="1dp"
+        app:endIconContentDescription="@string/confirm_password_toggle_description"
         app:endIconMode="password_toggle">
 
         <com.google.android.material.textfield.TextInputEditText
             style="@style/textColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout

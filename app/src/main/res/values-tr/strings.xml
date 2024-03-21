@@ -84,4 +84,7 @@
     <string name="permission_allow">İzin Ver</string>
     <string name="delete_my_account">Hesabımı Sil</string>
     <string name="log_out">Çıkış Yap</string>
+    <string name="password_toggle_description">Şifre alanı için şifreyi göster</string>
+    <string name="confirm_password_toggle_description">Şifre onay alanı için şifreyi göster</string>
+
 </resources>

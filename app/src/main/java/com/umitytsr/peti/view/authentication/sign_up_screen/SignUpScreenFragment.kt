@@ -1,6 +1,8 @@
 package com.umitytsr.peti.view.authentication.sign_up_screen
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +30,25 @@ class SignUpScreenFragment : Fragment() {
     }
 
     private fun initUI(){
+        val spaceRemoverTextWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
+
+            override fun afterTextChanged(s: Editable?) {
+                s?.let {
+                    val result = it.toString().replace(" ", "")
+                    if (result != it.toString()) {
+                        (it as Editable).replace(0, it.length, result)
+                    }
+                }
+            }
+        }
         with(binding){
+            eMailTextField.editText?.addTextChangedListener(spaceRemoverTextWatcher)
+            passwordTextField.editText?.addTextChangedListener(spaceRemoverTextWatcher)
+            confirmPasswordTextField.editText?.addTextChangedListener(spaceRemoverTextWatcher)
+
             binding.signInTextButton.setOnClickListener {
                 findNavController().navigate(
                     SignUpScreenFragmentDirections.actionSignUpScreenFragmentToSignInScreenFragment()

@@ -84,4 +84,6 @@
     <string name="permission_allow">Allow</string>
     <string name="delete_my_account">Delete My Account</string>
     <string name="log_out">Log Out</string>
+    <string name="password_toggle_description">Show password for password field</string>
+    <string name="confirm_password_toggle_description">Show password for confirm password field</string>
 </resources>

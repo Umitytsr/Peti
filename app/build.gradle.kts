@@ -16,8 +16,8 @@ android {
         applicationId = "com.umitytsr.peti"
         minSdk = 26
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "1.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -84,6 +84,8 @@ dependencies {
 
     // Glide
     implementation ("com.github.bumptech.glide:glide:4.15.1")
+
+    implementation ("com.google.android.recaptcha:recaptcha:18.4.0")
 }
 kapt {
     correctErrorTypes = true

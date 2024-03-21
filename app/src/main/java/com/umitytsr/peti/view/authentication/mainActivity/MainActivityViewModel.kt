@@ -23,8 +23,7 @@ class MainActivityViewModel @Inject constructor(private val sharedPreferences: S
 
     init {
         loadDarkModePreference()
-        setLanguagePreference()
-        setLanguagePreferenceId()
+        loadLanguagePreference()
     }
 
     fun setDarkModeEnabled(isChecked: Boolean) {
@@ -41,42 +40,30 @@ class MainActivityViewModel @Inject constructor(private val sharedPreferences: S
         }
     }
 
-    fun setLanguageString(language : String){
-        viewModelScope.launch {
-            _isLanguageString.emit(language)
-            sharedPreferences.edit().putString("languageString",language).apply()
-        }
-    }
-
-    private fun setLanguagePreference(){
-        val isLanguageDefault = sharedPreferences.getString("languageString", getDefaultLanguage())
-        viewModelScope.launch {
-            if (isLanguageDefault != null) {
-                _isLanguageString.emit(isLanguageDefault)
-            }
-        }
-    }
-
-    fun setLanguageId(languageId : Int){
-        viewModelScope.launch {
-            _isLanguageId.emit(languageId)
-            sharedPreferences.edit().putInt("languageId",languageId).apply()
-        }
-    }
-
-    private fun setLanguagePreferenceId(){
-        val languageId = when(getDefaultLanguage()){
+    private fun getLanguageId(language: String): Int {
+        return when (language) {
             "en" -> 1
             "tr" -> 2
             "fr" -> 3
             "es" -> 4
             else -> 2
         }
-        val isLanguageDefault = sharedPreferences.getInt("languageId", languageId)
+    }
+
+    fun setLanguageString(language: String) {
         viewModelScope.launch {
-            if (isLanguageDefault != null) {
-                _isLanguageId.emit(isLanguageDefault)
-            }
+            _isLanguageString.emit(language)
+            sharedPreferences.edit().putString("languageString", language).apply()
+            _isLanguageId.emit(getLanguageId(language))
+        }
+    }
+
+    private fun loadLanguagePreference() {
+        val language = sharedPreferences.getString("languageString", getDefaultLanguage()) ?: getDefaultLanguage()
+        val languageId = sharedPreferences.getInt("languageId", getLanguageId(language))
+        viewModelScope.launch {
+            _isLanguageString.emit(language)
+            _isLanguageId.emit(languageId)
         }
     }
 }
