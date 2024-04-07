@@ -1,3 +1,20 @@
+# Peti
+** It is an application that I made to use Firebase better, where you can breed or adopt your pets.
+
+**Libraries**
++ MVVM 
++ [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
++ [Navigation Component](https://developer.android.com/guide/navigation/get-started) 
++ [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel#implement)
++ [Coroutines](https://developer.android.com/kotlin/coroutines)
++ [StateFlow,Flow](https://developer.android.com/kotlin/flow/stateflow-and-sharedflow#livedata)
++ [Repositories](https://developer.android.com/topic/architecture#data-layer)
++ [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics?hl=tr)
++ [Firebase Authentication](https://firebase.google.com/docs/auth?authuser=1)
++ [Firebase Firestore](https://firebase.google.com/docs/firestore?authuser=1)
++ [Firebase Storega](https://firebase.google.com/docs/storage?authuser=1)
++ [Glide](https://github.com/bumptech/glide)
+
 ## Screens
 ### Light
 | Entrance | Sign In | Sign Up | Home | Filter | Info | DM | Chat | Add | Profile | My Pets | Edit Profile | Language |
