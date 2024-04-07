@@ -1,5 +1,5 @@
 # Peti
-** It is an application that I made to use Firebase better, where you can breed or adopt your pets.
+** It is an application that I made to use Firebase better, where you can breed or adopt your pets.**
 
 **Libraries**
 + MVVM 
