@@ -12,7 +12,7 @@
 + [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics?hl=tr)
 + [Firebase Authentication](https://firebase.google.com/docs/auth?authuser=1)
 + [Firebase Firestore](https://firebase.google.com/docs/firestore?authuser=1)
-+ [Firebase Storega](https://firebase.google.com/docs/storage?authuser=1)
++ [Firebase Storage](https://firebase.google.com/docs/storage?authuser=1)
 + [Glide](https://github.com/bumptech/glide)
 
 ## Screens
